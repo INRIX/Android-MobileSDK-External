@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+  <string name="sample_incidents_basic_tile">Incidents Basic</string>
+  <string name="sample_incidents_basic_description">Gets incidents around a radius</string>
+  <string name="sample_busy_commuter_tile">Busy Commuter</string>
+  <string name="sample_busy_commuter_description">Routes and Incidents for multiple cities</string>
+  <string name="sample_gas_stations">Gas Stations</string>
+  <string name="sample_gas_stations_description">Get gas stations around a radius</string>
+  <string name="sample_parking">Parking Facilities</string>
+  <string name="sample_parking_description">Get parking facilities around a radius</string>
+</resources>

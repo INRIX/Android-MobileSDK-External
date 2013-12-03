@@ -6,17 +6,14 @@
     <string name="demo_activity">INRIX Sample Application</string>
     <string name="connection_switch_label">INRIX Traffic</string>
     <string name="action_refresh">Refresh</string>
-
     <string name="route_list_item_arrival_time">Arrival time:&#160;</string>
     <string name="route_list_item_travel_time">Travel time:&#160;</string>
     <string name="route_list_item_travel_time_format">&#160;%s mins</string>
     <string name="route_list_item_destination_header">Route to %s\n</string>
-    
     <string name="incident_delay_header">Delay:&#160;</string>
     <string name="incident_backup_header">Back up:&#160;</string>
     <string name="incident_start_time">Start&#160;</string>
     <string name="incident_end_time">End&#160;</string>
-    
     <string name="incident_road_closure">Road Closed</string>
     <string name="incident_congestion">Congestion</string>
     <string name="incident_construction">Construction</string>
@@ -24,6 +21,7 @@
     <string name="incident_hazard">Hazard</string>
     <string name="incident_police">Police</string>
     <string name="incident_accident">Accident</string>
-    
-    <string name="error_inrix_missing">Please, install INRIX application</string> 
+    <string name="error_inrix_missing">Please, install INRIX application</string>
+    <string name="title_activity_incident_list">IncidentListActivity</string>
+
 </resources>

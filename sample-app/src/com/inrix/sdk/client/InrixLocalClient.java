@@ -3,8 +3,10 @@ package com.inrix.sdk.client;
 import android.content.Context;
 
 import com.inrix.sdk.client.interfaces.IClient;
+import com.inrix.sdk.GasStationManager;
 import com.inrix.sdk.IncidentsManager;
 import com.inrix.sdk.Inrix;
+import com.inrix.sdk.ParkingManager;
 import com.inrix.sdk.RouteManager;
 
 /**
@@ -14,6 +16,8 @@ import com.inrix.sdk.RouteManager;
 final class InrixLocalClient implements IClient {
 	IncidentsManager incidentManager;
 	RouteManager routeManager;
+	GasStationManager gasStationManager;
+	ParkingManager parkingManager;
 
 	/*
 	 * (non-Javadoc)
@@ -25,6 +29,8 @@ final class InrixLocalClient implements IClient {
 		Inrix.initialize(context.getApplicationContext());
 		this.incidentManager = new IncidentsManager();
 		this.routeManager = new RouteManager();
+		this.gasStationManager = new GasStationManager();
+		this.parkingManager = new ParkingManager();
 	}
 
 	/*
@@ -36,6 +42,8 @@ final class InrixLocalClient implements IClient {
 	public void disconnect() {
 		this.incidentManager = null;
 		this.routeManager = null;
+		this.gasStationManager = null;
+		this.parkingManager = null;
 	}
 
 	/*
@@ -51,5 +59,25 @@ final class InrixLocalClient implements IClient {
 	@Override
 	public RouteManager getRouteManager() {
 		return routeManager;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.inrix.sdk.client.interfaces.IClient#getGasStationManager()
+	 */
+	@Override
+	public GasStationManager getGasStationManager(){
+		return this.gasStationManager;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.inrix.sdk.client.interfaces.IClient#getParkingManager()
+	 */
+	@Override
+	public ParkingManager getParkingManager(){
+		return this.parkingManager;
 	}
 }

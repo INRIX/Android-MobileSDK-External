@@ -1,0 +1,38 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/incident_list_item_height"
+    android:background="#242525" >
+
+    <TextView
+        android:id="@+id/inrix_list_description"
+        style="@style/list_view_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/control_horizontal_margin"
+        android:layout_marginRight="@dimen/control_horizontal_margin"
+        android:layout_marginTop="@dimen/control_vertical_margin"
+        android:lines="3" />
+
+    <TextView
+        android:id="@+id/header1"
+        style="@style/list_view_text_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/inrix_list_description"
+        android:layout_below="@+id/inrix_list_description"
+        android:singleLine="true" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/incident_list_item_delimeter_height"
+        android:layout_alignParentBottom="true"
+        android:background="#222222" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/incident_list_item_delimeter_height"
+        android:layout_alignParentTop="true"
+        android:background="#4f4f4f" />
+
+</RelativeLayout>

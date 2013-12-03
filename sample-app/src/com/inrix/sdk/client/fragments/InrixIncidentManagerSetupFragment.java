@@ -164,7 +164,7 @@ public class InrixIncidentManagerSetupFragment extends Fragment implements
 		 * @return the place[]
 		 */
 		private Place[] buildPlacesList() {
-			Place[] places = new Place[5];
+			Place[] places = new Place[6];
 			Place seattle = new Place("Seattle, WA", new GeoPoint(47.614496,
 					-122.328758));
 			seattle.addDestination(new Place("Work", new GeoPoint(47.602633,
@@ -198,7 +198,15 @@ public class InrixIncidentManagerSetupFragment extends Fragment implements
 			hawai.addDestination(new Place("Work", new GeoPoint(21.359414,-157.962484), PlaceType.Work));
 			hawai.addDestination(new Place("Home", new GeoPoint(21.647337,-157.930663), PlaceType.Home));
 			places[4] = hawai;
+			
+			Place rioDeJaneiro = new Place("Rio de Janeiro", new GeoPoint(-22.906697,-43.205452));
+			rioDeJaneiro.addDestination(new Place("Work", new GeoPoint(-22.922508,-43.182791), PlaceType.Work));
+			rioDeJaneiro.addDestination(new Place("Home", new GeoPoint(-22.823498,-43.37059), PlaceType.Home));
+			places[5] = rioDeJaneiro;
+			
 			return places;
+			
+			
 		}
 	}
 

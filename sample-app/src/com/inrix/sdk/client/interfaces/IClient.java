@@ -2,7 +2,9 @@ package com.inrix.sdk.client.interfaces;
 
 import android.content.Context;
 
+import com.inrix.sdk.GasStationManager;
 import com.inrix.sdk.IncidentsManager;
+import com.inrix.sdk.ParkingManager;
 import com.inrix.sdk.RouteManager;
 
 /**
@@ -39,4 +41,18 @@ public interface IClient {
 	 * @return the route manager
 	 */
 	public RouteManager getRouteManager();
+	
+	/**
+	 * Gets the gas station manager
+	 * 
+	 * @return - The gas stations manager
+	 */
+	public GasStationManager getGasStationManager();
+	
+	/**
+	 * Gets the parking manager
+	 * 
+	 * @return - The parking manager
+	 */
+	public ParkingManager getParkingManager();
 }

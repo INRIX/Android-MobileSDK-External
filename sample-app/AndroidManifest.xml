@@ -19,7 +19,15 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.inrix.sdk.client.activity.DemoActivity"
+            android:name="com.inrix.sdk.client.activity.BusyCommuterActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/demo_activity"
+            android:theme="@android:style/Theme.Holo" >
+        </activity>
+        
+        <activity
+            android:name="com.inrix.sdk.client.activity.SampleAppsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:icon="@drawable/ic_launcher"
             android:label="@string/demo_activity"
@@ -29,6 +37,21 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="com.inrix.sdk.client.activity.IncidentListActivity"
+            android:label="@string/title_activity_incident_list" 
+            android:icon="@drawable/ic_launcher"
+            android:theme="@android:style/Theme.Holo" >
+        </activity>
+        <activity
+            android:name="com.inrix.sdk.client.activity.GasStationsListActivity"
+            android:theme="@android:style/Theme.Holo" >
+        </activity>
+                <activity
+            android:name="com.inrix.sdk.client.activity.ParkingListActivity"
+            android:theme="@android:style/Theme.Holo" >
         </activity>
     </application>
 

@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.view.Window;
 
 import com.inrix.sdk.Error;
-import com.inrix.sdk.ParkingManager;
 import com.inrix.sdk.IncidentsManager.IIncidentsResponseListener;
 import com.inrix.sdk.IncidentsManager.IncidentRadiusOptions;
 import com.inrix.sdk.RouteManager.IRouteResponseListener;
@@ -33,13 +32,12 @@ import com.inrix.sdk.client.fragments.InrixIncidentManagerSetupFragment;
 import com.inrix.sdk.client.fragments.InrixIncidentManagerSetupFragment.IOnGetIncidentsListener;
 import com.inrix.sdk.client.interfaces.IClient;
 import com.inrix.sdk.model.Incident;
-import com.inrix.sdk.model.ParkingLot;
 import com.inrix.sdk.model.RoutesCollection;
 
 /**
  * The Main Activity for this application
  */
-public class DemoActivity extends FragmentActivity implements IInrixConection,
+public class BusyCommuterActivity extends FragmentActivity implements IInrixConection,
 		IOnGetIncidentsListener {
 
 	// Interface to the Mobile Data
@@ -71,7 +69,7 @@ public class DemoActivity extends FragmentActivity implements IInrixConection,
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_demo);
+		setContentView(R.layout.busy_commuter);
 
 		// Initialize the client
 		this.client = ClientFactory.getInstance().getClient();
@@ -151,16 +149,12 @@ public class DemoActivity extends FragmentActivity implements IInrixConection,
 	 */
 	@Override
 	public void onGetIncidentsInCity(final Place selectedCity) {
-		progressDialog = ProgressDialog.show(DemoActivity.this,
+		progressDialog = ProgressDialog.show(BusyCommuterActivity.this,
 				"",
 				"Loading...");
 		incidentList.clearAll();
 		requestsInProgress = 0;
-		
-		ParkingLot lot = new ParkingLot();
-		ParkingManager parkingMan = new ParkingManager();
-		
-		
+
 		// Get the Incidents for the selected city
 		IncidentRadiusOptions params = new IncidentRadiusOptions(selectedCity.getPoint(),
 				INCICENTS_RADIUS);
@@ -240,7 +234,7 @@ public class DemoActivity extends FragmentActivity implements IInrixConection,
 			return;
 		}
 
-		AlertDialog.Builder alertBuilder = new AlertDialog.Builder(DemoActivity.this);
+		AlertDialog.Builder alertBuilder = new AlertDialog.Builder(BusyCommuterActivity.this);
 		alertBuilder.setTitle("Error");
 		alertBuilder.setMessage(errorMsg);
 		alertBuilder.setPositiveButton("OK", null);
