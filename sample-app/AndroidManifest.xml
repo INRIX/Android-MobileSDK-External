@@ -11,7 +11,7 @@
 
     <uses-sdk
         android:minSdkVersion="11"
-        android:targetSdkVersion="18" />
+        android:targetSdkVersion="19" />
 
     <application
         android:allowBackup="true"
@@ -25,7 +25,6 @@
             android:label="@string/demo_activity"
             android:theme="@android:style/Theme.Holo" >
         </activity>
-        
         <activity
             android:name="com.inrix.sdk.client.activity.SampleAppsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -38,13 +37,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
         <activity
             android:name="com.inrix.sdk.client.activity.IncidentListActivity"
-            android:label="@string/title_activity_incident_list" 
             android:icon="@drawable/ic_launcher"
+            android:label="@string/title_activity_incident_list"
             android:theme="@android:style/Theme.Holo" >
         </activity>
+        
+        <activity
+            android:name="com.inrix.sdk.client.activity.IncidentAlertsActivity"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/title_activity_incident_alerts"
+            android:theme="@android:style/Theme.Holo" >
+        </activity>
+
         <activity
             android:name="com.inrix.sdk.client.activity.GasStationsListActivity"
             android:theme="@android:style/Theme.Holo" >
@@ -53,6 +59,10 @@
             android:name="com.inrix.sdk.client.activity.ParkingListActivity"
             android:theme="@android:style/Theme.Holo" >
         </activity>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

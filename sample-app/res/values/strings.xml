@@ -23,5 +23,6 @@
     <string name="incident_accident">Accident</string>
     <string name="error_inrix_missing">Please, install INRIX application</string>
     <string name="title_activity_incident_list">IncidentListActivity</string>
+    <string name="title_activity_incident_alerts">Incident Alerts Sample</string>
 
 </resources>
