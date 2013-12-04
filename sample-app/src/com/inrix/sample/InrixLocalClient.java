@@ -1,8 +1,8 @@
-package com.inrix.sdk.client;
+package com.inrix.sample;
 
 import android.content.Context;
 
-import com.inrix.sdk.client.interfaces.IClient;
+import com.inrix.sample.interfaces.IClient;
 import com.inrix.sdk.GasStationManager;
 import com.inrix.sdk.IncidentsManager;
 import com.inrix.sdk.Inrix;

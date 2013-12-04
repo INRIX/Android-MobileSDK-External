@@ -1,4 +1,4 @@
-package com.inrix.sdk.client.fragments;
+package com.inrix.sample.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,9 +11,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.inrix.sdk.client.Place;
-import com.inrix.sdk.client.Place.PlaceType;
-import com.inrix.sdk.client.R;
+import com.inrix.sample.Place;
+import com.inrix.sample.R;
+import com.inrix.sample.Place.PlaceType;
 import com.inrix.sdk.model.GeoPoint;
 
 import android.widget.AdapterView.OnItemSelectedListener;

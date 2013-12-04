@@ -1,4 +1,4 @@
-package com.inrix.sdk.client.activity;
+package com.inrix.sample.activity;
 
 import android.support.v4.app.FragmentActivity;
 

@@ -1,6 +1,6 @@
-package com.inrix.sdk.client;
+package com.inrix.sample;
 
-import com.inrix.sdk.client.interfaces.IClient;
+import com.inrix.sample.interfaces.IClient;
 
 /**
  * A factory for creating Client objects.

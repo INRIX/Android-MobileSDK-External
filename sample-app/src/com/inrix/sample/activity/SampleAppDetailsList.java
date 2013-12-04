@@ -1,6 +1,6 @@
-package com.inrix.sdk.client.activity;
+package com.inrix.sample.activity;
 
-import com.inrix.sdk.client.R;
+import com.inrix.sample.R;
 
 /**
  * A list of the Sample Apps
@@ -29,5 +29,9 @@ public final class SampleAppDetailsList {
 					ParkingListActivity.class),
 			new SampleAppDetails(R.string.sample_alerts,
 					R.string.sample_alerts_description,
-					IncidentAlertsActivity.class) };
+					IncidentAlertsActivity.class),
+			new SampleAppDetails(R.string.sample_traffic_tiles,
+					R.string.sample_traffic_tiles_description,
+					TrafficTilesActivity.class) };
+
 }

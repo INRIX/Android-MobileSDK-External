@@ -3,7 +3,7 @@
  *
  */
 
-package com.inrix.sdk.client.activity;
+package com.inrix.sample.activity;
 
 import java.util.Iterator;
 import java.util.List;
@@ -18,19 +18,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
 
+import com.inrix.sample.ClientFactory;
+import com.inrix.sample.Place;
+import com.inrix.sample.R;
+import com.inrix.sample.fragments.InrixIncidentListFragment;
+import com.inrix.sample.fragments.InrixIncidentManagerSetupFragment;
+import com.inrix.sample.fragments.InrixConnectionLauncherFragment.IInrixConection;
+import com.inrix.sample.fragments.InrixIncidentManagerSetupFragment.IOnGetIncidentsListener;
+import com.inrix.sample.interfaces.IClient;
 import com.inrix.sdk.Error;
 import com.inrix.sdk.IncidentsManager.IIncidentsResponseListener;
 import com.inrix.sdk.IncidentsManager.IncidentRadiusOptions;
 import com.inrix.sdk.RouteManager.IRouteResponseListener;
 import com.inrix.sdk.RouteManager.RouteOptions;
-import com.inrix.sdk.client.Place;
-import com.inrix.sdk.client.ClientFactory;
-import com.inrix.sdk.client.R;
-import com.inrix.sdk.client.fragments.InrixConnectionLauncherFragment.IInrixConection;
-import com.inrix.sdk.client.fragments.InrixIncidentListFragment;
-import com.inrix.sdk.client.fragments.InrixIncidentManagerSetupFragment;
-import com.inrix.sdk.client.fragments.InrixIncidentManagerSetupFragment.IOnGetIncidentsListener;
-import com.inrix.sdk.client.interfaces.IClient;
 import com.inrix.sdk.model.Incident;
 import com.inrix.sdk.model.RoutesCollection;
 

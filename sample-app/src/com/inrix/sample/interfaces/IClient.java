@@ -1,4 +1,4 @@
-package com.inrix.sdk.client.interfaces;
+package com.inrix.sample.interfaces;
 
 import android.content.Context;
 

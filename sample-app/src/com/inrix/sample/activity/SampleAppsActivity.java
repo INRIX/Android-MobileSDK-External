@@ -1,6 +1,6 @@
-package com.inrix.sdk.client.activity;
+package com.inrix.sample.activity;
 
-import com.inrix.sdk.client.R;
+import com.inrix.sample.R;
 
 import android.app.ListActivity;
 import android.content.Context;
@@ -53,7 +53,6 @@ public final class SampleAppsActivity extends ListActivity {
         setContentView(R.layout.sample_apps);
 
         ListAdapter adapter = new CustomArrayAdapter(this, SampleAppDetailsList.SAMPLES);
-
         setListAdapter(adapter);
     }
 

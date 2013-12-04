@@ -13,7 +13,7 @@
         android:id="@+id/connectionFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        class="com.inrix.sdk.client.fragments.InrixConnectionLauncherFragment" >
+        class="com.inrix.sample.fragments.InrixConnectionLauncherFragment" >
     </fragment>
 
     <LinearLayout

@@ -1,6 +1,6 @@
-package com.inrix.sdk.client.activity;
+package com.inrix.sample.activity;
 
-import com.inrix.sdk.client.R;
+import com.inrix.sample.R;
 
 import android.content.Context;
 import android.view.LayoutInflater;

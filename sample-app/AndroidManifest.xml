@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.inrix.sdk.client"
+    package="com.inrix.sample"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="19" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -19,14 +25,14 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.inrix.sdk.client.activity.BusyCommuterActivity"
+            android:name="com.inrix.sample.activity.BusyCommuterActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:icon="@drawable/ic_launcher"
             android:label="@string/demo_activity"
             android:theme="@android:style/Theme.Holo" >
         </activity>
         <activity
-            android:name="com.inrix.sdk.client.activity.SampleAppsActivity"
+            android:name="com.inrix.sample.activity.SampleAppsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:icon="@drawable/ic_launcher"
             android:label="@string/demo_activity"
@@ -38,31 +44,37 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.inrix.sdk.client.activity.IncidentListActivity"
+            android:name="com.inrix.sample.activity.IncidentListActivity"
             android:icon="@drawable/ic_launcher"
             android:label="@string/title_activity_incident_list"
             android:theme="@android:style/Theme.Holo" >
         </activity>
-        
         <activity
-            android:name="com.inrix.sdk.client.activity.IncidentAlertsActivity"
+            android:name="com.inrix.sample.activity.IncidentAlertsActivity"
             android:icon="@drawable/ic_launcher"
             android:label="@string/title_activity_incident_alerts"
             android:theme="@android:style/Theme.Holo" >
         </activity>
-
         <activity
-            android:name="com.inrix.sdk.client.activity.GasStationsListActivity"
+            android:name="com.inrix.sample.activity.GasStationsListActivity"
             android:theme="@android:style/Theme.Holo" >
         </activity>
-                <activity
-            android:name="com.inrix.sdk.client.activity.ParkingListActivity"
+        <activity
+            android:name="com.inrix.sample.activity.ParkingListActivity"
+            android:theme="@android:style/Theme.Holo" >
+        </activity>
+        
+        <activity
+            android:name="com.inrix.sample.activity.TrafficTilesActivity"
             android:theme="@android:style/Theme.Holo" >
         </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyCC09szppcyNqGgjxAHmJ5SdiwmRlQFGpg" />
     </application>
 
 </manifest>

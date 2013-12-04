@@ -1,4 +1,4 @@
-package com.inrix.sdk.client.fragments;
+package com.inrix.sample.fragments;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,12 +6,12 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import com.inrix.sample.IncidentComparator;
+import com.inrix.sample.Place;
+import com.inrix.sample.R;
+import com.inrix.sample.Place.PlaceType;
 import com.inrix.sdk.IncidentUtils;
 import com.inrix.sdk.IncidentsManager;
-import com.inrix.sdk.client.Place;
-import com.inrix.sdk.client.IncidentComparator;
-import com.inrix.sdk.client.Place.PlaceType;
-import com.inrix.sdk.client.R;
 import com.inrix.sdk.model.Incident;
 import com.inrix.sdk.model.Route;
 

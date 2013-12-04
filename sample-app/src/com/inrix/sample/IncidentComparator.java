@@ -1,4 +1,4 @@
-package com.inrix.sdk.client;
+package com.inrix.sample;
 
 import java.util.Comparator;
 

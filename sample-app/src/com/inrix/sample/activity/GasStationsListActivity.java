@@ -1,13 +1,14 @@
-package com.inrix.sdk.client.activity;
+package com.inrix.sample.activity;
 
 import java.util.List;
+
+import com.inrix.sample.ClientFactory;
+import com.inrix.sample.R;
+import com.inrix.sample.interfaces.IClient;
 import com.inrix.sdk.Error;
 import com.inrix.sdk.GasStationManager.GasStationsOptions;
 import com.inrix.sdk.GasStationManager.GasStationsRadiusOptions;
 import com.inrix.sdk.GasStationManager.IGasStationResponseListener;
-import com.inrix.sdk.client.ClientFactory;
-import com.inrix.sdk.client.R;
-import com.inrix.sdk.client.interfaces.IClient;
 import com.inrix.sdk.model.GasStation;
 import com.inrix.sdk.model.GasStation.Address;
 import com.inrix.sdk.model.GasStationCollection;

@@ -1,6 +1,6 @@
-package com.inrix.sdk.client.fragments;
+package com.inrix.sample.fragments;
 
-import com.inrix.sdk.client.R;
+import com.inrix.sample.R;
 
 import android.app.Activity;
 import android.os.Bundle;

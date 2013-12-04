@@ -1,13 +1,14 @@
-package com.inrix.sdk.client.activity;
+package com.inrix.sample.activity;
 
 import java.util.List;
+
+import com.inrix.sample.ClientFactory;
+import com.inrix.sample.R;
+import com.inrix.sample.interfaces.IClient;
 import com.inrix.sdk.Error;
 import com.inrix.sdk.ParkingManager;
 import com.inrix.sdk.ParkingManager.IParkingResponseListener;
 import com.inrix.sdk.ParkingManager.ParkingOptions;
-import com.inrix.sdk.client.ClientFactory;
-import com.inrix.sdk.client.R;
-import com.inrix.sdk.client.interfaces.IClient;
 import com.inrix.sdk.model.GeoPoint;
 import com.inrix.sdk.model.ParkingLot;
 import com.inrix.sdk.model.ParkingLot.Address;
