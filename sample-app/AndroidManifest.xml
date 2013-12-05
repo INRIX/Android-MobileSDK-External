@@ -46,6 +46,7 @@
         <activity
             android:name="com.inrix.sample.activity.IncidentListActivity"
             android:icon="@drawable/ic_launcher"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/title_activity_incident_list"
             android:theme="@android:style/Theme.Holo" >
         </activity>
@@ -57,13 +58,14 @@
         </activity>
         <activity
             android:name="com.inrix.sample.activity.GasStationsListActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@android:style/Theme.Holo" >
         </activity>
         <activity
             android:name="com.inrix.sample.activity.ParkingListActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@android:style/Theme.Holo" >
         </activity>
-        
         <activity
             android:name="com.inrix.sample.activity.TrafficTilesActivity"
             android:theme="@android:style/Theme.Holo" >
@@ -75,6 +77,15 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCC09szppcyNqGgjxAHmJ5SdiwmRlQFGpg" />
+
+        <activity
+            android:name="com.inrix.sample.activity.TravelTimesActivity"
+            android:label="@string/title_activity_travel_time"
+            android:parentActivityName="android.support.v4.app.FragmentActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="android.support.v4.app.FragmentActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -32,6 +32,10 @@ public final class SampleAppDetailsList {
 					IncidentAlertsActivity.class),
 			new SampleAppDetails(R.string.sample_traffic_tiles,
 					R.string.sample_traffic_tiles_description,
-					TrafficTilesActivity.class) };
+					TrafficTilesActivity.class),
+			// Travel Times
+			new SampleAppDetails(R.string.sample_travel_times,
+					R.string.sample_travel_times_description,
+					TravelTimesActivity.class) };
 
 }

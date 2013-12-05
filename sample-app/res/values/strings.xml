@@ -24,5 +24,7 @@
     <string name="error_inrix_missing">Please, install INRIX application</string>
     <string name="title_activity_incident_list">IncidentListActivity</string>
     <string name="title_activity_incident_alerts">Incident Alerts Sample</string>
+    <string name="title_activity_travel_time">TravelTimeActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

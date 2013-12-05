@@ -13,4 +13,8 @@
   <string name="sample_alerts_description">Sample Incident Alerts</string>
   <string name="sample_traffic_tiles">Traffic Tiles</string>
   <string name="sample_traffic_tiles_description">Traffic Tiles Sample</string>
+  <string name="sample_travel_times">Travel Times</string>
+  <string name="sample_travel_times_description">Travel Times Sample</string>
+
+  <string name="sample_travel_times_loading">Loading Route...</string>
 </resources>
