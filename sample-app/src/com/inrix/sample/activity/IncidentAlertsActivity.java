@@ -36,7 +36,7 @@ public class IncidentAlertsActivity extends FragmentActivity implements
 		setContentView(R.layout.activity_alerts);
 		Inrix.initialize(this);
 		this.timestamp = (TextView) findViewById(R.id.timestamp);
-		this.progressBar = (ProgressBar)findViewById(R.id.progress_bar);
+		this.progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 		// Clear the Incident List
 		setIncidentList(null);
 	}
@@ -48,7 +48,7 @@ public class IncidentAlertsActivity extends FragmentActivity implements
 		progressBar.setVisibility(View.VISIBLE);
 		timestamp.setText("Loading...");
 		alert = alertManager.createIncidentAlert(this,
-				new IncidentAlertOptions(15, 20, new IFilter<Incident>() {
+				new IncidentAlertOptions(15, new IFilter<Incident>() {
 
 					@Override
 					public boolean isItemAllowed(Incident item) {
@@ -72,14 +72,16 @@ public class IncidentAlertsActivity extends FragmentActivity implements
 		setIncidentList(data);
 		Date date = new Date(System.currentTimeMillis());
 
-		this.timestamp.setText("Last update: " + date.toString());
+		this.timestamp.setText("Last update: " + date.toString()
+				+ "\nLast requested distance:"
+				+ this.alert.getLastRequestedDistance());
 		progressBar.setVisibility(View.GONE);
 	}
 
 	@Override
 	public void onError(Error error) {
 		getSupportFragmentManager().popBackStack();
-		this.timestamp.setText("Unable to retrieve data: "+error.toString());
+		this.timestamp.setText("Unable to retrieve data: " + error.toString());
 		progressBar.setVisibility(View.GONE);
 	}
 
@@ -108,7 +110,7 @@ public class IncidentAlertsActivity extends FragmentActivity implements
 			Incident incident = getItem(position);
 
 			if (incident.getShortDescription() == null) {
-				featureView.setTitle("No Incidents withing this radius");
+				featureView.setTitle("No Incidents within this distance");
 			} else {
 				featureView.setTitle(incident.getShortDescription().getValue());
 			}
