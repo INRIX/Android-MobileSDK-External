@@ -51,7 +51,9 @@ public class IncidentAlertsActivity extends FragmentActivity implements
 		progressBar.setVisibility(View.VISIBLE);
 		timestamp.setText("Loading...");
 		alert = alertManager.createIncidentAlert(this,
-				new IncidentAlertOptions(ALERT_INTERVAL, new IFilter<Incident>() {
+				new IncidentAlertOptions(alertManager
+						.getRefreshInterval(AlertsManager.ACTIONS.SMART_ALERT),
+						new IFilter<Incident>() {
 
 					@Override
 					public boolean isItemAllowed(Incident item) {
