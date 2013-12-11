@@ -27,9 +27,11 @@ public final class SampleAppDetailsList {
 			new SampleAppDetails(R.string.sample_parking,
 					R.string.sample_parking_description,
 					ParkingListActivity.class),
+			// Alerts
 			new SampleAppDetails(R.string.sample_alerts,
 					R.string.sample_alerts_description,
 					IncidentAlertsActivity.class),
+			// Traffic Tiles
 			new SampleAppDetails(R.string.sample_traffic_tiles,
 					R.string.sample_traffic_tiles_description,
 					TrafficTilesActivity.class),

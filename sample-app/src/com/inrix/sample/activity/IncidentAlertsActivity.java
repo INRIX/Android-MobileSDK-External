@@ -25,11 +25,14 @@ import com.inrix.sdk.model.Incident;
 
 public class IncidentAlertsActivity extends FragmentActivity implements
 		IIncidentsAlertListener {
+	static final int ALERT_INTERVAL = 15;
+	
 	TextView timestamp;
 	TextView status;
 	IncidentAlert alert;
 	ProgressBar progressBar;
 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,7 +51,7 @@ public class IncidentAlertsActivity extends FragmentActivity implements
 		progressBar.setVisibility(View.VISIBLE);
 		timestamp.setText("Loading...");
 		alert = alertManager.createIncidentAlert(this,
-				new IncidentAlertOptions(15, new IFilter<Incident>() {
+				new IncidentAlertOptions(ALERT_INTERVAL, new IFilter<Incident>() {
 
 					@Override
 					public boolean isItemAllowed(Incident item) {
