@@ -16,6 +16,8 @@ import com.inrix.sample.ClientFactory;
 import com.inrix.sample.R;
 import com.inrix.sample.interfaces.IClient;
 import com.inrix.sdk.Error;
+import com.inrix.sdk.InrixDebug;
+import com.inrix.sdk.ParkingManager;
 import com.inrix.sdk.ParkingManager.IParkingResponseListener;
 import com.inrix.sdk.ParkingManager.ParkingInRadiusOptions;
 import com.inrix.sdk.model.GeoPoint;
@@ -71,6 +73,11 @@ public class ParkingListActivity extends FragmentActivity {
 					+ " "
 					+ String.format("%.2f " + ( (UserPreferences.getSettingUnits() == UNIT.MILES) ? "miles" : "km"),
 							parkingLot.getDistance(SEATTLE_POSITION));
+			if ( ( parkingLot.getStaticContent() != null ) &&
+				 ( parkingLot.getStaticContent().getPricingPayment() != null ) &&
+				 ( parkingLot.getStaticContent().getPricingPayment().size() > 0 ) ) {
+				title = title + String.format(" Amount = %.2f ", parkingLot.getStaticContent().getPricingPayment().get(0).getAmount());				
+			}
 			featureView.setTitle(title);
 
 			if (null != parkingLot
@@ -122,8 +129,10 @@ public class ParkingListActivity extends FragmentActivity {
 		pd.show();
 
 		// Get the parking lots for the selected city and radius
-		ParkingInRadiusOptions options = new ParkingInRadiusOptions(
-				SEATTLE_POSITION, this.requestRadius);
+
+		final ParkingInRadiusOptions options = new ParkingInRadiusOptions(SEATTLE_POSITION,
+				this.requestRadius);
+		options.setOutputFields(ParkingManager.PARKING_OUTPUT_FIELD_BASIC | ParkingManager.PARKING_OUTPUT_FIELD_PRICING);
 
 		this.client.getParkingManager().getParkingLotsInRadius(
 				new IParkingResponseListener() {
@@ -138,6 +147,7 @@ public class ParkingListActivity extends FragmentActivity {
 					public void onError(Error error) {
 						pd.dismiss();
 						setParkingLotList(null);
+						InrixDebug.LogD(error.getErrorMessage());
 					}
 
 				}, options);
