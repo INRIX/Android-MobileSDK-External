@@ -1,142 +1,271 @@
 package com.inrix.sample.activity;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.inrix.sample.ClientFactory;
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
+import android.app.ActionBar.TabListener;
+import android.app.FragmentTransaction;
+import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.view.Menu;
+import android.view.MenuItem;
+
+import com.inrix.sample.BusProvider;
+import com.inrix.sample.IncidentsReceivedEvent;
 import com.inrix.sample.R;
-import com.inrix.sample.interfaces.IClient;
+import com.inrix.sample.fragments.IncidentListFragment;
+import com.inrix.sample.fragments.IncidentsMapFragment;
+import com.inrix.sample.fragments.ProgressFragment;
 import com.inrix.sdk.Error;
+import com.inrix.sdk.ICancellable;
+import com.inrix.sdk.IncidentsManager;
 import com.inrix.sdk.IncidentsManager.IIncidentsResponseListener;
 import com.inrix.sdk.IncidentsManager.IncidentRadiusOptions;
+import com.inrix.sdk.Inrix;
 import com.inrix.sdk.model.GeoPoint;
 import com.inrix.sdk.model.Incident;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
-public class IncidentListActivity extends FragmentActivity {
+public class IncidentListActivity extends FragmentActivity implements
+		TabListener {
 
 	private final GeoPoint SEATTLE_POSITION = new GeoPoint(47.614496,
 			-122.328758);
 
-	private final int INCIDENT_RADIUS = 5;
-
-	// Interface to the Mobile Data
-	private IClient client;
-
-	// Loading Dialog
-	ProgressDialog pd;
-
-	/**
-	 * A custom array adapter that shows a {@link SimpleView} containing
-	 * details about the incident
-	 */
-	private static class CustomArrayAdapter extends ArrayAdapter<Incident> {
-
-		/**
-		 * @param demos
-		 *            An array containing the incidents to be displayed
-		 */
-		public CustomArrayAdapter(Context context, Incident[] incidents) {
-			super(context, R.layout.incidents_list_view_item,
-					R.id.incident_description, incidents);
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			SimpleView featureView;
-			if (convertView instanceof SimpleView) {
-				featureView = (SimpleView) convertView;
-			} else {
-				featureView = new SimpleView(getContext());
-			}
-
-			Incident incident = getItem(position);
-
-			if (incident.getShortDescription() == null) {
-				featureView.setTitle("No Incidents");
-			} else {
-				featureView.setTitle(incident.getShortDescription().getValue());
-			}
-
-			return featureView;
-		}
-	}
+	private ICancellable currentOperation = null;
+	private final int INCIDENT_RADIUS_MILES = 20;
+	private GeoPoint lastRequestedPosition = null;
+	private IncidentsManager incidentManager;
+	private ViewPager viewPager;
+	private TabsAdapter tabsAdapter;
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.activity_incident_list);
 
 		// Initialize INRIX
 		initializeINRIX();
+		this.incidentManager = new IncidentsManager();
+
+		ActionBar actionBar = getActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+		this.viewPager = (ViewPager) findViewById(R.id.pager);
+		this.tabsAdapter = new TabsAdapter(this, viewPager);
+		tabsAdapter.addTab(actionBar.newTab().setText("List"),
+				IncidentListFragment.class,
+				null);
+		tabsAdapter.addTab(actionBar.newTab().setText("Map"),
+				IncidentsMapFragment.class,
+				null);
 
 		// Clear the Incident List
-		setIncidentList( null );
+		setIncidentList(null);
 
-		pd = new ProgressDialog(this);
-		pd.setMessage("loading");
-		pd.show();
+		if (savedInstanceState != null) {
+			actionBar.setSelectedNavigationItem(savedInstanceState
+					.getInt("tab", 0));
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == R.id.action_refresh) {
+			refreshData();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Initialize the INRIX SDK
+	 */
+	private void initializeINRIX() {
+		Inrix.initialize(getApplicationContext());
+	}
+
+	/**
+	 * 
+	 * @param incident
+	 *            list
+	 */
+	private void setIncidentList(List<Incident> list) {
+		BusProvider.getBus().post(new IncidentsReceivedEvent(list));
+	}
+
+	@Override
+	protected void onStop() {
+		if (this.currentOperation != null) {
+			this.currentOperation.cancel();
+			this.currentOperation = null;
+			getSupportFragmentManager().popBackStack();
+		}
+		super.onStop();
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		refreshData();
+	}
+
+	private void refreshData() {
+		if (currentOperation != null) {
+			currentOperation.cancel();
+			currentOperation = null;
+		} else {
+			getSupportFragmentManager().beginTransaction()
+					.add(new ProgressFragment(), "").addToBackStack("")
+					.commitAllowingStateLoss();
+		}
+
+		if (lastRequestedPosition == null) {
+			lastRequestedPosition = SEATTLE_POSITION;
+		}
 
 		// Get the Incidents for the selected city and radius
-		IncidentRadiusOptions params = new IncidentRadiusOptions(
-				SEATTLE_POSITION, INCIDENT_RADIUS);
-		this.client.getIncidentManager().getIncidentsInRadius(
-				new IIncidentsResponseListener() {
+		IncidentRadiusOptions params = new IncidentRadiusOptions(lastRequestedPosition,
+				INCIDENT_RADIUS_MILES);
+		this.currentOperation = this.incidentManager
+				.getIncidentsInRadius(new IIncidentsResponseListener() {
 
 					@Override
 					public void onResult(List<Incident> data) {
-						pd.dismiss();
+						getSupportFragmentManager().popBackStack();
+						currentOperation = null;
 						setIncidentList(data);
 					}
 
 					@Override
 					public void onError(Error error) {
-						pd.dismiss();
+						getSupportFragmentManager().popBackStack();
+						currentOperation = null;
 						setIncidentList(null);
 					}
 
 				}, params);
-
-	}
-	
-	/**
-	 * Initialize the INRIX SDK
-	 */
-	private void initializeINRIX() {
-		this.client = ClientFactory.getInstance().getClient();
-		this.client.connect(getApplicationContext());
 	}
 
-	/**
-	 * 
-	 * @param incident list
-	 */
-	private void setIncidentList(List<Incident> list) {
-		Incident incidentArray[];
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
+	}
 
-		if (list == null) {
-			incidentArray = new Incident[1];
-			incidentArray[0] = new Incident();
-		} else {
-			incidentArray = list.toArray(new Incident[list.size()]);
+	@Override
+	public void onTabReselected(Tab tab, FragmentTransaction ft) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onTabSelected(Tab tab, FragmentTransaction ft) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public static class TabsAdapter extends FragmentPagerAdapter implements
+			ActionBar.TabListener, ViewPager.OnPageChangeListener {
+		private final Context context;
+		private final ActionBar actionBar;
+		private final ViewPager viewPager;
+		private final ArrayList<TabInfo> tabs = new ArrayList<TabInfo>();
+
+		static final class TabInfo {
+			private final Class<?> clss;
+			private final Bundle args;
+
+			TabInfo(Class<?> _class, Bundle _args) {
+				clss = _class;
+				args = _args;
+			}
 		}
 
-		CustomArrayAdapter arrayAdapter = new CustomArrayAdapter(this, incidentArray);
-		((ListView)findViewById(R.id.incident_list)).setAdapter(arrayAdapter);
-	}
+		public TabsAdapter(FragmentActivity activity, ViewPager pager) {
+			super(activity.getSupportFragmentManager());
+			context = activity;
+			actionBar = activity.getActionBar();
+			viewPager = pager;
+			viewPager.setAdapter(this);
+			viewPager.setOnPageChangeListener(this);
+		}
 
+		public void addTab(ActionBar.Tab tab, Class<?> clss, Bundle args) {
+			TabInfo info = new TabInfo(clss, args);
+			tab.setTag(info);
+			tab.setTabListener(this);
+			tabs.add(info);
+			actionBar.addTab(tab);
+			notifyDataSetChanged();
+		}
+
+		@Override
+		public int getCount() {
+			return tabs.size();
+		}
+
+		@Override
+		public Fragment getItem(int position) {
+			TabInfo info = tabs.get(position);
+			return Fragment
+					.instantiate(context, info.clss.getName(), info.args);
+		}
+
+		@Override
+		public void onPageScrolled(int position,
+				float positionOffset,
+				int positionOffsetPixels) {
+		}
+
+		@Override
+		public void onPageSelected(int position) {
+			actionBar.setSelectedNavigationItem(position);
+		}
+
+		@Override
+		public void onPageScrollStateChanged(int state) {
+		}
+
+		@Override
+		public void onTabSelected(Tab tab, FragmentTransaction ft) {
+			Object tag = tab.getTag();
+			for (int i = 0; i < tabs.size(); i++) {
+				if (tabs.get(i) == tag) {
+					viewPager.setCurrentItem(i);
+				}
+			}
+		}
+
+		@Override
+		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+		}
+
+		@Override
+		public void onTabReselected(Tab tab, FragmentTransaction ft) {
+		}
+	}
 }

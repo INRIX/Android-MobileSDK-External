@@ -13,6 +13,8 @@ import com.inrix.sdk.model.GasStation;
 import com.inrix.sdk.model.GasStation.Address;
 import com.inrix.sdk.model.GasStationCollection;
 import com.inrix.sdk.model.GeoPoint;
+import com.inrix.sdk.utils.UserPreferences;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -107,7 +109,7 @@ public class GasStationsListActivity extends FragmentActivity {
 				            | GasStationsOptions.OUTPUT_FIELDS_LOCATION | GasStationsOptions.OUTPUT_FIELDS_CURRENCY_CODE
 				            | GasStationsOptions.OUTPUT_FIELDS_PRODUCTS;
 		int productTypes = GasStationsOptions.PRODUCT_TYPE_ALL;
-		GasStationsRadiusOptions params = new GasStationsRadiusOptions(SEATTLE_POSITION, REQUEST_RADIUS, false, outputOptions, productTypes);
+		GasStationsRadiusOptions params = new GasStationsRadiusOptions(SEATTLE_POSITION, REQUEST_RADIUS, UserPreferences.UNIT.MILES, outputOptions, productTypes);
 		this.client.getGasStationManager().getGasStationsInRadius(params,new IGasStationResponseListener() {
 
 			@Override

@@ -2,20 +2,23 @@ package com.inrix.sample.activity;
 
 import java.util.List;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.inrix.sample.ClientFactory;
 import com.inrix.sample.R;
-import com.inrix.sample.interfaces.IClient;
+import com.inrix.sample.fragments.ProgressFragment;
 import com.inrix.sdk.Error;
+import com.inrix.sdk.ICancellable;
+import com.inrix.sdk.Inrix;
 import com.inrix.sdk.InrixDebug;
 import com.inrix.sdk.ParkingManager;
 import com.inrix.sdk.ParkingManager.IParkingResponseListener;
@@ -32,12 +35,10 @@ public class ParkingListActivity extends FragmentActivity {
 			-122.328758);
 
 	private int requestRadius = 5;
-
-	// Interface to the Mobile Data
-	private IClient client;
+	private ParkingManager parkingManager;
 
 	// Loading Dialog
-	ProgressDialog pd;
+	private ICancellable currentOperation = null;
 
 	/**
 	 * A custom array adapter that shows a {@link SimpleView} containing details
@@ -50,8 +51,10 @@ public class ParkingListActivity extends FragmentActivity {
 		 *            An array containing the parking lots to be displayed
 		 */
 		public CustomArrayAdapter(Context context, ParkingLot[] parkingLots) {
-			super(context, R.layout.inrix_list_view_item,
-					R.id.inrix_list_description, parkingLots);
+			super(context,
+					R.layout.inrix_list_view_item,
+					R.id.inrix_list_description,
+					parkingLots);
 		}
 
 		@Override
@@ -71,7 +74,9 @@ public class ParkingListActivity extends FragmentActivity {
 			}
 			title = title
 					+ " "
-					+ String.format("%.2f " + ( (UserPreferences.getSettingUnits() == UNIT.MILES) ? "miles" : "km"),
+					+ String.format("%.2f "
+							+ ( (UserPreferences.getSettingUnits() == UNIT.MILES) ? "miles"
+									: "km"),
 							parkingLot.getDistance(SEATTLE_POSITION));
 			if ( ( parkingLot.getStaticContent() != null ) &&
 				 ( parkingLot.getStaticContent().getPricingPayment() != null ) &&
@@ -120,13 +125,44 @@ public class ParkingListActivity extends FragmentActivity {
 
 		// Initialize INRIX
 		initializeINRIX();
-
+		this.parkingManager = new ParkingManager();
+		
 		// Clear the gas station List
 		setParkingLotList(null);
+	}
 
-		pd = new ProgressDialog(this);
-		pd.setMessage("loading");
-		pd.show();
+	/**
+	 * Initialize the INRIX SDK
+	 */
+	private void initializeINRIX() {
+		Inrix.initialize(this);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == R.id.action_refresh) {
+			refreshData();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	private void refreshData() {
+		if (currentOperation != null) {
+			currentOperation.cancel();
+			currentOperation = null;
+		} else {
+			getSupportFragmentManager().beginTransaction()
+					.add(new ProgressFragment(), "").addToBackStack("")
+					.commit();
+		}
 
 		// Get the parking lots for the selected city and radius
 
@@ -134,32 +170,41 @@ public class ParkingListActivity extends FragmentActivity {
 				this.requestRadius);
 		options.setOutputFields(ParkingManager.PARKING_OUTPUT_FIELD_BASIC | ParkingManager.PARKING_OUTPUT_FIELD_PRICING);
 
-		this.client.getParkingManager().getParkingLotsInRadius(
-				new IParkingResponseListener() {
+		currentOperation = parkingManager
+				.getParkingLotsInRadius(new IParkingResponseListener() {
 
 					@Override
 					public void onResult(List<ParkingLot> data) {
-						pd.dismiss();
+						getSupportFragmentManager().popBackStack();
+						currentOperation = null;
 						setParkingLotList(data);
 					}
 
 					@Override
 					public void onError(Error error) {
-						pd.dismiss();
+						getSupportFragmentManager().popBackStack();
+						currentOperation = null;
 						setParkingLotList(null);
 						InrixDebug.LogD(error.getErrorMessage());
 					}
 
 				}, options);
-
 	}
 
-	/**
-	 * Initialize the INRIX SDK
-	 */
-	private void initializeINRIX() {
-		this.client = ClientFactory.getInstance().getClient();
-		this.client.connect(getApplicationContext());
+	@Override
+	protected void onStop() {
+		if (this.currentOperation != null) {
+			this.currentOperation.cancel();
+			this.currentOperation = null;
+			getSupportFragmentManager().popBackStack();
+		}
+		super.onStop();
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		refreshData();
 	}
 
 	/**
@@ -182,5 +227,4 @@ public class ParkingListActivity extends FragmentActivity {
 		((ListView) findViewById(R.id.gas_station_list))
 				.setAdapter(arrayAdapter);
 	}
-
 }

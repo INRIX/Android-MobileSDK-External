@@ -3,10 +3,11 @@
     package="com.inrix.sample"
     android:versionCode="1"
     android:versionName="1.0" >
-
+	<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
@@ -31,6 +32,7 @@
             android:label="@string/demo_activity"
             android:theme="@android:style/Theme.Holo" >
         </activity>
+        
         <activity
             android:name="com.inrix.sample.activity.SampleAppsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -42,6 +44,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            
         </activity>
         <activity
             android:name="com.inrix.sample.activity.IncidentListActivity"
@@ -86,6 +89,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="android.support.v4.app.FragmentActivity" />
         </activity>
+         <service
+            android:name="com.inrix.support.SendMockLocationService"
+            android:enabled="true"
+            android:exported="true"
+            android:icon="@drawable/ic_launcher" >
+        </service>
     </application>
 
 </manifest>
