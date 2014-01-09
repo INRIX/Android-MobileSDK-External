@@ -3,7 +3,8 @@
     package="com.inrix.sample"
     android:versionCode="1"
     android:versionName="1.0" >
-	<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -11,6 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
 
     <uses-sdk
         android:minSdkVersion="11"
@@ -32,7 +34,6 @@
             android:label="@string/demo_activity"
             android:theme="@android:style/Theme.Holo" >
         </activity>
-        
         <activity
             android:name="com.inrix.sample.activity.SampleAppsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -44,12 +45,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            
         </activity>
         <activity
             android:name="com.inrix.sample.activity.IncidentListActivity"
-            android:icon="@drawable/ic_launcher"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:icon="@drawable/ic_launcher"
             android:label="@string/title_activity_incident_list"
             android:theme="@android:style/Theme.Holo" >
         </activity>
@@ -73,6 +73,11 @@
             android:name="com.inrix.sample.activity.TrafficTilesActivity"
             android:theme="@android:style/Theme.Holo" >
         </activity>
+        
+        <activity
+            android:name="com.inrix.sample.activity.RouteOnMapActivity"
+            android:theme="@android:style/Theme.Holo" >
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -89,11 +94,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="android.support.v4.app.FragmentActivity" />
         </activity>
-         <service
+
+        <service
             android:name="com.inrix.support.SendMockLocationService"
             android:enabled="true"
             android:exported="true"
             android:icon="@drawable/ic_launcher" >
+        </service>
+        <service
+            android:name="com.inrix.sdk.activityrecognition.ActivityRecognitionIntentService"
+            android:exported="false"
+            android:label="@string/app_name" >
         </service>
     </application>
 

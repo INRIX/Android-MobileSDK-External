@@ -38,6 +38,11 @@ public final class SampleAppDetailsList {
 			// Travel Times
 			new SampleAppDetails(R.string.sample_travel_times,
 					R.string.sample_travel_times_description,
-					TravelTimesActivity.class) };
+					TravelTimesActivity.class),
+
+			// Route on map
+			new SampleAppDetails(R.string.sample_route_on_map,
+					R.string.sample_route_on_map_description,
+					RouteOnMapActivity.class) };
 
 }
