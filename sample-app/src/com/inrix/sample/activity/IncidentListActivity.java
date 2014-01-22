@@ -8,6 +8,7 @@ import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -28,6 +29,7 @@ import com.inrix.sdk.IncidentsManager;
 import com.inrix.sdk.IncidentsManager.IIncidentsResponseListener;
 import com.inrix.sdk.IncidentsManager.IncidentRadiusOptions;
 import com.inrix.sdk.Inrix;
+import com.inrix.sdk.geolocation.GeolocationController;
 import com.inrix.sdk.model.GeoPoint;
 import com.inrix.sdk.model.Incident;
 
@@ -52,7 +54,13 @@ public class IncidentListActivity extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		//hack the location for now.
+		Location location = new Location("");
+		location.setLatitude(SEATTLE_POSITION.getLatitude());
+		location.setLongitude(SEATTLE_POSITION.getLongitude());
+		location.setBearing(113);
+		GeolocationController.getInstance().onGeolocationChange(location);
+		
 		setContentView(R.layout.activity_incident_list);
 
 		// Initialize INRIX
@@ -99,7 +107,7 @@ public class IncidentListActivity extends FragmentActivity implements
 	 * Initialize the INRIX SDK
 	 */
 	private void initializeINRIX() {
-		Inrix.initialize(getApplicationContext());
+		Inrix.initialize(getApplicationContext(), "qaconfig.properties");
 	}
 
 	/**
