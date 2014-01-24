@@ -165,6 +165,7 @@ public class ParkingListActivity extends FragmentActivity {
 		}
 
 		// Get the parking lots for the selected city and radius
+
 		final ParkingInRadiusOptions options = new ParkingInRadiusOptions(SEATTLE_POSITION,
 				this.requestRadius);
 		options.setOutputFields(ParkingManager.PARKING_OUTPUT_FIELD_BASIC | ParkingManager.PARKING_OUTPUT_FIELD_PRICING);

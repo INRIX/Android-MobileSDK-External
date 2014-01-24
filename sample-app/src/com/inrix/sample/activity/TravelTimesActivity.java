@@ -20,6 +20,7 @@ import com.inrix.sdk.model.TripInformation.TravelTime;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.support.v4.app.FragmentActivity;
 
 public class TravelTimesActivity extends FragmentActivity {
@@ -85,7 +86,8 @@ public class TravelTimesActivity extends FragmentActivity {
 	 */
 	private void getTravelTimes() {
 		TravelTimeOptions travelTimeOptions = new TravelTimeOptions(route,
-				COLOR_CONTROL_IDS.length, 60);
+				COLOR_CONTROL_IDS.length,
+				60);
 
 		routeManager.requestTravelTimes(travelTimeOptions,
 				new ITravelTimeResponseListener() {
@@ -98,6 +100,9 @@ public class TravelTimesActivity extends FragmentActivity {
 
 					@Override
 					public void onError(Error error) {
+						Toast.makeText(TravelTimesActivity.this,
+								"Failed to load travel times. Try again",
+								Toast.LENGTH_LONG).show();
 					}
 				});
 	}
@@ -129,23 +134,23 @@ public class TravelTimesActivity extends FragmentActivity {
 
 				switch (travelTime.getRouteQuality(routeTravelTime
 						.getUncongestedTravelTime())) {
-				case FreeFlow:
-					this.colorControls[i].setBackgroundColor(Color.GREEN);
-					break;
-				case Moderate:
-					this.colorControls[i].setBackgroundColor(Color.YELLOW);
-					break;
-				case Heavy:
-				case StopAndGo:
-					this.colorControls[i].setBackgroundColor(Color.RED);
-					break;
-				case Closed:
-					this.colorControls[i].setBackgroundColor(Color.DKGRAY);
-					break;
-				case Unknown:
-					break;
-				default:
-					break;
+					case FreeFlow:
+						this.colorControls[i].setBackgroundColor(Color.GREEN);
+						break;
+					case Moderate:
+						this.colorControls[i].setBackgroundColor(Color.YELLOW);
+						break;
+					case Heavy:
+					case StopAndGo:
+						this.colorControls[i].setBackgroundColor(Color.RED);
+						break;
+					case Closed:
+						this.colorControls[i].setBackgroundColor(Color.DKGRAY);
+						break;
+					case Unknown:
+						break;
+					default:
+						break;
 				}
 			}
 		}
