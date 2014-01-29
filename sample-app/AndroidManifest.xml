@@ -94,6 +94,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="android.support.v4.app.FragmentActivity" />
         </activity>
+        
+        <activity android:name="com.inrix.sample.activity.GeocodingActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@android:style/Theme.Holo"/>
 
         <service
             android:name="com.inrix.support.SendMockLocationService"

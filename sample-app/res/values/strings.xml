@@ -25,6 +25,19 @@
     <string name="title_activity_incident_list">IncidentListActivity</string>
     <string name="title_activity_incident_alerts">Incident Alerts Sample</string>
     <string name="title_activity_travel_time">TravelTimeActivity</string>
+    <string name="tab_title_geocoding_on_map">Map</string>
+    <string name="tab_title_geocoding_reverse">Reverse geocoding</string>
+    <string name="geocode_enter_address">Enter Address:</string>
+    <string name="geocode_default_address">USA Seattle</string>
+    <string name="geocode_reverse_geocode">Reverse Geocode</string>
+    <string name="geocode_status_geocoder_error">Geocoder Error</string>
+    <string name="geocode_status_network_error">Network Error</string>
+    <string name="geocode_status_no_address_found">No Address Found</string>
+    <string name="geocode_status_in_progress">In Progress...</string>
+    <string name="geocode_max_results">Max Results:&#160;</string>
+    <string name="geocode_result_latitude">Lat:&#160;</string>
+    <string name="geocode_result_longitude">Lng:&#160;</string>
+    <string name="geocode_results">Result:\n</string>
     <string name="hello_world">Hello world!</string>
 
 </resources>

@@ -43,6 +43,11 @@ public final class SampleAppDetailsList {
 			// Route on map
 			new SampleAppDetails(R.string.sample_route_on_map,
 					R.string.sample_route_on_map_description,
-					RouteOnMapActivity.class) };
+					RouteOnMapActivity.class),
+
+			// Geocoding and reverse geocoding
+			new SampleAppDetails(R.string.sample_geocoding,
+					R.string.sample_geocoding_description,
+					GeocodingActivity.class) };
 
 }

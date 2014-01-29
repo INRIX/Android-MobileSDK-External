@@ -55,15 +55,7 @@ public class IncidentAlertsActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_alerts);
-		//hack the location for now.
-		Location location = new Location("");
-		location.setLatitude(SEATTLE_POSITION.getLatitude());
-		location.setLongitude(SEATTLE_POSITION.getLongitude());
-		location.setBearing(113);
-		GeolocationController.getInstance().onGeolocationChange(location);
-		
-		Inrix.initialize(this, "inrixconfig.properties");
-		//Inrix.initialize(this);
+		Inrix.initialize(this);
 		this.timestamp = (TextView) findViewById(R.id.timestamp);
 		this.progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 		ActionBar actionBar = getActionBar();

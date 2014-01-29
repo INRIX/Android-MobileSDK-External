@@ -18,5 +18,7 @@
     <string name="sample_route_on_map">Route On Map</string>
     <string name="sample_route_on_map_description">Route On Map Sample</string>
     <string name="sample_travel_times_loading">Loading Route...</string>
+    <string name="sample_geocoding">Geocoding And Reverse Geocoding Sample</string>
+    <string name="sample_geocoding_description">Transforms an address into a coordinate and vice versa</string>
 
 </resources>
