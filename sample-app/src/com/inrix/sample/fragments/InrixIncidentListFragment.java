@@ -6,15 +6,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import com.inrix.sample.IncidentComparator;
-import com.inrix.sample.Place;
-import com.inrix.sample.R;
-import com.inrix.sample.Place.PlaceType;
-import com.inrix.sdk.IncidentUtils;
-import com.inrix.sdk.IncidentsManager;
-import com.inrix.sdk.model.Incident;
-import com.inrix.sdk.model.Route;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -24,11 +15,19 @@ import android.text.style.TextAppearanceSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AbsListView.LayoutParams;
+
+import com.inrix.sample.Place;
+import com.inrix.sample.Place.PlaceType;
+import com.inrix.sample.R;
+import com.inrix.sdk.IncidentUtils;
+import com.inrix.sdk.IncidentsManager;
+import com.inrix.sdk.model.Incident;
+import com.inrix.sdk.model.Route;
 
 /**
  * The Class InrixIncidentListFragment.
@@ -193,7 +192,7 @@ public class InrixIncidentListFragment extends ListFragment {
 			}
 		}
 
-		Collections.sort(incidents, new IncidentComparator());
+		Collections.sort(incidents, IncidentUtils.getDefaultComparator());
 		adapter.setList(incidents);
 	}
 

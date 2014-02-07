@@ -38,8 +38,7 @@ import com.inrix.sdk.model.GeoPoint;
 import com.inrix.sdk.model.Incident;
 
 public class IncidentAlertsActivity extends FragmentActivity implements
-		IIncidentsAlertListener,
-		TabListener {
+		IIncidentsAlertListener, TabListener {
 	static final int ALERT_INTERVAL = 15;
 	private final GeoPoint SEATTLE_POSITION = new GeoPoint(47.614496,
 			-122.328758);
@@ -50,7 +49,6 @@ public class IncidentAlertsActivity extends FragmentActivity implements
 	private ViewPager viewPager;
 	private TabsAdapter tabsAdapter;
 
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -78,28 +76,21 @@ public class IncidentAlertsActivity extends FragmentActivity implements
 		AlertsManager alertManager = new AlertsManager();
 		progressBar.setVisibility(View.VISIBLE);
 		timestamp.setText("Loading...");
-		
-		/*over ride location provider*/
-//		Location location = new Location("");
-//		location.setLatitude(SEATTLE_POSITION.getLatitude());
-//		location.setLongitude(SEATTLE_POSITION.getLongitude());
-//		location.setBearing(5f);
-//		GeolocationController.getInstance().setLocationSource(null);
-//		GeolocationController.getInstance().onGeolocationChange(location);
-		/*over ride location provider*/
-		
-		IncidentAlertOptions alertOptions = new IncidentAlertOptions(alertManager
-				.getRefreshInterval(AlertsManager.ACTIONS.SMART_ALERT),
-				new IFilter<Incident>() {
 
-			@Override
-			public boolean isItemAllowed(Incident item) {
-				return true;
-			}
-		});
+		/* over ride location provider */
+		// Location location = new Location("");
+		// location.setLatitude(SEATTLE_POSITION.getLatitude());
+		// location.setLongitude(SEATTLE_POSITION.getLongitude());
+		// location.setBearing(5f);
+		// GeolocationController.getInstance().setLocationSource(null);
+		// GeolocationController.getInstance().onGeolocationChange(location);
+		/* over ride location provider */
+
+		IncidentAlertOptions alertOptions = new IncidentAlertOptions(alertManager
+				.getRefreshInterval(AlertsManager.ACTIONS.SMART_ALERT));
 		alertOptions.setSpeedFactor(1f);
 		alertOptions.setForwardConeAngle(120f);
-		alert = alertManager.createIncidentAlert( this,alertOptions );
+		alert = alertManager.createIncidentAlert(this, alertOptions);
 	}
 
 	@Override
