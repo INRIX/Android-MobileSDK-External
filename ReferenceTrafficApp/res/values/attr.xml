@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<declare-styleable name="RobotoTextView">
+        <attr name="robotoFont" format="enum">
+            <enum name="lite" value="0" />
+            <enum name="thin" value="1" />
+            <enum name="condensed" value="2" />
+            <enum name="medium" value="3" />
+            <enum name="black" value="4" />
+            <enum name="bold_condensed" value="5" />
+            <enum name="light_italic" value="6" />
+        </attr>
+        <attr name="shrink_to_fit" format="boolean" />
+        <attr name="minimize_width" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="CardView">
+        <attr name="cardStyle" format="reference" />
+        <attr name="cardThumbnailStyle" format="reference" />
+        <attr name="cardTitleStyle" format="reference" />
+        <attr name="cardSubtitleStyle" format="reference" />
+        <attr name="cardIconStyle" format="reference" />
+        <attr name="cardChevronStyle" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="AboutCard">
+        <attr name="text" format="reference" />
+    </declare-styleable>
+</resources>

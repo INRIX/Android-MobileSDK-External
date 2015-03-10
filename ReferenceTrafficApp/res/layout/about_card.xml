@@ -1,0 +1,37 @@
+<com.inrix.reference.trafficapp.view.ShadowLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/location_bar_background_color"
+    android:paddingBottom="@dimen/about_card_shadow_height"
+    android:paddingRight="@dimen/about_card_shadow_width" >
+
+    <RelativeLayout
+        style="@style/Card"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false" >
+
+        <com.inrix.reference.trafficapp.view.RobotoTextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/about_card_text_margin_vertical"
+            android:layout_marginLeft="@dimen/about_card_text_margin_horizontal"
+            android:layout_marginRight="@dimen/about_card_text_margin_horizontal"
+            android:layout_marginTop="@dimen/about_card_text_margin_vertical"
+            android:textColor="#303030"
+            android:textSize="@dimen/about_card_text_size" />
+
+        <View
+            android:id="@+id/chevron"
+            style="@style/CardChevron"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/card_chevron"
+            android:translationX="@dimen/card_padding_left"
+            android:translationY="@dimen/card_padding_left" />
+    </RelativeLayout>
+
+</com.inrix.reference.trafficapp.view.ShadowLayout>

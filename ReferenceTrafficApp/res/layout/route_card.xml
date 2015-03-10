@@ -1,0 +1,62 @@
+<com.inrix.reference.trafficapp.view.ShadowLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/route_card_height"
+    android:background="@color/location_bar_background_color" >
+
+    <RelativeLayout
+        style="@style/Card"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/route_list_item_delimeter_height"
+        android:layout_marginLeft="@dimen/route_card_side_space"
+        android:layout_marginRight="@dimen/route_card_side_space"
+        android:layout_marginTop="@dimen/route_list_item_delimeter_height"
+        android:background="@color/card_background_color"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingBottom="0dp"
+        android:paddingTop="0dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical" >
+
+            <com.inrix.reference.trafficapp.view.RobotoTextView
+                android:id="@+id/eta_traveltime"
+                style="@style/CardTitle.Route"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.inrix.reference.trafficapp.view.RobotoTextView
+                android:id="@+id/route_desc"
+                style="@style/CardSubtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/news_description_horizontal_margin"
+                android:layout_marginRight="@dimen/news_description_horizontal_margin"
+                android:paddingBottom="@dimen/route_desc_padding_bottom"
+                android:textSize="@dimen/route_desc_font_size"
+                app:robotoFont="condensed" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/loading_control"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="@dimen/places_loading_progress_dimen"
+            android:layout_height="@dimen/places_loading_progress_dimen"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/chevron"
+            style="@style/CardChevron"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:translationY="@dimen/route_list_item_delimeter_height" />
+    </RelativeLayout>
+
+</com.inrix.reference.trafficapp.view.ShadowLayout>

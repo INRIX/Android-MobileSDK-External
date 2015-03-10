@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="horizontal" >
+
+    <Space
+        android:layout_width="0dip"
+        android:layout_height="0dip"
+        android:layout_weight="@integer/incident_details_space_weight" />
+
+    <RelativeLayout
+        android:layout_width="0dip"
+        android:layout_height="match_parent"
+        android:layout_weight="@integer/incident_details_content_weight" >
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/incident_details_content_height"
+            android:background="@color/incident_details_content_background" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/incident_details_content_shadow_height"
+            android:layout_below="@+id/viewPager"
+            android:background="@drawable/gradient_down" />
+
+        <include layout="@layout/incidents_details_button_bar" />
+    </RelativeLayout>
+
+</LinearLayout>

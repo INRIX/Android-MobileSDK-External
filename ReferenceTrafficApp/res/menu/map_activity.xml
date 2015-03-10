@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- refresh button in action bar -->
+    <item android:id="@+id/action_refresh"
+          android:icon="@drawable/map_refresh"
+          android:title="@string/refresh" 
+          android:showAsAction="always" />
+    <item android:id="@+id/action_drive_time_warnings"
+          android:title="@string/drive_time_warnings_menu_on"
+          android:showAsAction="collapseActionView" /> 
+</menu>

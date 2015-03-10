@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Incident Details Custom Action Bar (Context mode) -->
+    <dimen name="incident_details_cab_inset_top">-1dp</dimen>
+    <dimen name="incident_details_cab_inset_bottom">0dp</dimen>
+    <dimen name="incident_details_cab_inset_left">-1dp</dimen>
+    <dimen name="incident_details_cab_inset_right">-1dp</dimen>
+    <dimen name="incident_details_cab_accent_height">1dp</dimen>
+    <dimen name="dtw_incident_details_cab_text_size">25sp</dimen>
+
+    <!-- Main container -->
+    <dimen name="incident_details_content_height">200dp</dimen>
+    <dimen name="dtw_incident_details_content_height">200dp</dimen>
+    <dimen name="incident_details_content_shadow_height">15dp</dimen>
+    <dimen name="incident_details_content_padding_bottom">12dip</dimen>
+    <dimen name="incident_details_content_padding_right">8dip</dimen>
+    <dimen name="incident_details_content_padding_left">8dip</dimen>
+    <dimen name="incident_details_content_padding_top">12dip</dimen>
+    
+    <!-- Left / right indicators -->
+    <dimen name="incident_details_left_indicator_width">9dp</dimen>
+    <dimen name="incident_details_left_indicator_height">9dp</dimen>
+    <dimen name="incident_details_right_indicator_width">9dp</dimen>
+    <dimen name="incident_details_right_indicator_height">9dp</dimen>
+
+    <!-- Action buttons container -->
+    <dimen name="incident_details_buttons_margin_top">0dp</dimen>
+    <dimen name="incident_details_buttons_margin_bottom">15dp</dimen>
+    <dimen name="incident_details_buttons_margin_left">12dp</dimen>
+    <dimen name="incident_details_buttons_margin_right">12dp</dimen>
+    <dimen name="incident_details_buttons_separator_width">10dp</dimen>
+    <dimen name="dtw_incident_details_buttons_margin_top">15dp</dimen>
+    <dimen name="dtw_incident_details_buttons_margin_bottom">15dp</dimen>
+
+    <!-- Action buttons -->
+    <dimen name="incident_detail_button_text_size">20sp</dimen>
+    <dimen name="incident_detail_button_padding">16dp</dimen>
+    
+    <!-- Reported time / distance controls -->
+    <dimen name="incident_details_reported_time_text_size">24sp</dimen>
+    <dimen name="incident_details_distance_text_size">24sp</dimen>
+    <dimen name="dtw_incident_details_reported_time_text_size">34sp</dimen>
+    <dimen name="dtw_incident_details_distance_text_size">34sp</dimen>
+    
+    <!-- Description -->
+    <dimen name="incident_details_description_text_size">20sp</dimen>
+    <dimen name="incident_details_description_margin_left">0dp</dimen>
+    <dimen name="incident_details_description_margin_top">0dp</dimen>
+    <dimen name="incident_details_description_margin_right">5dp</dimen>
+    <dimen name="incident_details_description_margin_bottom">0dp</dimen>
+    
+    <!-- DTW description -->
+    <dimen name="dtw_incident_details_description_margin_left">16dp</dimen>
+    <dimen name="dtw_incident_details_description_margin_top">25dp</dimen>
+    <dimen name="dtw_incident_details_description_margin_right">16dp</dimen>
+    
+    <!-- Incident icon -->
+    <dimen name="incident_details_icon_width">64dp</dimen>
+    <dimen name="incident_details_icon_height">64dp</dimen>
+
+</resources>

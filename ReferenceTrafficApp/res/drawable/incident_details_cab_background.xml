@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:insetBottom="@dimen/incident_details_cab_inset_bottom"
+    android:insetLeft="@dimen/incident_details_cab_inset_left"
+    android:insetRight="@dimen/incident_details_cab_inset_right"
+    android:insetTop="@dimen/incident_details_cab_inset_top" >
+
+    <shape>
+        <solid android:color="@color/incident_details_cab_background" />
+
+        <stroke
+            android:width="@dimen/incident_details_cab_accent_height"
+            android:color="@color/incident_details_cab_accent_background" />
+    </shape>
+
+</inset>

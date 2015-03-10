@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="sample_incidents_basic_tile">Incidents Basic</string>
+    <string name="sample_incidents_basic_description">Gets incidents around a radius</string>
+    <string name="sample_busy_commuter_tile">Busy Commuter</string>
+    <string name="sample_busy_commuter_description">Routes and Incidents for multiple cities</string>
+    <string name="sample_gas_stations">Gas Stations</string>
+    <string name="sample_gas_stations_description">Get gas stations around a radius</string>
+    <string name="sample_parking">Parking Facilities</string>
+    <string name="sample_parking_description">Get parking facilities around a radius</string>
+    <string name="sample_alerts">Incident Alerts</string>
+    <string name="sample_alerts_description">Sample Incident Alerts</string>
+    <string name="sample_traffic_tiles">Traffic Tiles</string>
+    <string name="sample_traffic_tiles_description">Traffic Tiles Sample</string>
+    <string name="sample_travel_times">Travel Times</string>
+    <string name="sample_travel_times_sync">Travel Times Sync</string>  
+    <string name="sample_travel_times_description">Travel Times Sample</string>
+    <string name="sample_route_on_map">Route On Map</string>
+    <string name="sample_route_on_map_description">Route On Map Sample</string>
+    <string name="sample_travel_times_loading">Loading Route...</string>
+    <string name="sample_geocoding">Geocoding And Reverse Geocoding Sample</string>
+    <string name="sample_geocoding_description">Transforms an address into a coordinate and vice versa</string>
+    <string name="sample_report_incident">Incident Reporting</string>
+    <string name="sample_report_incident_description">Managing incidents - reporting, confirming, and deleting incidents.</string>
+    <string name="sample_service_availability">Service Availability</string>
+    <string name="sample_service_availability_description">Get service availability for a specific location</string>
+
+</resources>

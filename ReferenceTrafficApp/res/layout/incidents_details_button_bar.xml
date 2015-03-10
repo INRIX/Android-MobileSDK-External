@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/buttonBar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_marginBottom="@dimen/incident_details_buttons_margin_bottom"
+    android:layout_marginLeft="@dimen/incident_details_buttons_margin_left"
+    android:layout_marginRight="@dimen/incident_details_buttons_margin_right"
+    android:layout_marginTop="@dimen/incident_details_buttons_margin_top"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/confirmButton"
+            style="@style/IncidentsDetailsButtonBarButtonStyle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/buttonSeparator"
+            android:text="@string/confirm"
+            android:visibility="gone" />
+
+        <Space
+            android:id="@+id/buttonSeparator"
+            android:layout_width="@dimen/incident_details_buttons_separator_width"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:id="@+id/allClearButton"
+            style="@style/IncidentsDetailsButtonBarButtonStyle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/buttonSeparator"
+            android:text="@string/all_clear"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/deleteButton"
+            style="@style/IncidentsDetailsButtonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/delete"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <com.inrix.reference.trafficapp.view.SpinnerButton
+        android:id="@+id/dismissButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dtw_incident_details_button_selector"
+        android:text="@string/dismiss"
+        android:visibility="gone" />
+
+</LinearLayout>

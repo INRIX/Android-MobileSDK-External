@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="ContentDescription" severity="ignore" />
+    <issue id="DuplicateIncludedIds">
+        <ignore path="res/layout-land/intro_section.xml" />
+        <ignore path="res/layout/intro_section.xml" />
+    </issue>
+    <issue id="IconDensities" severity="ignore" />
+    <issue id="IconDuplicates" severity="ignore">
+        <ignore path="res/drawable-hdpi/horizontal_items_selector_item_background_selected.9.png" />
+    </issue>
+    <issue id="IconMissingDensityFolder" severity="ignore" />
+    <issue id="MissingTranslation" severity="ignore">
+        <ignore path="res/values/app.xml" />
+        <ignore path="res/values/array.xml" />
+        <ignore path="res/values/content_descriptions.xml" />
+        <ignore path="res/values/debug_strings.xml" />
+        <ignore path="res/values/dialog_strings.xml" />
+        <ignore path="res/values/flurry_events.xml" />
+        <ignore path="res/values/map_keys.xml" />
+    </issue>
+    <issue id="OnClick">
+        <ignore path="res/layout-land/content_create_account.xml" />
+        <ignore path="res/layout-land/content_report_incident_activity.xml" />
+    </issue>
+    <issue id="Overdraw" severity="ignore">
+        <ignore path="res/layout-land/content_report_incident_activity.xml" />
+        <ignore path="res/layout-land/dialog_report_road_side.xml" />
+        <ignore path="res/layout/app_bar_bottom_gradient.xml" />
+        <ignore path="res/layout/auth_reminder.xml" />
+        <ignore path="res/layout/auth_reminder_full_screen.xml" />
+        <ignore path="res/layout/content_edit_text.xml" />
+        <ignore path="res/layout/content_report_incident_activity.xml" />
+        <ignore path="res/layout/content_set_favorite.xml" />
+        <ignore path="res/layout/dialog.xml" />
+        <ignore path="res/layout/dialog_add_place.xml" />
+        <ignore path="res/layout/dialog_password_recovery.xml" />
+        <ignore path="res/layout/dialog_report_road_side.xml" />
+        <ignore path="res/layout/edit_bar.xml" />
+        <ignore path="res/layout/forecast_bar.xml" />
+        <ignore path="res/layout/geocoding_call_out.xml" />
+        <ignore path="res/layout/popup_layout_map.xml" />
+        <ignore path="res/layout/popup_layout_places.xml" />
+        <ignore path="res/layout/popup_layout_profile.xml" />
+        <ignore path="res/layout/segmented_control_element.xml" />
+        <ignore path="res/layout/view_address_input.xml" />
+        <ignore path="res/layout/view_search_textbox.xml" />
+        <ignore path="res/layout/view_traffic_index.xml" />
+    </issue>
+    <issue id="Registered" severity="ignore" />
+    <issue id="TypographyDashes" severity="ignore">
+        <ignore path="res/values-de/strings.xml" />
+        <ignore path="res/values-en-rGB/strings.xml" />
+        <ignore path="res/values-es/strings.xml" />
+        <ignore path="res/values-fr/strings.xml" />
+        <ignore path="res/values-hu/strings.xml" />
+        <ignore path="res/values-it/strings.xml" />
+        <ignore path="res/values-nl/strings.xml" />
+        <ignore path="res/values-zh-rCN/strings.xml" />
+        <ignore path="res/values/strings.xml" />
+    </issue>
+    <issue id="TypographyEllipsis" severity="ignore">
+        <ignore path="res/values-de/strings.xml" />
+        <ignore path="res/values-es/strings.xml" />
+        <ignore path="res/values-fr/strings.xml" />
+        <ignore path="res/values-hu/strings.xml" />
+        <ignore path="res/values-it/strings.xml" />
+        <ignore path="res/values-nl/strings.xml" />
+        <ignore path="res/values-pt-rBR/strings.xml" />
+        <ignore path="res/values-hu/strings.xml" />
+        <ignore path="res/values-pt-rBR/strings.xml" />
+        <ignore path="res/values-pt/strings.xml" />
+    </issue>
+    <issue id="UnusedResources" severity="ignore">
+        <ignore path="res/values/array.xml" />
+        <ignore path="res/values/debug_strings.xml" />
+    </issue>
+    <issue id="UseCompoundDrawables">
+        <ignore path="res/layout/activity_incident_management.xml" />
+    </issue>
+</lint>

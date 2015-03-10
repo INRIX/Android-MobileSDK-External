@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <dimen name="about_card_shadow_width">1dp</dimen>
+    <dimen name="about_card_shadow_height">1dp</dimen>
+    <dimen name="about_card_bottom_margin_big">20dp</dimen>
+    
+    <dimen name="about_fragment_padding_horizontal">10dp</dimen>
+    <dimen name="about_fragment_padding_vertical">10dp</dimen>
+    
+    <dimen name="about_card_text_margin_horizontal">10dp</dimen>
+    <dimen name="about_card_text_margin_vertical">15dp</dimen>
+    <dimen name="about_card_text_size">16sp</dimen>
+    <dimen name="about_text_padding_vertical">5dp</dimen>
+    
+    <dimen name="about_copyright_padding_left">10dp</dimen>
+    <dimen name="about_copyright_text_size">14sp</dimen>
+    
+    <dimen name="about_title_card_padding">10dp</dimen>
+    <dimen name="about_logo_margin_right">10dp</dimen>
+    <dimen name="about_version_text_size">20sp</dimen>
+    <dimen name="about_powered_by_text_size">22sp</dimen>
+
+</resources>

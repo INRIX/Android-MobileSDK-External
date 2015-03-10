@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="incident_button_background_color">#FFFFFF</color>
+    <color name="incident_button_background_selected">#C0C0C0</color>
+    <color name="incident_button_background_pressed">#ACACAC</color>
+
+    <color name="incident_details_background">#F9FFFFFF</color>
+</resources>

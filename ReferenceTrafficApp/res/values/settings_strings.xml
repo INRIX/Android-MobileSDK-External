@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <string name="drive_time_warnings_settings_summary">Drive time warnings</string>
+        <string name="drive_time_warnings_menu_on">Turn alerts on</string>
+        <string name="drive_time_warnings_menu_off">Turn alerts off</string>
+</resources>

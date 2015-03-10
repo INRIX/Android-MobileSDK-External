@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="report_incident_type_text_size">18sp</dimen>
+    <dimen name="report_incident_title_text_size">24sp</dimen>
+    <dimen name="report_incident_info_text_size">20sp</dimen>
+    <dimen name="report_incident_title_padding">10dp</dimen>
+    <dimen name="report_incident_type_row_padding">6dp</dimen>
+
+    <dimen name="report_incident_dismiss_button_margin">45dp</dimen>
+    <dimen name="report_incident_dismiss_button_partial_margin">15dp</dimen>
+    <dimen name="report_incident_dismiss_button_bottom_margin">12dp</dimen>
+    
+    <dimen name="report_incident_layout_padding">30dp</dimen>
+    <dimen name="report_incident_type_logo_padding">5dp</dimen>
+    
+    <dimen name="report_info_layout_padding_left">15dp</dimen>
+    <dimen name="report_info_layout_padding_top">20dp</dimen>
+    
+    <dimen name="button_padding">10dp</dimen>
+    <dimen name="button_text_size">24sp</dimen>
+</resources>

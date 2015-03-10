@@ -1,0 +1,15 @@
+<resources>
+
+    <!-- List -->
+    <dimen name="news_cards_list_separator_height">12dp</dimen>
+    <dimen name="news_cards_list_padding">12dp</dimen>
+
+    <!-- Item -->
+    <dimen name="news_title_vertical_margin">2dp</dimen>
+    <dimen name="news_title_horizontal_margin">9dp</dimen>
+    <dimen name="news_description_vertical_margin">2dp</dimen>
+    <dimen name="news_description_horizontal_margin">9dp</dimen>
+    <dimen name="news_pubdate_vertical_margin">3dp</dimen>
+    <dimen name="news_pubdate_horizontal_margin">5dp</dimen>
+
+</resources>

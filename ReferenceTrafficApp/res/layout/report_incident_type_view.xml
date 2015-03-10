@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.inrix.reference.trafficapp.view.RobotoTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:gravity="center_horizontal"
+    android:textColor="@android:color/black"
+    android:textSize="@dimen/report_incident_type_text_size" >
+
+</com.inrix.reference.trafficapp.view.RobotoTextView>

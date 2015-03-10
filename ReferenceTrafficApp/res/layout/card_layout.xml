@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" >
+
+    <RelativeLayout
+        style="?attr/cardStyle"
+        android:clipChildren="false"
+        android:clipToPadding="false" >
+
+        <ImageView
+            android:id="@+id/thumbnail"
+            style="?attr/cardThumbnailStyle"
+            android:layout_alignParentLeft="true"
+            android:contentDescription="@null"
+            android:cropToPadding="true" />
+
+        <com.inrix.reference.trafficapp.view.RobotoTextView
+            android:id="@+id/title"
+            style="?attr/cardTitleStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/icon"
+            android:layout_toRightOf="@+id/thumbnail"
+            android:ellipsize="end"
+            android:includeFontPadding="false" />
+
+        <com.inrix.reference.trafficapp.view.RobotoTextView
+            android:id="@+id/subtitle"
+            style="?attr/cardSubtitleStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/icon"
+            android:layout_toRightOf="@+id/thumbnail" />
+
+        <ImageView
+            android:id="@+id/icon"
+            style="?attr/cardIconStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@null"
+            android:src="@drawable/audio_mrss" />
+
+        <View
+            style="?attr/cardChevronStyle"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+
+</merge>

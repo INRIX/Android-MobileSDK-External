@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- Those values were added for test. TODO: insert correct values -->
+    <color name="route_flow_free">#CC7CB500</color>
+    <color name="route_flow_moderate">#CCFF7300</color>
+    <color name="route_flow_heavy">#CCA50000</color>
+    <color name="traffic_status_background">#CC838383</color>
+
+</resources>

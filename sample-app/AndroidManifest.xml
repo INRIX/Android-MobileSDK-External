@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.inrix.sample"
+    android:versionCode="1"
+    android:versionName="3.0" >
+
+ 	 <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
+
+    <uses-sdk
+        android:minSdkVersion="11"
+        android:targetSdkVersion="19" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.inrix.sample.activity.BusyCommuterActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/demo_activity"
+            android:theme="@android:style/Theme.Holo" >
+        </activity>
+        <activity
+            android:name="com.inrix.sample.activity.SampleAppsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/demo_activity"
+            android:theme="@android:style/Theme.Holo" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.inrix.sample.activity.IncidentListActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/title_activity_incident_list"
+            android:theme="@android:style/Theme.Holo" >
+        </activity>
+        <activity
+            android:name="com.inrix.sample.activity.IncidentAlertsActivity"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/title_activity_incident_alerts"
+            android:theme="@android:style/Theme.Holo" >
+        </activity>
+        <activity
+            android:name="com.inrix.sample.activity.GasStationsListActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@android:style/Theme.Holo" >
+        </activity>
+        <activity
+            android:name="com.inrix.sample.activity.ParkingListActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@android:style/Theme.Holo" >
+        </activity>
+        <activity
+            android:name="com.inrix.sample.activity.TrafficTilesActivity"
+            android:theme="@android:style/Theme.Holo" >
+        </activity>
+        <activity
+            android:name="com.inrix.sample.activity.RouteOnMapActivity"
+            android:theme="@android:style/Theme.Holo" >
+        </activity>
+        <activity
+            android:name="com.inrix.sample.activity.IncidentManagementActivity"
+            android:label="@string/incident_report_activity_title"
+            android:theme="@android:style/Theme.Holo" >
+        </activity>
+
+        <activity
+            android:name="com.inrix.sample.activity.IncidentDetailsActivity"
+            android:label="@string/incident_details"
+            android:theme="@android:style/Theme.Holo" >
+        </activity>
+        
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="INSERT-MAP-KEY-HERE" />
+
+        <activity
+            android:name="com.inrix.sample.activity.TravelTimesActivity"
+            android:label="@string/title_activity_travel_time"
+            android:parentActivityName="android.support.v4.app.FragmentActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="android.support.v4.app.FragmentActivity" />
+        </activity>
+        
+           <activity
+            android:name="com.inrix.sample.activity.TravelTimesSyncActivity"
+            android:label="@string/title_activity_travel_time"
+            android:parentActivityName="android.support.v4.app.FragmentActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="android.support.v4.app.FragmentActivity" />
+        </activity>
+        <activity
+            android:name="com.inrix.sample.activity.GeocodingActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@android:style/Theme.Holo" />
+        <activity
+            android:name="com.inrix.sample.activity.ServiceAvailabilityActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@android:style/Theme.Holo" />
+
+        <service
+            android:name="com.inrix.support.SendMockLocationService"
+            android:enabled="true"
+            android:exported="true"
+            android:icon="@drawable/ic_launcher" >
+        </service>
+        <service
+            android:name="com.inrix.sdk.activityrecognition.ActivityRecognitionIntentService"
+            android:exported="false"
+            android:label="@string/app_name" >
+        </service>
+    </application>
+
+</manifest>
