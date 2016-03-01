@@ -1,6 +1,0 @@
-<resources>
-    <item name="ads_unit_id" type="string">INSERT-ADS-UNIT-ID</item>
-    <string-array name="ads_test_devices">
-        <item>E2F2086E37A9F73E0F2418A069A6BB31</item>
-    </string-array>
-</resources>

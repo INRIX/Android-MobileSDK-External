@@ -35,11 +35,11 @@ import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
-import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
-import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 
 /**
  * A Service that injects test Location objects into the Location Services
@@ -50,7 +50,8 @@ import com.google.android.gms.location.LocationClient;
  * class MockLocationConstants.java, then call this Service with startService().
  */
 public class SendMockLocationService extends Service implements
-		ConnectionCallbacks, OnConnectionFailedListener {
+		GoogleApiClient.ConnectionCallbacks,
+		GoogleApiClient.OnConnectionFailedListener {
 
 	/**
 	 * Convenience class for passing test parameters from the Intent received in
@@ -73,14 +74,13 @@ public class SendMockLocationService extends Service implements
 	}
 
 	// Object that connects the app to Location Services
-	LocationClient mLocationClient;
+	GoogleApiClient mLocationClient;
 
 	// A background thread for the work tasks
 	HandlerThread mWorkThread;
 
 	// Indicates if the test run has started
 	private boolean mTestStarted;
-
 	/*
 	 * Stores an instance of the local broadcast manager. A local broadcast
 	 * manager ensures security, because broadcast intents are limited to the
@@ -153,7 +153,7 @@ public class SendMockLocationService extends Service implements
 
 			boolean testOnce = false;
 			// Create a new Location to inject into Location Services
-			Location mockLocation = new Location(LocationUtils.LOCATION_PROVIDER);
+			Location mockLocation = new Location("mock");
 
 			// Time values to put into the mock Location
 			long elapsedTimeNanos;
@@ -179,7 +179,7 @@ public class SendMockLocationService extends Service implements
 				mTestStarted = true;
 
 				// Start mock location mode in Location Services
-				mLocationClient.setMockMode(true);
+				LocationServices.FusedLocationApi.setMockMode(mLocationClient, true);
 
 				// Remove the notification that testing is started
 				removeNotification();
@@ -212,6 +212,9 @@ public class SendMockLocationService extends Service implements
 				 */
 				do {
 					for (int index = 0; index < mLocationArray.length; index++) {
+						if (!mTestStarted) {
+							break;
+						}
 						/*
 						 * Set the time values for the test location. Both an
 						 * elapsed system uptime and the current clock time in
@@ -235,7 +238,18 @@ public class SendMockLocationService extends Service implements
 						mockLocation.setSpeed(mLocationArray[index].Speed);
 
 						// Inject the test location into Location Services
-						mLocationClient.setMockLocation(mockLocation);
+						LocationServices.FusedLocationApi.setMockLocation(mLocationClient, mockLocation);
+
+						// Create a new Intent to send back to the main Activity
+						Intent sendIntent = new Intent(LocationUtils.ACTION_SERVICE_MESSAGE);
+						sendIntent.putExtra(LocationUtils.KEY_EXTRA_CODE1,
+								LocationUtils.CODE_CURRENT_LOCATION);
+						sendIntent.putExtra(LocationUtils.KEY_EXTRA_CODE2, 0);
+						sendIntent.putExtra(LocationUtils.KEY_EXTRA_LATITUDE,
+								mLocationArray[index].Latitude);
+						sendIntent.putExtra(LocationUtils.KEY_EXTRA_LONGITUDE,
+								mLocationArray[index].Longitude);
+						mLocalBroadcastManager.sendBroadcast(sendIntent);
 
 						// Wait for the requested update interval, by putting
 						// the thread to sleep
@@ -261,14 +275,14 @@ public class SendMockLocationService extends Service implements
 					 * For a continuous test, testOnce is false, so the "do"
 					 * loop runs indefinitely.
 					 */
-				} while (!testOnce);
+				} while (!testOnce && mTestStarted);
 
 				/*
 				 * Testing is finished.
 				 */
 
 				// Turn mock mode off
-				mLocationClient.setMockMode(false);
+				LocationServices.FusedLocationApi.setMockMode(mLocationClient, false);
 
 				// Flag that testing has stopped
 				mTestStarted = false;
@@ -304,22 +318,6 @@ public class SendMockLocationService extends Service implements
 	 */
 	@Override
 	public void onCreate() {
-
-		try {
-			LocationUtils.initializeRoute(getApplicationContext(),
-					RouteData.seattleredmondtrip);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		/*
-		 * Load the mock location data from MockLocationConstants.java
-		 */
-		mLocationArray = buildTestLocationArray(LocationUtils.WAYPOINTS_LAT,
-				LocationUtils.WAYPOINTS_LNG,
-				LocationUtils.WAYPOINTS_ACCURACY,
-				LocationUtils.WAYPOINTS_BEARING,
-				LocationUtils.WAYPOINTS_SPEED);
 		/*
 		 * Prepare to send status updates back to the main activity. Get a local
 		 * broadcast manager instance; broadcast intents sent via this manager
@@ -381,9 +379,11 @@ public class SendMockLocationService extends Service implements
 		// Get the notification title
 		String contentTitle = this
 				.getString(R.string.notification_title_test_start);
-		
 		Intent notificationIntent = new Intent(Intent.ACTION_MAIN);
-	    PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+		PendingIntent contentIntent = PendingIntent.getActivity(this,
+				0,
+				notificationIntent,
+				0);
 
 		// Add values to the builder
 		builder = new NotificationCompat.Builder(this).setAutoCancel(false)
@@ -436,7 +436,7 @@ public class SendMockLocationService extends Service implements
 		 * If the incoming Intent was a request to run a one-time or continuous
 		 * test
 		 */
-		if ( (TextUtils.equals(mTestRequest, LocationUtils.ACTION_START_ONCE))
+		if ((TextUtils.equals(mTestRequest, LocationUtils.ACTION_START_ONCE))
 				|| (TextUtils.equals(mTestRequest,
 						LocationUtils.ACTION_START_CONTINUOUS))) {
 
@@ -446,12 +446,35 @@ public class SendMockLocationService extends Service implements
 			mInjectionInterval = startIntent
 					.getIntExtra(LocationUtils.EXTRA_SEND_INTERVAL, 1);
 
+			try {
+				final RouteData route = RouteData.fromInteger(startIntent
+						.getIntExtra(LocationUtils.EXTRA_ROUTE, 0));
+				if (route == RouteData.unknown) {
+					Log.w(this.getClass().getSimpleName(),
+							"Invalid route selected");
+					this.stopSelf();
+					return START_NOT_STICKY;
+				}
+				LocationUtils.initializeRoute(getApplicationContext(), route);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			/*
+			 * Load the mock location data from MockLocationConstants.java
+			 */
+			mLocationArray = buildTestLocationArray(LocationUtils.WAYPOINTS_LAT,
+					LocationUtils.WAYPOINTS_LNG,
+					LocationUtils.WAYPOINTS_ACCURACY,
+					LocationUtils.WAYPOINTS_BEARING,
+					LocationUtils.WAYPOINTS_SPEED);
+
 			// Post a notification in the notification bar that a test is
 			// starting
 			postNotification(getString(R.string.notification_content_test_start));
 
 			// Create a location client
-			mLocationClient = new LocationClient(this, this, this);
+			mLocationClient = new GoogleApiClient.Builder(this, this, this).addApi(LocationServices.API).build();
 
 			// Start connecting to Location Services
 			mLocationClient.connect();
@@ -468,13 +491,14 @@ public class SendMockLocationService extends Service implements
 
 			// Stop this Service
 			stopSelf();
+			mTestStarted = false;
 		}
 
 		/*
 		 * Tell the system to keep the Service alive, but to discard the Intent
 		 * that started the Service
 		 */
-		return Service.START_STICKY;
+		return Service.START_REDELIVER_INTENT;
 	}
 
 	/**
@@ -584,18 +608,13 @@ public class SendMockLocationService extends Service implements
 		mUpdateHandler.sendMessage(msg);
 	}
 
-	/*
-	 * If the client becomes disconnected without a call to
-	 * LocationClient.disconnect(), Location Services calls this method. If the
-	 * test didn't finish, send a message to the main Activity.
-	 */
 	@Override
-	public void onDisconnected() {
+	public void onConnectionSuspended(int arg0) {
 		// If testing didn't finish, send an error message
-		if (mTestStarted) {
-			sendBroadcastMessage(LocationUtils.CODE_DISCONNECTED,
-					LocationUtils.CODE_TEST_STOPPED);
-		}
+				if (mTestStarted) {
+					sendBroadcastMessage(LocationUtils.CODE_DISCONNECTED,
+							LocationUtils.CODE_TEST_STOPPED);
+				}
 	}
 
 }

@@ -1,9 +1,0 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- incidents button in action bar -->
-    <item android:id="@+id/action_incidents"
-          android:actionLayout="@layout/incident_menu_layout"
-          android:icon="@drawable/incidents_btn"
-          android:title="@string/edit_button" 
-          android:showAsAction="always|withText" 
-          android:visible="true"/> 
-</menu>

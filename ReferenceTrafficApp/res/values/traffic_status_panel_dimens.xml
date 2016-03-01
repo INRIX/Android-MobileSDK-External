@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <dimen name="traffic_status_panel_padding">10dp</dimen>
-    <dimen name="traffic_status_panel_font_size">20sp</dimen>
-
-</resources>

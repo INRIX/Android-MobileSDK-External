@@ -1,6 +1,13 @@
-package com.inrix.sample.fragments;
+/**
+ * Copyright (c) 2013-2015 INRIX, Inc.
+ * <p/>
+ * INRIX is a registered trademark of INRIX, Inc. Any copyright, patent and trademark notice(s)
+ * contained herein or in related code, files or documentation shall not be altered and shall be
+ * included in all copies and substantial portions of the software. This software is "Sample Code".
+ * Refer to the License.pdf file for your rights to use this software.
+ */
 
-import java.util.List;
+package com.inrix.sample.fragments;
 
 import android.app.Activity;
 import android.location.Location;
@@ -24,105 +31,101 @@ import com.inrix.sdk.model.GeoPoint;
 import com.inrix.sdk.model.Incident;
 import com.squareup.otto.Subscribe;
 
+import java.util.List;
+
 public class IncidentAlertsMapFragment extends SupportMapFragment {
 
-	private GoogleMap map = null;
-	private ClusterManager<MapClusterItem> clusterManager;
-	private Location lastKnownLocation;
+    private GoogleMap map = null;
+    private ClusterManager<MapClusterItem> clusterManager;
+    private Location lastKnownLocation;
 
-	private final GeoPoint SEATTLE_POSITION = new GeoPoint(47.614496,
-			-122.328758);
+    private final GeoPoint SEATTLE_POSITION = new GeoPoint(47.614496, -122.328758);
 
-	@Override
-	public View onCreateView(LayoutInflater inflater,
-			ViewGroup container,
-			Bundle savedInstanceState) {
-		View v = super.onCreateView(inflater, container, savedInstanceState);
-		setUpMapIfNeeded();
-		return v;
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = super.onCreateView(inflater, container, savedInstanceState);
+        setUpMapIfNeeded();
+        return v;
+    }
 
-	private void setUpMapIfNeeded() {
-		if (this.map != null) {
-			return;
-		}
-		this.map = getMap();
-		if (map != null) {
-			map.setMyLocationEnabled(true);
-			map.getUiSettings().setMyLocationButtonEnabled(false);
-			map.getUiSettings().setZoomControlsEnabled(true);
-			map.setOnMyLocationChangeListener(new OnMyLocationChangeListener() {
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        BusProvider.getBus().register(this);
+    }
 
-				@Override
-				public void onMyLocationChange(Location location) {
-					lastKnownLocation = location;
-				}
-			});
+    @Override
+    public void onDetach() {
+        BusProvider.getBus().unregister(this);
+        super.onDetach();
+    }
 
-			map.moveCamera(CameraUpdateFactory
-					.newLatLngZoom(new LatLng(SEATTLE_POSITION.getLatitude(),
-							SEATTLE_POSITION.getLongitude()), 12));
+    private void setUpMapIfNeeded() {
+        if (this.map != null) {
+            return;
+        }
+        this.map = getMap();
+        if (this.map != null) {
+            this.map.setMyLocationEnabled(true);
+            this.map.getUiSettings().setMyLocationButtonEnabled(false);
+            this.map.getUiSettings().setZoomControlsEnabled(true);
+            this.map.setOnMyLocationChangeListener(new OnMyLocationChangeListener() {
 
-			clusterManager = new ClusterManager<MapClusterItem>(getActivity(),
-					map);
-			this.map.setOnCameraChangeListener(clusterManager);
-		}
-	}
+                @Override
+                public void onMyLocationChange(Location location) {
+                    lastKnownLocation = location;
+                }
+            });
 
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		BusProvider.getBus().register(this);
-	}
+            this.map.moveCamera(CameraUpdateFactory.newLatLngZoom(SEATTLE_POSITION.toLatLng(), 12));
 
-	@Override
-	public void onDetach() {
-		BusProvider.getBus().unregister(this);
-		super.onDetach();
-	}
+            this.clusterManager = new ClusterManager<>(getActivity(), this.map);
 
-	@Subscribe
-	public void onIncidentsReceived(IncidentsReceivedEvent incidentsEvent) {
-		setIncidents(null);
+            this.map.setOnCameraChangeListener(this.clusterManager);
+        }
+    }
 
-		setIncidents(incidentsEvent.getIncidents());
-	}
+    @Subscribe
+    public void onIncidentsReceived(IncidentsReceivedEvent incidentsEvent) {
+        setIncidents(incidentsEvent.getIncidents());
+    }
 
-	private void moveMapToCurrentLocation() {
-		Location currentLocation = lastKnownLocation;
+    private void moveMapToCurrentLocation() {
+        Location currentLocation = this.lastKnownLocation;
 
-		if (currentLocation == null) {
-			return;
-		}
-		map.moveCamera(CameraUpdateFactory
-				.newLatLngZoom(new LatLng(currentLocation.getLatitude(),
-						currentLocation.getLongitude()), 10));
-		MarkerOptions markerOptions = new MarkerOptions();
-		LatLng currentMapPosition = new LatLng(currentLocation.getLatitude(),
-				currentLocation.getLongitude());
-		markerOptions.position(currentMapPosition);
-		markerOptions.icon(BitmapDescriptorFactory
-				.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-		markerOptions.flat(true);
-		markerOptions.rotation(currentLocation.getBearing());
-		this.map.addMarker(markerOptions);
-	}
+        if (currentLocation == null) {
+            return;
+        }
+        this.map.moveCamera(CameraUpdateFactory.newLatLngZoom(GeoPoint.fromLocation(currentLocation).toLatLng(), 10));
 
-	public void setIncidents(List<Incident> incidents) {
-		setUpMapIfNeeded();
-		if (this.map == null) {
-			return;
-		}
-		this.map.clear();
-		if (incidents == null) {
-			clusterManager.clearItems();
-			return;
-		}
-		moveMapToCurrentLocation();
-		for (Incident incident : incidents) {
-			clusterManager.addItem(new MapClusterItem(incident.getLatitude(),
-					incident.getLongitude()));
-		}
-		clusterManager.cluster();
-	}
+        MarkerOptions markerOptions = new MarkerOptions();
+        LatLng currentMapPosition = GeoPoint.fromLocation(currentLocation).toLatLng();
+        markerOptions.position(currentMapPosition);
+
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+        markerOptions.flat(true);
+        markerOptions.rotation(currentLocation.getBearing());
+
+        this.map.addMarker(markerOptions);
+    }
+
+    public void setIncidents(List<Incident> incidents) {
+        setUpMapIfNeeded();
+        if (this.map == null) {
+            return;
+        }
+
+        this.map.clear();
+        this.clusterManager.clearItems();
+
+        if (incidents == null) {
+            return;
+        }
+        moveMapToCurrentLocation();
+
+        for (Incident incident : incidents) {
+            this.clusterManager.addItem(new MapClusterItem(incident.getLatitude(), incident.getLongitude()));
+        }
+        this.clusterManager.cluster();
+    }
 }

@@ -67,6 +67,9 @@ public final class LocationUtils {
 
 	public static final String KEY_EXTRA_CODE2 = "com.example.android.mocklocation.KEY_EXTRA_CODE2";
 
+	public static final String KEY_EXTRA_LATITUDE = "com.example.android.mocklocation.KEY_EXTRA_LATITUDE";
+	public static final String KEY_EXTRA_LONGITUDE = "com.example.android.mocklocation.KEY_EXTRA_LONGITUDE";
+
 	/*
 	 * Codes for communicating status back to the main activity
 	 */
@@ -82,6 +85,9 @@ public final class LocationUtils {
 
 	// Report in the broadcast Intent that the test finished
 	public static final int CODE_TEST_FINISHED = 3;
+
+	// Report current location to the client app.
+	public static final int CODE_CURRENT_LOCATION = 4;
 
 	/*
 	 * Report in the broadcast Intent that the activity requested the start to a
@@ -128,6 +134,11 @@ public final class LocationUtils {
 	 * requested interval for mock locations sent to Location Services.
 	 */
 	public static final String EXTRA_SEND_INTERVAL = "com.example.android.mocklocation.EXTRA_SEND_INTERVAL";
+
+	/**
+	 * Key for a selected route to simulate.
+	 */
+	public static final String EXTRA_ROUTE = "com.example.android.mocklocation.EXTRA_ROUTE";
 
 	// public ArrayList<String> mData = null;
 	private static RouteData routefileName = null;
@@ -177,6 +188,9 @@ public final class LocationUtils {
 				routeToFollow = R.raw.trip_to_vet;
 				break;
 			}
+			case seattle_to_carnation:
+				routeToFollow = R.raw.seattle_to_carnation;
+				break;
 			case longtrip:
 			default: {
 				routeToFollow = R.raw.seattletrip;
@@ -184,6 +198,10 @@ public final class LocationUtils {
 			}
 			case seattleredmondtrip: {
 				routeToFollow = R.raw.seattleredmondtrip;
+				break;
+			}
+			case tukwilanorthseattle: {
+				routeToFollow = R.raw.tukwila_northseattle;
 				break;
 			}
 		}

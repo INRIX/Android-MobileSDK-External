@@ -1,41 +1,52 @@
+/**
+ * Copyright (c) 2013-2015 INRIX, Inc.
+ * <p/>
+ * INRIX is a registered trademark of INRIX, Inc. Any copyright, patent and trademark notice(s)
+ * contained herein or in related code, files or documentation shall not be altered and shall be
+ * included in all copies and substantial portions of the software. This software is "Sample Code".
+ * Refer to the License.pdf file for your rights to use this software.
+ */
+
 package com.inrix.sample.activity;
+
+import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 
 import com.inrix.sample.R;
 import com.inrix.sample.activity.IncidentListActivity.TabsAdapter;
 import com.inrix.sample.fragments.GeocodingOnMapFragment;
-import com.inrix.sample.fragments.GeocodingReverseGeocodingFragment;
+import com.inrix.sample.fragments.ReverseGeocodingOnMapFragment;
 
-import android.app.ActionBar;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
+/**
+ * Displays geocoding fragments.
+ */
+public class GeocodingActivity extends AppCompatActivity {
 
-/** Displays geocoding fragments. */
-public class GeocodingActivity extends FragmentActivity {
+    @SuppressWarnings("deprecation")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.geocoding_activity);
 
-	/** Displays geocode fragments. */
-	private ViewPager viewPager;
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
 
-	/** Provides geocode fragments. */
-	private TabsAdapter tabsAdapter;
+        ActionBar actionBar = getSupportActionBar();
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.geocoding_activity);
-		this.viewPager = (ViewPager) findViewById(R.id.pager);
+        if (actionBar != null) {
+            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+            final TabsAdapter tabsAdapter = new TabsAdapter(this, viewPager);
 
-		ActionBar actionBar = getActionBar();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+            tabsAdapter.addTab(actionBar.newTab()
+                            .setText(R.string.tab_title_geocoding_reverse),
+                    ReverseGeocodingOnMapFragment.class,
+                    null);
 
-		this.tabsAdapter = new TabsAdapter(this, this.viewPager);
-		this.tabsAdapter.addTab(actionBar.newTab()
-				.setText(R.string.tab_title_geocoding_on_map),
-				GeocodingOnMapFragment.class,
-				null);
-		this.tabsAdapter.addTab(actionBar.newTab()
-				.setText(R.string.tab_title_geocoding_reverse),
-				GeocodingReverseGeocodingFragment.class,
-				null);
-	}
+            tabsAdapter.addTab(actionBar.newTab()
+                            .setText(R.string.tab_title_geocoding_on_map),
+                    GeocodingOnMapFragment.class,
+                    null);
+        }
+    }
 }

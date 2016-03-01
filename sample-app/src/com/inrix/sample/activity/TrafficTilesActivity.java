@@ -1,10 +1,15 @@
+/**
+ * Copyright (c) 2013-2015 INRIX, Inc.
+ * <p/>
+ * INRIX is a registered trademark of INRIX, Inc. Any copyright, patent and trademark notice(s)
+ * contained herein or in related code, files or documentation shall not be altered and shall be
+ * included in all copies and substantial portions of the software. This software is "Sample Code".
+ * Refer to the License.pdf file for your rights to use this software.
+ */
+
 package com.inrix.sample.activity;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,66 +25,80 @@ import com.inrix.sample.R;
 import com.inrix.sdk.InrixCore;
 import com.inrix.sdk.TileManager;
 
-public class TrafficTilesActivity extends FragmentActivity {
-	private GoogleMap map;
-	private LatLng DEFAULT_LOCATION = new LatLng(47.6204, -122.3491); // The Needle
-	private TileOverlay trafficTileOverlay;
-	private final TileManager tileManager = InrixCore.getTileManager();
+import java.net.MalformedURLException;
+import java.net.URL;
 
-	@Override
-	protected void onCreate(Bundle arg0) {
-		super.onCreate(arg0);
-		setContentView(R.layout.activity_traffic_tiles);
-		InrixCore.initialize(this);
-		this.map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
-		setUpMap();
-	}
+public class TrafficTilesActivity extends InrixSdkActivity {
+    private GoogleMap map;
+    private LatLng DEFAULT_LOCATION_TULSA = new LatLng(36.2151784, -95.888836); // Mohwak peak!
+    private TileOverlay trafficTileOverlay;
+    private TileManager tileManager;
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.traffic_tiles_menu, menu);
-		return true;
-	}
+    @Override
+    protected int getActivityLayoutResource() {
+        return R.layout.activity_traffic_tiles;
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == R.id.refresh) {
-			this.trafficTileOverlay.clearTileCache();
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-	private void setUpMap() {
-		TileOverlayOptions opts = new TileOverlayOptions();
-		opts.tileProvider(new InrixTrafficTileProvider());
-		trafficTileOverlay = this.map.addTileOverlay(opts);
-		this.map.animateCamera(CameraUpdateFactory
-				.newLatLngZoom(DEFAULT_LOCATION, 13));
-	}
+        this.tileManager = InrixCore.getTileManager();
+        this.map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
+        setUpMap();
+    }
 
-	class InrixTrafficTileProvider extends UrlTileProvider {
-		private final TileManager tilesManager;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.traffic_tiles_menu, menu);
+        return true;
+    }
 
-		public InrixTrafficTileProvider() {
-			super(TileManager.TILE_DEFAULT_WIDTH, TileManager.TILE_DEFAULT_HEIGHT);
-			this.tilesManager = InrixCore.getTileManager();
-		}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.refresh) {
+            if (this.trafficTileOverlay != null) {
+                this.trafficTileOverlay.clearTileCache();
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
-		@Override
-		public URL getTileUrl(int x, int y, int zoom) {
-			if (!tileManager.showTrafficTiles(zoom)) {
-				return null;
-			}
+    /**
+     * Set up google map with the tile stuff.
+     */
+    private void setUpMap() {
+        TileOverlayOptions opts = new TileOverlayOptions();
+        opts.tileProvider(new InrixTrafficTileProvider(this.tileManager));
+        this.trafficTileOverlay = this.map.addTileOverlay(opts);
+        this.map.animateCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION_TULSA, 10));
+    }
 
-			URL url = null;
-			try {
-				url = new URL(tilesManager.getTileUrl(x, y, zoom));
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			}
-			return url;
-		}
-	}
+    /**
+     * A wrapper for the url tile provider.
+     */
+    static class InrixTrafficTileProvider extends UrlTileProvider {
+        private final TileManager tileManager;
+
+        public InrixTrafficTileProvider(TileManager tileManager) {
+            super(TileManager.TILE_DEFAULT_WIDTH, TileManager.TILE_DEFAULT_HEIGHT);
+            this.tileManager = tileManager;
+        }
+
+        @Override
+        public URL getTileUrl(int x, int y, int zoom) {
+            if (!this.tileManager.showTrafficTiles(zoom)) {
+                return null;
+            }
+            URL url = null;
+            try {
+                url = new URL(this.tileManager.getTileUrl(x, y, zoom));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            return url;
+        }
+    }
 }

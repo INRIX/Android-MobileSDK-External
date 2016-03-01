@@ -1,9 +1,0 @@
-<resources>
-
-    <color name="drawer_background_color">#FFFFFF</color>
-    <color name="drawer_text_color">#000000</color>
-    <color name="drawer_divider_color">#CCCCCC</color>
-    <color name="drawer_item_pressed_background_color">#EFEFEF</color>
-    <color name="drawer_item_selected_background_color">#E3E3E3</color>
-
-</resources>

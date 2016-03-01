@@ -1,7 +1,13 @@
-package com.inrix.sample.map;
+/**
+ * Copyright (c) 2013-2015 INRIX, Inc.
+ * <p/>
+ * INRIX is a registered trademark of INRIX, Inc. Any copyright, patent and trademark notice(s)
+ * contained herein or in related code, files or documentation shall not be altered and shall be
+ * included in all copies and substantial portions of the software. This software is "Sample Code".
+ * Refer to the License.pdf file for your rights to use this software.
+ */
 
-import java.util.ArrayList;
-import java.util.List;
+package com.inrix.sample.map;
 
 import android.graphics.Rect;
 
@@ -13,39 +19,38 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.inrix.sdk.model.Route;
 import com.inrix.sdk.model.Route.Bucket;
-import com.inrix.sdk.model.RoutesCollection;
 import com.inrix.sdk.utils.GeoUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Polyline-based route overlay. Very simple, but not flexible
- * 
- * @author paveld
- *
+ * Polyline-based route overlay. Very simple, but not flexible.
  */
 public class PolylineRouteOverlay {
 	private GoogleMap map;
-	private ArrayList<Polyline> polylines = new ArrayList<Polyline>();
+	private ArrayList<Polyline> polylines = new ArrayList<>();
 	private Object lock = new Object();
 
 	public PolylineRouteOverlay(GoogleMap map) {
 		this.map = map;
 	}
 
-	public void displayRoute(RoutesCollection routes) {
+	public void displayRoute(List<Route> routes) {
 		synchronized (lock) {
 			this.clear();
-			for (Route route : routes.getRoutes()) {
+			for (Route route : routes) {
 				polylines.addAll(generatePolylines(route));
 			}
 		}
 		zoomMapToRoutes(routes);
 	}
 
-	private void zoomMapToRoutes(RoutesCollection routes) {
-		Rect boxRect = new Rect();
+	private void zoomMapToRoutes(List<Route> routes) {
+		Rect boxRect = null;
 		// calculating bounding box to zoom map accordingly
 
-		for (Route route : routes.getRoutes()) {
+		for (Route route : routes) {
 			if (boxRect == null) {
 				boxRect = new Rect((int) (route.getBoundingBox().getCorner1()
 						.getLongitude() * 1E6),
@@ -74,8 +79,7 @@ public class PolylineRouteOverlay {
 					new LatLng(Math
 							.max(boxRect.bottom / 1E6, boxRect.top / 1E6), Math
 							.max(boxRect.left / 1E6, boxRect.right / 1E6)));
-			this.map.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds,
-					50));
+			this.map.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 50));
 		}
 	}
 
@@ -109,7 +113,7 @@ public class PolylineRouteOverlay {
 
 	/**
 	 * Converts INRIX SpeedBucketId into color in 0xAARRGGBB format
-	 * 
+	 *
 	 * @param speedBucketId
 	 * @return color
 	 */

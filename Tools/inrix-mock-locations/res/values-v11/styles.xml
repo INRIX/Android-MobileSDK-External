@@ -23,5 +23,9 @@
     <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
         <!-- API 11 theme customizations can go here. -->
     </style>
+    
+    <style name="DialogButtonStyle">
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
 
 </resources>

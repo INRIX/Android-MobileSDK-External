@@ -1,10 +1,16 @@
-package com.inrix.sample.activity;
+/**
+ * Copyright (c) 2013-2015 INRIX, Inc.
+ * <p/>
+ * INRIX is a registered trademark of INRIX, Inc. Any copyright, patent and trademark notice(s)
+ * contained herein or in related code, files or documentation shall not be altered and shall be
+ * included in all copies and substantial portions of the software. This software is "Sample Code".
+ * Refer to the License.pdf file for your rights to use this software.
+ */
 
-import java.util.List;
+package com.inrix.sample.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.text.format.DateUtils;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,143 +21,146 @@ import com.inrix.sdk.InrixCore;
 import com.inrix.sdk.RouteManager;
 import com.inrix.sdk.RouteManager.IRouteResponseListener;
 import com.inrix.sdk.RouteManager.ITravelTimeResponseListener;
-import com.inrix.sdk.RouteManager.RouteOptions;
+import com.inrix.sdk.RouteManager.RequestRouteOptions;
 import com.inrix.sdk.RouteManager.TravelTimeOptions;
+import com.inrix.sdk.model.RequestRouteResults;
 import com.inrix.sdk.model.GeoPoint;
 import com.inrix.sdk.model.Route;
-import com.inrix.sdk.model.RoutesCollection;
-import com.inrix.sdk.model.TravelTimeResponse;
-import com.inrix.sdk.model.TripInformation.TravelTime;
+import com.inrix.sdk.model.RouteTravelTime;
+import com.inrix.sdk.model.TravelTime;
 
-public class TravelTimesActivity extends FragmentActivity {
-	private final int ROUTES_TOLERANCE = 24;
-	private final int ROUTES_NUM_ALTERNATES = 0;
+import java.util.List;
 
-	private RouteManager routeManager;
-	private Route route;
+public class TravelTimesActivity extends InrixSdkActivity {
+    private static final int ROUTES_TOLERANCE = 24;
+    private static final int ROUTES_NUM_ALTERNATES = 0;
 
-	private TravelTimeResponse travelTimeResponse;
+    private RouteManager routeManager;
+    private Route route;
 
-	TextView colorControls[];
+    private RouteTravelTime routeTravelTime;
 
-	private static int COLOR_CONTROL_IDS[] = { R.id.route_color1,
-			R.id.route_color2, R.id.route_color3, R.id.route_color4,
-			R.id.route_color5, R.id.route_color6, R.id.route_color7,
-			R.id.route_color8, R.id.route_color9, R.id.route_color10, };
+    TextView colorControls[];
 
-	/**
-	 * onCreate
-	 */
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_travel_times);
+    private static int COLOR_CONTROL_IDS[] = {R.id.route_color1,
+            R.id.route_color2, R.id.route_color3, R.id.route_color4,
+            R.id.route_color5, R.id.route_color6, R.id.route_color7,
+            R.id.route_color8, R.id.route_color9, R.id.route_color10,};
 
-		// Init INRIX
-		InrixCore.initialize(this);
+    @Override
+    protected int getActivityLayoutResource() {
+        return R.layout.activity_travel_times;
+    }
 
-		// Init Controls
-		initColorControls();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		// Request the route
-		GeoPoint START_LOCATION = new GeoPoint(47.602633, -122.336243);
-		GeoPoint END_LOCATION = new GeoPoint(47.616853, -122.193044);
+        // Init Controls
+        initColorControls();
 
-		RouteOptions routeParams = new RouteOptions(START_LOCATION,
-				END_LOCATION);
-		routeParams.setTolerance(ROUTES_TOLERANCE);
-		routeParams.setNumAlternates(ROUTES_NUM_ALTERNATES);
+        // Request the route
+        GeoPoint START_LOCATION = new GeoPoint(47.602633, -122.336243);
+        GeoPoint END_LOCATION = new GeoPoint(47.616853, -122.193044);
 
-		this.routeManager = InrixCore.getRouteManager();
+        RequestRouteOptions routeParams = new RequestRouteOptions(START_LOCATION, END_LOCATION);
 
-		this.routeManager.requestRoutes(routeParams,
-				new IRouteResponseListener() {
+        routeParams.setTolerance(ROUTES_TOLERANCE);
+        routeParams.setNumAlternates(ROUTES_NUM_ALTERNATES);
 
-					@Override
-					public void onResult(RoutesCollection data) {
-						route = data.getRoutes().get(0);
-						((TextView) findViewById(R.id.route_summary))
-								.setText(route.getSummary().getText());
-						getTravelTimes();
-					}
+        this.routeManager = InrixCore.getRouteManager();
 
-					@Override
-					public void onError(Error error) {
-					}
-				});
-	}
+        this.routeManager.requestRoutes(routeParams,
+                new IRouteResponseListener() {
 
-	/**
-	 * Get the Travel Times for the Route
-	 */
-	private void getTravelTimes() {
-		TravelTimeOptions travelTimeOptions = new TravelTimeOptions(route,
-				COLOR_CONTROL_IDS.length,
-				60 * DateUtils.SECOND_IN_MILLIS);
+                    @Override
+                    public void onResult(RequestRouteResults data) {
+                        route = data.getRoutes().get(0);
+                        ((TextView) findViewById(R.id.route_summary))
+                                .setText(route.getSummary().getText());
+                        getTravelTimes();
+                    }
 
-		routeManager.requestTravelTimes(travelTimeOptions,
-				new ITravelTimeResponseListener() {
+                    @Override
+                    public void onError(Error error) {
+                        Toast.makeText(TravelTimesActivity.this,
+                                "Failed to load travel times. Try again",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
 
-					@Override
-					public void onResult(TravelTimeResponse travelTimeResult) {
-						travelTimeResponse = travelTimeResult;
-						updateColors();
-					}
+    /**
+     * Get the Travel Times for the Route
+     */
+    private void getTravelTimes() {
+        TravelTimeOptions travelTimeOptions = new TravelTimeOptions(route,
+                COLOR_CONTROL_IDS.length,
+                60 * DateUtils.SECOND_IN_MILLIS);
 
-					@Override
-					public void onError(Error error) {
-						Toast.makeText(TravelTimesActivity.this,
-								"Failed to load travel times. Try again",
-								Toast.LENGTH_LONG).show();
-					}
-				});
-	}
+        routeManager.requestTravelTimes(travelTimeOptions,
+                new ITravelTimeResponseListener() {
 
-	/**
-	 * Initialize the Color Controls
-	 */
-	private void initColorControls() {
+                    @Override
+                    public void onResult(RouteTravelTime response) {
+                        routeTravelTime = response;
+                        updateColors();
+                    }
 
-		this.colorControls = new TextView[COLOR_CONTROL_IDS.length];
+                    @Override
+                    public void onError(Error error) {
+                        Toast.makeText(TravelTimesActivity.this,
+                                "Failed to load travel times. Try again",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
 
-		for (int i = 0; i < COLOR_CONTROL_IDS.length; i++) {
-			this.colorControls[i] = ((TextView) findViewById(COLOR_CONTROL_IDS[i]));
-			this.colorControls[i].setBackgroundColor(Color.WHITE);
-		}
-	}
+    /**
+     * Initialize the Color Controls
+     */
+    private void initColorControls() {
 
-	/**
-	 * Update the Colors to match the travel times for the route
-	 */
-	private void updateColors() {
-		if (this.route != null) {
-			List<TravelTime> travelTimeList = travelTimeResponse.getTravelTimes();
+        this.colorControls = new TextView[COLOR_CONTROL_IDS.length];
 
-			for (int i = 0; i < COLOR_CONTROL_IDS.length; i++) {
-				TravelTime travelTime = travelTimeList.get(i);
+        for (int i = 0; i < COLOR_CONTROL_IDS.length; i++) {
+            this.colorControls[i] = ((TextView) findViewById(COLOR_CONTROL_IDS[i]));
+            this.colorControls[i].setBackgroundColor(Color.WHITE);
+        }
+    }
 
-				switch (travelTime.getRouteQuality(travelTimeResponse
-						.getUncongestedTravelTime())) {
-				case FREE_FLOW:
-					this.colorControls[i].setBackgroundColor(Color.GREEN);
-					break;
-				case MODERATE:
-					this.colorControls[i].setBackgroundColor(Color.YELLOW);
-					break;
-				case HEAVY:
-				case STOP_AND_GO:
-					this.colorControls[i].setBackgroundColor(Color.RED);
-					break;
-				case CLOSED:
-					this.colorControls[i].setBackgroundColor(Color.DKGRAY);
-					break;
-				case UNKNOWN:
-					break;
-				default:
-					break;
-				}
-			}
-		}
-	}
+    /**
+     * Update the Colors to match the travel times for the route
+     */
+    private void updateColors() {
+        if (this.route != null) {
+            List<TravelTime> travelTimeList = routeTravelTime.getTravelTimes();
+
+            for (int i = 0; i < COLOR_CONTROL_IDS.length; i++) {
+                TravelTime travelTime = travelTimeList.get(i);
+
+                switch (travelTime.getRouteQuality(routeTravelTime
+                        .getUncongestedTravelTime())) {
+                    case FREE_FLOW:
+                        this.colorControls[i].setBackgroundColor(Color.GREEN);
+                        break;
+                    case MODERATE:
+                        this.colorControls[i].setBackgroundColor(Color.YELLOW);
+                        break;
+                    case HEAVY:
+                    case STOP_AND_GO:
+                        this.colorControls[i].setBackgroundColor(Color.RED);
+                        break;
+                    case CLOSED:
+                        this.colorControls[i].setBackgroundColor(Color.DKGRAY);
+                        break;
+                    case UNKNOWN:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
 
 }

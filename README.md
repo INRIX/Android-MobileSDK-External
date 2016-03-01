@@ -1,11 +1,21 @@
 Android-MobileSDK-External
 ==========================
 
-Note: Each team using this client library must contact INRIX to get their own Vendor ID. 
+This repository contains multiple components that make up an SDK for building
+applications to run on Android and access INRIX services/data.  
+
+IDs/Keys
+=======
+Each new project will require a set of IDs/Keys to enable projects to be built and data services to be accessed.  Some IDs are specific/unique to the project.
 
 
-Documentation links:
+License
+=======
 
-[INRIX Client Library API Reference (JavaDocs format) ** most up to date](http://inrix.github.io/Android-MobileSDK-External/)
+The SDK Developer License can be found here as License.pdf
 
-[INRIX Client Library Quick Start Guide (PDF)](https://github.com/INRIX/Android-MobileSDK-External/blob/master/doc/INRIX%20Client%20Library%20Quick%20Start%20Guide.pdf?raw=true)
+
+Terms of Service & Privacy Policy
+=================================
+
+Now included are samples for the “Terms of Service” and “Privacy Policy”.  These are just samples.  All commercial applications will access these documents via a future public URL.

@@ -1,151 +1,105 @@
+/**
+ * Copyright (c) 2013-2015 INRIX, Inc.
+ * <p/>
+ * INRIX is a registered trademark of INRIX, Inc. Any copyright, patent and trademark notice(s)
+ * contained herein or in related code, files or documentation shall not be altered and shall be
+ * included in all copies and substantial portions of the software. This software is "Sample Code".
+ * Refer to the License.pdf file for your rights to use this software.
+ */
+
 package com.inrix.sample.fragments;
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.inrix.sample.R;
+import com.inrix.sdk.ICancellable;
+import com.inrix.sdk.InrixCore;
+import com.inrix.sdk.SearchManager;
+import com.inrix.sdk.model.LocationMatch;
 
 import java.util.List;
 
-import android.location.Address;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
+/**
+ * Demonstrates geocoding functions.
+ */
+public class GeocodingOnMapFragment extends Fragment implements SearchManager.ISearchResponseListener {
+    private TextView resultTextView;
+    private SearchManager searchManager;
+    private ICancellable searchRequest;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.inrix.sample.R;
-import com.inrix.sdk.model.GeoPoint;
-import com.inrix.sdk.utils.AddressLocator;
-import com.inrix.sdk.utils.AddressLocator.AddressLocatorListCallback;
+    @Override
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_geocoding,
+                container,
+                false);
+        final EditText editTextAddress = (EditText) view
+                .findViewById(R.id.edt_address);
 
-/** Demonstrates geocoding functions. */
-public class GeocodingOnMapFragment extends SupportMapFragment {
+        final Button buttonGeocode = (Button) view
+                .findViewById(R.id.btn_geocode);
+        this.resultTextView = (TextView) view
+                .findViewById(R.id.txt_address_result);
 
-	/** The map. */
-	private GoogleMap map = null;
+        this.searchManager = InrixCore.getSearchManager();
 
-	/** Displays geocoded address. */
-	private Marker marker;
+        buttonGeocode.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resultTextView.setText(R.string.geocode_status_in_progress);
 
-	/** Default start position. */
-	private final GeoPoint SEATTLE_POSITION = new GeoPoint(47.614496,
-			-122.328758);
+                if (searchRequest != null) {
+                    searchRequest.cancel();
+                }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater,
-			ViewGroup container,
-			Bundle savedInstanceState) {
-		View view = super.onCreateView(inflater, container, savedInstanceState);
-		setUpMapIfNeeded();
-		return view;
-	}
+                searchRequest = searchManager.geocode(new SearchManager.GeocodeOptions(editTextAddress.getText().toString()), GeocodingOnMapFragment.this);
+            }
+        });
+        return view;
+    }
 
-	/** Initializes the map if it wasn't initialized yet. */
-	private void setUpMapIfNeeded() {
-		if (this.map != null) {
-			return;
-		}
-		this.map = getMap();
-		if (this.map != null) {
-			this.map.setMyLocationEnabled(true);
-			this.map.getUiSettings().setMyLocationButtonEnabled(false);
-			this.map.getUiSettings().setZoomControlsEnabled(true);
+    @Override
+    public void onDestroyView() {
+        if (this.searchRequest != null) {
+            this.searchRequest.cancel();
+        }
+        super.onDestroyView();
+    }
 
-			this.map.moveCamera(CameraUpdateFactory
-					.newLatLngZoom(new LatLng(SEATTLE_POSITION.getLatitude(),
-							SEATTLE_POSITION.getLongitude()), 12));
+    @Override
+    public void onResult(List<LocationMatch> data) {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (data != null && !data.isEmpty()) {
+            int count = data.size();
+            for (int i = 0; i < count; i++) {
+                LocationMatch address = data.get(i);
+                stringBuilder
+                        .append(getString(R.string.geocode_result_latitude))
+                        .append(address.getPoint().getLatitude()).append(" ");
+                stringBuilder
+                        .append(getString(R.string.geocode_result_longitude))
+                        .append(address.getPoint().getLongitude()).append("\n");
+            }
+        } else {
+            resultTextView.setText(R.string.geocode_status_no_address_found);
+            return;
+        }
 
-			this.map.setOnMapLongClickListener(new MapLongClickListener());
-		}
-	}
+        resultTextView.setText(getString(R.string.geocode_results)
+                + stringBuilder.toString());
+    }
 
-	/**
-	 * Shows the marker.
-	 * 
-	 * @param text
-	 *            Text to show.
-	 * @param latLng
-	 *            Position to show marker.
-	 */
-	private synchronized void showMarker(String text, LatLng latLng) {
-		hideMarker();
-		this.marker = this.map.addMarker(new MarkerOptions().position(latLng)
-				.title(text));
-		this.marker.showInfoWindow();
-	}
-
-	/** Hides the marker. */
-	private synchronized void hideMarker() {
-		if (this.marker != null && this.marker.isVisible()) {
-			this.marker.remove();
-		}
-	}
-
-	/** Handles long clicks on the map. */
-	private class MapLongClickListener implements OnMapLongClickListener {
-		@Override
-		public void onMapLongClick(LatLng latLng) {
-			showMarker(getString(R.string.geocode_status_in_progress), latLng);
-			AddressLocator geocoder = new AddressLocator(getActivity(),
-					new GeocoderCallbackListener());
-			geocoder.getAddress((float) latLng.latitude,
-					(float) latLng.longitude);
-		}
-	}
-
-	/** Listens geocode events. */
-	private class GeocoderCallbackListener implements
-			AddressLocatorListCallback {
-
-		@Override
-		public void onAddressListFound(List<Address> addresses) {
-			StringBuilder stringBuilder = new StringBuilder();
-			Address address;
-			if (addresses != null && addresses.size() > 0
-					&& (address = addresses.get(0)) != null) {
-				int count = address.getMaxAddressLineIndex();
-				for (int i = count; i >= 0; i--) {
-					String addressLine = address.getAddressLine(i);
-					if (addressLine == null || addressLine.isEmpty()) {
-						continue;
-					}
-					if (stringBuilder.length() > 0) {
-						stringBuilder.append(", ");
-					}
-					stringBuilder.append(addressLine);
-				}
-
-				LatLng latLng = new LatLng(address.getLatitude(),
-						address.getLongitude());
-				showMarker(stringBuilder.toString(), latLng);
-			}
-		}
-
-		@Override
-		public void onGeocoderError() {
-			hideMarker();
-			Toast.makeText(getActivity(),
-					R.string.geocode_status_geocoder_error,
-					Toast.LENGTH_LONG).show();
-		}
-
-		@Override
-		public void onNetworkError() {
-			hideMarker();
-			Toast.makeText(getActivity(),
-					R.string.geocode_status_network_error,
-					Toast.LENGTH_LONG).show();
-		}
-
-		@Override
-		public void onNoAddressFound() {
-			hideMarker();
-			Toast.makeText(getActivity(),
-					R.string.geocode_status_no_address_found,
-					Toast.LENGTH_LONG).show();
-		}
-	}
+    @Override
+    public void onError(com.inrix.sdk.Error error) {
+        resultTextView.setText(R.string.geocode_status_network_error);
+    }
 }
