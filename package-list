@@ -1,4 +1,5 @@
 com.inrix.sdk
+com.inrix.sdk.config
 com.inrix.sdk.model
-com.inrix.sdk.transport
+com.inrix.sdk.push
 com.inrix.sdk.utils
