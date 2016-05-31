@@ -120,6 +120,7 @@ public class IncidentManagementActivity extends InrixSdkActivity implements OnMy
         this.map = mapFragment.getMap();
 
         // Setup map.
+        //noinspection MissingPermission
         this.map.setMyLocationEnabled(true);
         this.map.setOnMyLocationChangeListener(this);
         this.map.setOnMapLongClickListener(this);
@@ -226,19 +227,19 @@ public class IncidentManagementActivity extends InrixSdkActivity implements OnMy
      */
 
     @Override
-    public final void reportIncident(final GeoPoint location, final int type, final IncidentsManager.RoadSide side) {
+    public final void reportIncident(final GeoPoint location, final Incident.IncidentType type, final IncidentsManager.RoadSide side) {
         IncidentsManager.IncidentReportOptions options = null;
         switch (type) {
-            case IncidentsManager.INCIDENT_TYPE_ACCIDENT:
+            case ACCIDENT:
                 options = IncidentsManager.IncidentReportOptions.getReportAccidentOptions();
                 break;
-            case IncidentsManager.INCIDENT_TYPE_CONSTRUCTION:
+            case CONSTRUCTION:
                 options = IncidentsManager.IncidentReportOptions.getReportConstructionOptions();
                 break;
-            case IncidentsManager.INCIDENT_TYPE_HAZARD:
+            case HAZARD:
                 options = IncidentsManager.IncidentReportOptions.getReportHazardOptions();
                 break;
-            case IncidentsManager.INCIDENT_TYPE_POLICE:
+            case POLICE:
                 options = IncidentsManager.IncidentReportOptions.getReportPoliceOptions();
                 break;
         }
@@ -267,27 +268,27 @@ public class IncidentManagementActivity extends InrixSdkActivity implements OnMy
         String title = null;
         int typeResource = 0;
         switch (model.getType()) {
-            case IncidentsManager.INCIDENT_TYPE_ACCIDENT:
+            case ACCIDENT:
                 title = this.getString(R.string.incident_accident);
                 typeResource = R.drawable.accident;
                 break;
-            case IncidentsManager.INCIDENT_TYPE_CONSTRUCTION:
+            case CONSTRUCTION:
                 title = this.getString(R.string.incident_construction);
                 typeResource = R.drawable.construction;
                 break;
-            case IncidentsManager.INCIDENT_TYPE_HAZARD:
+            case HAZARD:
                 title = this.getString(R.string.incident_hazard);
                 typeResource = R.drawable.hazard;
                 break;
-            case IncidentsManager.INCIDENT_TYPE_POLICE:
+            case POLICE:
                 title = this.getString(R.string.incident_police);
                 typeResource = R.drawable.police;
                 break;
-            case IncidentsManager.INCIDENT_TYPE_EVENT:
+            case EVENT:
                 title = this.getString(R.string.incident_event);
                 typeResource = R.drawable.construction;
                 break;
-            case IncidentsManager.INCIDENT_TYPE_FLOW:
+            case CONGESTION:
                 title = this.getString(R.string.incident_congestion);
                 typeResource = R.drawable.congestion;
                 break;
@@ -452,13 +453,13 @@ public class IncidentManagementActivity extends InrixSdkActivity implements OnMy
         private Incident incident;
         private long id;
         private int version;
-        private int type;
+        private Incident.IncidentType type;
         private double latitude;
         private double longitude;
         private boolean userReported;
         private boolean active;
 
-        public IncidentViewModel(long id, int version, int type, double lat, double lon) {
+        public IncidentViewModel(long id, int version, Incident.IncidentType type, double lat, double lon) {
             this.id = id;
             this.version = version;
             this.type = type;
@@ -474,7 +475,7 @@ public class IncidentManagementActivity extends InrixSdkActivity implements OnMy
             return this.version;
         }
 
-        public int getType() {
+        public Incident.IncidentType getType() {
             return type;
         }
 
@@ -566,7 +567,7 @@ public class IncidentManagementActivity extends InrixSdkActivity implements OnMy
                     .setIncident(incident));
         }
 
-        public void put(long id, int version, int type, double latitude, double longitude) {
+        public void put(long id, int version, Incident.IncidentType type, double latitude, double longitude) {
             this.cache.put(id, new IncidentViewModel(id, version, type, latitude, longitude).setUserReported(true));
         }
 

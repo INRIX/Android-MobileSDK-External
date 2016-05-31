@@ -9,6 +9,7 @@
 
 package com.inrix.sample.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -61,6 +62,7 @@ public class InrixIncidentManagerSetupFragment extends Fragment implements OnIte
      *
      * @param listener the listener
      */
+    @SuppressLint("ValidFragment")
     public InrixIncidentManagerSetupFragment(IOnGetIncidentsListener listener) {
         super();
         this.setIncidentsListener(listener);

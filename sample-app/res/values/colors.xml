@@ -9,10 +9,18 @@
   -->
 
 <resources>
+    <color name="accent">#00AAEC</color>
+    <color name="separator">#CFD8DC</color>
 
     <color name="incident_button_background_color">#FFFFFF</color>
     <color name="incident_button_background_selected">#C0C0C0</color>
     <color name="incident_button_background_pressed">#ACACAC</color>
-
     <color name="incident_details_background">#F9FFFFFF</color>
+
+    <color name="parking_section_occupancy_4">#9C27B0</color>
+    <color name="parking_section_occupancy_3">#4CAF50</color>
+    <color name="parking_section_occupancy_2">#FFEB3B</color>
+    <color name="parking_section_occupancy_1">#F44336</color>
+    <color name="parking_section_occupancy_0">#795548</color>
+    <color name="parking_section_occupancy_none">#263238</color>
 </resources>

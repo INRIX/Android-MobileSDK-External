@@ -9,11 +9,13 @@
 
 package com.inrix.sample.map;
 
+import com.inrix.sdk.model.Incident;
+
 public class MapIncidentItem extends MapClusterItem {
     private long id;
-    private int type;
+    private Incident.IncidentType type;
 
-    public MapIncidentItem(double lat, double lng, long id, int type) {
+    public MapIncidentItem(double lat, double lng, long id, Incident.IncidentType type) {
         super(lat, lng);
 
         this.id = id;
@@ -24,7 +26,7 @@ public class MapIncidentItem extends MapClusterItem {
         return this.id;
     }
 
-    public int getType() {
+    public Incident.IncidentType getType() {
         return this.type;
     }
 }

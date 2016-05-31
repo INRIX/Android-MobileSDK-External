@@ -32,4 +32,50 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="ParkingBlock"/>
+
+    <style name="ParkingBlock.Separator">
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">#B2DFDB</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+    </style>
+
+    <style name="ParkingBlock.Title.TextAppearance" parent="TextAppearance.AppCompat.Title">
+        <item name="android:textColor">#004D40</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="ParkingBlock.Content.TextAppearance" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="ParkingBlock.Section.TextAppearance" parent="TextAppearance.AppCompat.Subhead">
+        <item name="android:textColor">#00796B</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="ParkingBlock.Content"/>
+
+    <style name="ParkingBlock.Content.Row">
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="ParkingBlock.Content.Cell" parent="ParkingBlock.Content.TextAppearance">
+
+    </style>
+
+    <style name="ParkingBlock.Content.Cell.Title">
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ParkingBlock.Content.Cell.Text">
+        <item name="android:layout_marginLeft">8dp</item>
+    </style>
+
 </resources>

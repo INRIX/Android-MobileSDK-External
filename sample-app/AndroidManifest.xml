@@ -52,9 +52,9 @@
         <activity android:name=".activity.IncidentDetailsActivity"/>
         <activity android:name=".activity.TravelTimesActivity"/>
         <activity android:name=".activity.TravelTimesSyncActivity"/>
-        <activity android:name=".activity.GeocodingActivity"/>
+        <activity android:name=".activity.GeocodeActivity"/>
         <activity android:name=".activity.ServiceAvailabilityActivity"/>
-        <activity android:name=".activity.LocationSearchActivity"/>
+        <activity android:name=".activity.SearchActivity"/>
         <activity android:name=".activity.AccountManagementActivity"/>
         <activity android:name=".activity.TripsActivity"/>
         <activity android:name=".activity.CamerasActivity"/>
@@ -63,6 +63,7 @@
         <activity android:name=".activity.ReportVehicleStateActivity"/>
         <activity android:name=".activity.ServiceInvocationActivity"/>
         <activity android:name=".activity.PushInformationActivity"/>
+        <activity android:name=".activity.ParkingBlocksActivity" />
 
         <!-- Parse push section -->
         <service android:name="com.parse.PushService"/>
@@ -98,21 +99,19 @@
             android:value="@integer/google_play_services_version"/>
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="INSERT-MAP-KEY-HERE" />
+            android:value="INSERT-MAP-KEY-HERE"/>
         <meta-data
             android:name="com.parse.APPLICATION_ID"
-            android:value="INSERT-PARSE-ID-HERE" />
-
+            android:value="INSERT-PARSE-ID-HERE"/>
         <meta-data
             android:name="com.parse.CLIENT_KEY"
-            android:value="INSERT-PARSE-KEY-HERE" />
-
+            android:value="INSERT-PARSE-ID-HERE"/>
         <meta-data
             android:name="com.inrix.appKey"
-            android:value="CONTACT INRIX FOR VALUES" />
+            android:value="CONTACT INRIX FOR VALUES"/>
         <meta-data
             android:name="com.inrix.appId"
-            android:value="CONTACT INRIX FOR VALUES" />
+            android:value="CONTACT INRIX FOR VALUES"/>
     </application>
 
 </manifest>

@@ -38,11 +38,12 @@ import com.inrix.sdk.InrixCore;
 import com.inrix.sdk.config.RoutesConfig;
 import com.inrix.sdk.model.Route;
 import com.inrix.sdk.model.Route.Bucket;
-import com.inrix.sdk.utils.GeoUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.inrix.sample.util.GeoPointHelper.toLatLngList;
 
 /**
  * Tile-based route overlay. More complex, but gives you full control over the
@@ -79,7 +80,6 @@ public class TileRouteOverlay implements TileProvider {
      * Value which represents density scale factor for current screen
      */
     private float scaleFactor = 1;
-    private int activeRoute = 0;
 
     public TileRouteOverlay(Context context, GoogleMap map) {
         this.map = map;
@@ -135,10 +135,10 @@ public class TileRouteOverlay implements TileProvider {
             for (Route route : routes) {
                 // Add route path to collection
                 RoutePath path = new RoutePath();
-                path.entirePath = pathFromPoints(GeoUtils.pointsToLatLng(route.getPoints()));
+                path.entirePath = pathFromPoints(toLatLngList(route.getPoints()));
                 for (Bucket b : route.getSpeedBuckets()) {
                     PathBucket pathBucket = new PathBucket();
-                    pathBucket.path = pathFromPoints(GeoUtils.pointsToLatLng(b.getSpeedBucketPoints()));
+                    pathBucket.path = pathFromPoints(toLatLngList(b.getSpeedBucketPoints()));
                     pathBucket.color = speedBucketIdToColor(b.getSpeedBucketID());
                     path.buckets.add(pathBucket);
                 }
@@ -263,21 +263,19 @@ public class TileRouteOverlay implements TileProvider {
         matrix.postTranslate(-x * dimension, -y * dimension);
         canvas.setMatrix(matrix);
 
+        int activeRoute = 0;
         for (int i = 0; i < paths.size(); i++) {
-            if (i != this.activeRoute) {
-                drawPath(canvas, paths.get(i), x, y, zoom, scale, false);
+            if (i != activeRoute) {
+                drawPath(canvas, paths.get(i), scale, false);
             }
         }
 
-        drawPath(canvas, paths.get(activeRoute), x, y, zoom, scale, true);
+        drawPath(canvas, paths.get(activeRoute), scale, true);
         canvas.restore();
     }
 
     private void drawPath(Canvas canvas,
                           RoutePath path,
-                          int x,
-                          int y,
-                          int zoom,
                           float scale,
                           boolean isActive) {
         if (canvas == null || path == null) {

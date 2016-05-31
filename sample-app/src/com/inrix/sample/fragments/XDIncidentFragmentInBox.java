@@ -38,6 +38,8 @@ import com.inrix.sdk.model.XDIncident;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.inrix.sample.util.GeoPointHelper.toLatLng;
+
 
 /**
  * Demonstrates XDIncident search InBox Capability.
@@ -68,7 +70,6 @@ public class XDIncidentFragmentInBox extends SupportMapFragment implements
     private final GeoPoint box3 = new GeoPoint(CORNER1.getLatitude(), CORNER2.getLongitude());
     private final GeoPoint box4 = new GeoPoint(CORNER2.getLatitude(), CORNER1.getLongitude());
 
-    private IncidentsManager.XDIncidentOptionsInBox options;
     private ICancellable currentRequest;
     private Polygon polygon;
     private PolygonOptions polygonOptions;
@@ -94,21 +95,22 @@ public class XDIncidentFragmentInBox extends SupportMapFragment implements
         }
         this.map = getMap();
         if (this.map != null) {
+            //noinspection MissingPermission
             this.map.setMyLocationEnabled(true);
             this.map.getUiSettings().setMyLocationButtonEnabled(false);
             this.map.getUiSettings().setZoomControlsEnabled(true);
             LatLng centerPoint = new LatLng((CORNER1.getLatitude() + CORNER2.getLatitude()) / 2, (CORNER1.getLongitude() + CORNER2.getLongitude()) / 2);
-            this.map.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder().target(centerPoint).zoom(10).tilt(45).build()));
-            this.clusterManager = new ClusterManager<XDIncidentClusterItem>(getActivity(), map);
+            this.map.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder().target(centerPoint).zoom(10).build()));
+            this.clusterManager = new ClusterManager<>(getActivity(), map);
             this.map.setOnCameraChangeListener(clusterManager);
             this.map.setOnMarkerClickListener(clusterManager);
             this.clusterManager.setOnClusterItemClickListener(this);
 
-            this.options = new IncidentsManager.XDIncidentOptionsInBox(CORNER1, CORNER2);
+            IncidentsManager.XDIncidentOptionsInBox options = new IncidentsManager.XDIncidentOptionsInBox(CORNER1, CORNER2);
 
             this.currentRequest = manager.getXDIncidentsInBox(options, XDIncidentFragmentInBox.this);
             this.polygonOptions = new PolygonOptions()
-                    .add(CORNER1.toLatLng(), box3.toLatLng(), CORNER2.toLatLng(), box4.toLatLng())
+                    .add(toLatLng(CORNER1), toLatLng(box3), toLatLng(CORNER2), toLatLng(box4))
                     .strokeColor(Color.BLUE).geodesic(true);
 
             this.polygon = this.map.addPolygon(this.polygonOptions);
@@ -150,13 +152,13 @@ public class XDIncidentFragmentInBox extends SupportMapFragment implements
         this.clusterManager.clearItems();
 
         if (data != null && data.size() > 0) {
-            this.resultMarkers = new ArrayList<Marker>();
+            this.resultMarkers = new ArrayList<>();
 
             for (XDIncident incident : data) {
 
                 GeoPoint point = incident.getLocation();
 
-                Marker result = this.map.addMarker(new MarkerOptions().position(point.toLatLng()).title(incident.getShortDescription()));
+                Marker result = this.map.addMarker(new MarkerOptions().position(toLatLng(point)).title(incident.getShortDescription()));
 
                 result.showInfoWindow();
 

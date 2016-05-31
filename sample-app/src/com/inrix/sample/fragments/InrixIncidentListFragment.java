@@ -31,7 +31,6 @@ import com.inrix.sample.R;
 import com.inrix.sdk.Error;
 import com.inrix.sdk.ICancellable;
 import com.inrix.sdk.IncidentUtils;
-import com.inrix.sdk.IncidentsManager;
 import com.inrix.sdk.InrixCore;
 import com.inrix.sdk.SearchManager;
 import com.inrix.sdk.model.GeoPoint;
@@ -429,19 +428,19 @@ public class InrixIncidentListFragment extends ListFragment {
                 resourceId = R.drawable.closed_road;
             } else {
                 switch (model.getType()) {
-                    case IncidentsManager.INCIDENT_TYPE_CONSTRUCTION:
+                    case CONSTRUCTION:
                         resourceId = R.drawable.construction;
                         break;
-                    case IncidentsManager.INCIDENT_TYPE_EVENT:
+                    case EVENT:
                         resourceId = R.drawable.closed_road;
                         break;
-                    case IncidentsManager.INCIDENT_TYPE_FLOW:
+                    case CONGESTION:
                         resourceId = R.drawable.congestion;
                         break;
-                    case IncidentsManager.INCIDENT_TYPE_HAZARD:
+                    case HAZARD:
                         resourceId = R.drawable.hazard;
                         break;
-                    case IncidentsManager.INCIDENT_TYPE_POLICE:
+                    case POLICE:
                         resourceId = R.drawable.police;
                         break;
                 }

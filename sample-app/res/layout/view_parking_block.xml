@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:padding="16dp">
+
+    <TextView
+        android:id="@+id/parking_block_title"
+        style="@style/ParkingBlock.Title.TextAppearance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/parking_block_title"/>
+
+    <com.inrix.sample.view.ParkingBlockDescriptionView
+        android:id="@+id/parking_block_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="56dp"
+        android:layout_marginStart="56dp"/>
+
+    <View
+        android:id="@+id/parking_block_paystations_list_separator"
+        style="@style/ParkingBlock.Separator"
+        android:layout_width="match_parent"/>
+
+    <com.inrix.sample.view.ParkingBlockPayStationList
+        android:id="@+id/parking_block_paystations_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:id="@+id/parking_block_sections_list_separator"
+        style="@style/ParkingBlock.Separator"
+        android:layout_width="match_parent"/>
+
+    <com.inrix.sample.view.ParkingBlockSectionsList
+        android:id="@+id/parking_block_sections_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <View
+        style="@style/ParkingBlock.Separator"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="0dp"/>
+
+</LinearLayout>

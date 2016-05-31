@@ -50,7 +50,7 @@ public class ServiceAvailabilityActivity extends InrixSdkActivity {
         this.serviceAvailabilityManager = InrixCore.getServiceAvailabilityManager();
 
         this.countrySpinner = (Spinner) findViewById(R.id.countryCodeSpinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, Locale.getISOCountries());
+        @SuppressWarnings("unchecked") ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, Locale.getISOCountries());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         this.countrySpinner.setAdapter(adapter);
 

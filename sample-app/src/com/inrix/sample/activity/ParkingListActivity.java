@@ -25,9 +25,10 @@ import com.inrix.sdk.Error;
 import com.inrix.sdk.ICancellable;
 import com.inrix.sdk.InrixCore;
 import com.inrix.sdk.ParkingManager;
-import com.inrix.sdk.ParkingManager.IParkingLotsResponseListener;
+import com.inrix.sdk.ParkingManager.IParkingInfoResponseListener;
 import com.inrix.sdk.ParkingManager.ParkingRadiusOptions;
 import com.inrix.sdk.model.GeoPoint;
+import com.inrix.sdk.model.ParkingInfo;
 import com.inrix.sdk.model.ParkingLot;
 import com.inrix.sdk.model.ParkingLot.Address;
 import com.inrix.sdk.utils.UserPreferences;
@@ -165,14 +166,14 @@ public class ParkingListActivity extends InrixSdkActivity {
                 this.requestRadius);
         options.setOutputFields(ParkingManager.PARKING_OUTPUT_FIELD_BASIC | ParkingManager.PARKING_OUTPUT_FIELD_PRICING);
 
-        currentOperation = parkingManager.getParkingLotsInRadius(
+        currentOperation = parkingManager.getParkingInfoInRadius(
                 options,
-                new IParkingLotsResponseListener() {
+                new IParkingInfoResponseListener() {
                     @Override
-                    public void onResult(List<ParkingLot> data) {
+                    public void onResult(ParkingInfo data) {
                         getSupportFragmentManager().popBackStack();
                         currentOperation = null;
-                        setParkingLotList(data);
+                        setParkingLotList(data.getParkingLots());
                     }
 
                     @Override

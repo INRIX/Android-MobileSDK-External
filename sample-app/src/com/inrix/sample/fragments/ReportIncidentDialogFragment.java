@@ -24,13 +24,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.inrix.sample.R;
 import com.inrix.sdk.IncidentsManager;
 import com.inrix.sdk.model.GeoPoint;
+import com.inrix.sdk.model.Incident;
 
 /**
  * Dialog fragment to report incidents.
  */
 public class ReportIncidentDialogFragment extends DialogFragment implements OnCheckedChangeListener, OnClickListener {
     public interface IReportIncidentListener {
-        public void reportIncident(final GeoPoint location, final int type, final IncidentsManager.RoadSide sideOfRoad);
+        public void reportIncident(final GeoPoint location, final Incident.IncidentType type, final IncidentsManager.RoadSide sideOfRoad);
     }
 
     private IReportIncidentListener listener;
@@ -137,15 +138,15 @@ public class ReportIncidentDialogFragment extends DialogFragment implements OnCh
      */
     @Override
     public void onClick(View view) {
-        int type = 0;
+        Incident.IncidentType type = Incident.IncidentType.UNKNOWN;
         if (this.reportAccidentButton.isChecked()) {
-            type = IncidentsManager.INCIDENT_TYPE_ACCIDENT;
+            type = Incident.IncidentType.ACCIDENT;
         } else if (this.reportConstructionButton.isChecked()) {
-            type = IncidentsManager.INCIDENT_TYPE_CONSTRUCTION;
+            type = Incident.IncidentType.CONSTRUCTION;
         } else if (this.reportHazardButton.isChecked()) {
-            type = IncidentsManager.INCIDENT_TYPE_HAZARD;
+            type = Incident.IncidentType.HAZARD;
         } else if (this.reportPoliceButton.isChecked()) {
-            type = IncidentsManager.INCIDENT_TYPE_POLICE;
+            type = Incident.IncidentType.POLICE;
         }
 
         final IncidentsManager.RoadSide side = this.thisSideButton.isChecked() ?

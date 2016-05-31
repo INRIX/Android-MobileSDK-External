@@ -41,6 +41,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.inrix.sample.util.GeoPointHelper.toLatLng;
+
 /**
  * Demonstrates XDIncident search in radius Capability.
  */
@@ -70,8 +72,6 @@ public class XDIncidentFragmentInRadius extends SupportMapFragment implements
      */
     private final GeoPoint SEATTLE_POSITION = new GeoPoint(47.614496, -122.328758);
 
-    private IncidentsManager.XDIncidentOptionsInRadius options;
-
     private ICancellable currentRequest;
     private Circle circle;
 
@@ -100,12 +100,13 @@ public class XDIncidentFragmentInRadius extends SupportMapFragment implements
         }
         this.map = getMap();
         if (this.map != null) {
+            //noinspection MissingPermission
             this.map.setMyLocationEnabled(true);
             this.map.getUiSettings().setMyLocationButtonEnabled(false);
             this.map.getUiSettings().setZoomControlsEnabled(true);
-            this.map.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder().target(SEATTLE_POSITION.toLatLng()).zoom(10).tilt(45).build()));
+            this.map.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder().target(toLatLng(SEATTLE_POSITION)).zoom(10).build()));
             this.map.setOnMapLongClickListener(new MapLongClickListener());
-            this.clusterManager = new ClusterManager<XDIncidentClusterItem>(getActivity(), map);
+            this.clusterManager = new ClusterManager<>(getActivity(), map);
             this.map.setOnCameraChangeListener(clusterManager);
             this.map.setOnMarkerClickListener(clusterManager);
             this.clusterManager.setOnClusterItemClickListener(this);
@@ -166,7 +167,7 @@ public class XDIncidentFragmentInRadius extends SupportMapFragment implements
 
             final GeoPoint point = new GeoPoint(latLng.latitude, latLng.longitude);
 
-            options = new IncidentsManager.XDIncidentOptionsInRadius(point, RADIUS);
+            IncidentsManager.XDIncidentOptionsInRadius options = new IncidentsManager.XDIncidentOptionsInRadius(point, RADIUS);
 
             currentRequest = manager.getXDIncidentsInRadius(options, XDIncidentFragmentInRadius.this);
 
@@ -210,10 +211,10 @@ public class XDIncidentFragmentInRadius extends SupportMapFragment implements
         hideMarkers(this.searchMarker);
 
         if (data != null && data.size() > 0) {
-            this.resultMarkers = new ArrayList<Marker>();
+            this.resultMarkers = new ArrayList<>();
             for (XDIncident incident : data) {
                 GeoPoint point = incident.getLocation();
-                Marker result = this.map.addMarker(new MarkerOptions().position(point.toLatLng()).title(incident.getShortDescription()));
+                Marker result = this.map.addMarker(new MarkerOptions().position(toLatLng(point)).title(incident.getShortDescription()));
                 result.showInfoWindow();
                 resultMarkers.add(result);
             }

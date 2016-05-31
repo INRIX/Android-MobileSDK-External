@@ -33,6 +33,8 @@ import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
+import static com.inrix.sample.util.GeoPointHelper.toLatLng;
+
 public class IncidentAlertsMapFragment extends SupportMapFragment {
 
     private GoogleMap map = null;
@@ -66,6 +68,7 @@ public class IncidentAlertsMapFragment extends SupportMapFragment {
         }
         this.map = getMap();
         if (this.map != null) {
+            //noinspection MissingPermission
             this.map.setMyLocationEnabled(true);
             this.map.getUiSettings().setMyLocationButtonEnabled(false);
             this.map.getUiSettings().setZoomControlsEnabled(true);
@@ -77,7 +80,7 @@ public class IncidentAlertsMapFragment extends SupportMapFragment {
                 }
             });
 
-            this.map.moveCamera(CameraUpdateFactory.newLatLngZoom(SEATTLE_POSITION.toLatLng(), 12));
+            this.map.moveCamera(CameraUpdateFactory.newLatLngZoom(toLatLng(SEATTLE_POSITION), 12));
 
             this.clusterManager = new ClusterManager<>(getActivity(), this.map);
 
@@ -96,10 +99,10 @@ public class IncidentAlertsMapFragment extends SupportMapFragment {
         if (currentLocation == null) {
             return;
         }
-        this.map.moveCamera(CameraUpdateFactory.newLatLngZoom(GeoPoint.fromLocation(currentLocation).toLatLng(), 10));
+        this.map.moveCamera(CameraUpdateFactory.newLatLngZoom(toLatLng(GeoPoint.fromLocation(currentLocation)), 10));
 
         MarkerOptions markerOptions = new MarkerOptions();
-        LatLng currentMapPosition = GeoPoint.fromLocation(currentLocation).toLatLng();
+        LatLng currentMapPosition = toLatLng(GeoPoint.fromLocation(currentLocation));
         markerOptions.position(currentMapPosition);
 
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));

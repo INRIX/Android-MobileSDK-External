@@ -39,8 +39,8 @@
     <string name="title_activity_incident_list">IncidentListActivity</string>
     <string name="title_activity_incident_alerts">Incident Alerts Sample</string>
     <string name="title_activity_travel_time">TravelTimeActivity</string>
-    <string name="tab_title_geocoding_on_map">Map</string>
-    <string name="tab_title_geocoding_reverse">Reverse geocoding</string>
+    <string name="tab_title_geocode">Geocode</string>
+    <string name="tab_title_reverse_geocode">Reverse Geocode</string>
     <string name="geocode_enter_address">Enter Address:</string>
     <string name="geocode_default_address">USA Seattle</string>
     <string name="geocode_geocode">Geocode</string>
@@ -51,7 +51,7 @@
     <string name="geocode_max_results">Max Results:&#160;</string>
     <string name="geocode_result_latitude">Lat:&#160;</string>
     <string name="geocode_result_longitude">Lng:&#160;</string>
-    <string name="geocode_results">Result:\n</string>
+    <string name="geocode_results">Result:\n%1$s</string>
     <string name="incident_report_activity_title">Report Incident</string>
     <string name="incident_report_this_side">This side</string>
     <string name="incident_report_other_side">Other side</string>
@@ -127,4 +127,37 @@
     <string name="service_invocation_invoke">Invoke</string>
     <string name="service_invocation_result">Result:</string>
     <string name="parse_installation_id_label_format">Parse installation id: %1$s</string>
+    <string name="tab_title_nearby_search">Nearby</string>
+    <string name="tab_title_autocomplete_search">Autocomplete</string>
+    <string name="autocomplete_hint">Start typing to search...</string>
+
+    <string name="bullet_list_item_format">•\t%1$s</string>
+
+    <!-- Parking -->
+    <string name="onstreet_parking_empty_result">No on-street parking is available at this location</string>
+    <string name="parking_block_title">Parking block</string>
+    <string name="parking_block_title_format">%1$s (ID: %2$s)</string>
+    <string name="parking_block_pay_stations_title">Pay stations</string>
+    <string name="parking_block_sections_title">Parking sections</string>
+    <string name="parking_block_section_capacity">Capacity:</string>
+    <string name="parking_block_section_capacity_format">%1$d (%2$d\uFE6A)\t\t(offset: %3$d - %4$d meters)</string>
+    <string name="parking_block_section_side">Side:</string>
+    <string name="parking_block_section_zone">Zone:</string>
+    <string name="parking_block_section_pricing">Pricing:</string>
+    <string name="parking_block_section_pricing_format">%1$s - %2$s %3$s</string>
+    <string name="parking_block_section_restrictions">Restrictions:</string>
+    <string name="parking_block_section_restriction_format">%1$s: %2$s %3$s</string>
+    <string name="parking_block_from_format">From: %1$s (%2$s)</string>
+    <string name="parking_block_to_format">To: %1$s (%2$s)</string>
+    <string name="parking_block_pay_station_format">ID: %1$s @ %2$s</string>
+    <string name="parking_block_info_not_available">Not available</string>
+    <string name="parking_section_zone_no_parking">No parking</string>
+    <string name="parking_section_zone_carpool">Carpool only</string>
+    <string name="parking_section_zone_non_paid">Non-paid parking</string>
+    <string name="parking_section_zone_paid_parking">Paid parking only</string>
+    <string name="parking_section_zone_restricted">Restricted parking</string>
+    <string name="parking_section_zone_time_limited">Time-limited parking</string>
+    <string name="parking_section_zone_unrestricted">Unrestricted</string>
+    <string name="parking_section_zone_none">Unknown</string>
+
 </resources>

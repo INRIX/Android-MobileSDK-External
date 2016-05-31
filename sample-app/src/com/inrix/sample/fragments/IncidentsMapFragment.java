@@ -28,6 +28,8 @@ import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
+import static com.inrix.sample.util.GeoPointHelper.toLatLng;
+
 public class IncidentsMapFragment extends SupportMapFragment {
 
     private GoogleMap map = null;
@@ -59,10 +61,11 @@ public class IncidentsMapFragment extends SupportMapFragment {
         }
         this.map = getMap();
         if (map != null) {
+            //noinspection MissingPermission
             map.setMyLocationEnabled(false);
             map.getUiSettings().setMyLocationButtonEnabled(false);
             map.getUiSettings().setZoomControlsEnabled(true);
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(SEATTLE_POSITION.toLatLng(), 12));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(toLatLng(SEATTLE_POSITION), 12));
             clusterManager = new ClusterManager<>(getActivity(), map);
             this.map.setOnCameraChangeListener(clusterManager);
         }

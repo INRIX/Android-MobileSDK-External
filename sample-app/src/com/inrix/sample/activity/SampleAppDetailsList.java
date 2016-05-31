@@ -33,9 +33,14 @@ public final class SampleAppDetailsList {
                     R.string.sample_gas_stations_description,
                     GasStationsListActivity.class),
             // Parking Lots
-            new SampleAppDetails(R.string.sample_parking,
-                    R.string.sample_parking_description,
+            new SampleAppDetails(R.string.sample_parking_off_street,
+                    R.string.sample_parking_off_street_description,
                     ParkingListActivity.class),
+            // Parking blocks - on-street parking.
+            new SampleAppDetails(
+                    R.string.sample_parking_on_street,
+                    R.string.sample_parking_on_street_description,
+                    ParkingBlocksActivity.class),
             // Alerts
             new SampleAppDetails(R.string.sample_alerts,
                     R.string.sample_alerts_description,
@@ -52,10 +57,14 @@ public final class SampleAppDetailsList {
             new SampleAppDetails(R.string.sample_route_on_map,
                     R.string.sample_route_on_map_description,
                     RouteOnMapActivity.class),
-            // Geocoding and reverse geocoding
-            new SampleAppDetails(R.string.sample_geocoding,
-                    R.string.sample_geocoding_description,
-                    GeocodingActivity.class),
+            // Geocode and reverse geocode
+            new SampleAppDetails(R.string.sample_geocode,
+                    R.string.sample_geocode_description,
+                    GeocodeActivity.class),
+            // Search
+            new SampleAppDetails(R.string.sample_search,
+                    R.string.sample_search_description,
+                    SearchActivity.class),
             // Report incidents
             new SampleAppDetails(R.string.sample_report_incident,
                     R.string.sample_report_incident_description,
@@ -68,10 +77,6 @@ public final class SampleAppDetailsList {
             new SampleAppDetails(R.string.sample_service_availability,
                     R.string.sample_service_availability_description,
                     ServiceAvailabilityActivity.class),
-            // Location Search
-            new SampleAppDetails(R.string.sample_location_search,
-                    R.string.sample_location_search_description,
-                    LocationSearchActivity.class),
             // Account management
             new SampleAppDetails(R.string.sample_account_management,
                     R.string.sample_account_management_description,
