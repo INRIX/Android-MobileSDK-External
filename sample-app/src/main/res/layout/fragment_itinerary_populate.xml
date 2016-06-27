@@ -1,0 +1,79 @@
+<!--
+  Copyright (c) 2013-2016 INRIX, Inc.
+
+  INRIX is a registered trademark of INRIX, Inc. Any copyright, patent and trademark notice(s)
+  contained herein or in related code, files or documentation shall not be altered and shall be
+  included in all copies and substantial portions of the software. This software is "Sample Code".
+  Refer to the License.pdf file for your rights to use this software.
+  -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.inrix.sample.fragments.ItineraryPopulateFragment">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewIntro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/itinerary_activity_intro"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/itinerary_spacing"
+                android:layout_marginLeft="@dimen/itinerary_margin_left_right"
+                android:layout_marginRight="@dimen/itinerary_margin_left_right"
+                android:text="@string/itinerary_button_work"
+                android:id="@+id/button_home"
+                android:layout_gravity="center_horizontal" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/itinerary_margin_left_right"
+                android:layout_marginRight="@dimen/itinerary_margin_left_right"
+                android:text="@string/itinerary_button_home"
+                android:id="@+id/button_work"
+                android:layout_gravity="center_horizontal" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/itinerary_margin_left_right"
+                android:layout_marginRight="@dimen/itinerary_margin_left_right"
+                android:text="@string/itinerary_button_dentist"
+                android:id="@+id/button_dentist"
+                android:layout_gravity="center_horizontal" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/itinerary_margin_left_right"
+                android:layout_marginRight="@dimen/itinerary_margin_left_right"
+                android:text="@string/itinerary_button_delete"
+                android:id="@+id/button_delete"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:id="@+id/textViewStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/itinerary_spacing"
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

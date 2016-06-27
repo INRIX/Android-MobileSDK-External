@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2013-2016 INRIX, Inc.
+
+  INRIX is a registered trademark of INRIX, Inc. Any copyright, patent and trademark notice(s)
+  contained herein or in related code, files or documentation shall not be altered and shall be
+  included in all copies and substantial portions of the software. This software is "Sample Code".
+  Refer to the License.pdf file for your rights to use this software.
+  -->
+
+<RelativeLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16sp"
+        android:text="Select location"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"/>
+
+    <LinearLayout
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/buttons"
+        android:layout_below="@+id/title"
+        android:orientation="vertical"/>
+
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="16dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="end"
+            android:text="Select"
+            android:textColor="@color/accent"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

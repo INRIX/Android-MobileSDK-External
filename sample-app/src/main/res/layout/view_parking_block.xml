@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2013-2016 INRIX, Inc.
+
+  INRIX is a registered trademark of INRIX, Inc. Any copyright, patent and trademark notice(s)
+  contained herein or in related code, files or documentation shall not be altered and shall be
+  included in all copies and substantial portions of the software. This software is "Sample Code".
+  Refer to the License.pdf file for your rights to use this software.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:padding="16dp">
+
+    <TextView
+        android:id="@+id/parking_block_title"
+        style="@style/ParkingBlock.Title.TextAppearance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/parking_block_title"/>
+
+    <com.inrix.sample.view.ParkingBlockDescriptionView
+        android:id="@+id/parking_block_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="56dp"
+        android:layout_marginStart="56dp"/>
+
+    <View
+        android:id="@+id/parking_block_paystations_list_separator"
+        style="@style/ParkingBlock.Separator"
+        android:layout_width="match_parent"/>
+
+    <com.inrix.sample.view.ParkingBlockPayStationList
+        android:id="@+id/parking_block_paystations_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:id="@+id/parking_block_sections_list_separator"
+        style="@style/ParkingBlock.Separator"
+        android:layout_width="match_parent"/>
+
+    <com.inrix.sample.view.ParkingBlockSectionsList
+        android:id="@+id/parking_block_sections_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <View
+        style="@style/ParkingBlock.Separator"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="0dp"/>
+
+</LinearLayout>

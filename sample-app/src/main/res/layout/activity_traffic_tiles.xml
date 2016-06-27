@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2013-2016 INRIX, Inc.
+
+  INRIX is a registered trademark of INRIX, Inc. Any copyright, patent and trademark notice(s)
+  contained herein or in related code, files or documentation shall not be altered and shall be
+  included in all copies and substantial portions of the software. This software is "Sample Code".
+  Refer to the License.pdf file for your rights to use this software.
+  -->
+
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/map"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />

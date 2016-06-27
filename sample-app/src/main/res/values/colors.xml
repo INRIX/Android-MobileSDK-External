@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2013-2016 INRIX, Inc.
+
+  INRIX is a registered trademark of INRIX, Inc. Any copyright, patent and trademark notice(s)
+  contained herein or in related code, files or documentation shall not be altered and shall be
+  included in all copies and substantial portions of the software. This software is "Sample Code".
+  Refer to the License.pdf file for your rights to use this software.
+  -->
+
+<resources>
+    <color name="accent">#00AAEC</color>
+    <color name="separator">#CFD8DC</color>
+
+    <color name="incident_button_background_color">#FFFFFF</color>
+    <color name="incident_button_background_selected">#C0C0C0</color>
+    <color name="incident_button_background_pressed">#ACACAC</color>
+    <color name="incident_details_background">#F9FFFFFF</color>
+
+    <color name="parking_section_occupancy_4">#9C27B0</color>
+    <color name="parking_section_occupancy_3">#4CAF50</color>
+    <color name="parking_section_occupancy_2">#FFEB3B</color>
+    <color name="parking_section_occupancy_1">#F44336</color>
+    <color name="parking_section_occupancy_0">#795548</color>
+    <color name="parking_section_occupancy_none">#263238</color>
+</resources>

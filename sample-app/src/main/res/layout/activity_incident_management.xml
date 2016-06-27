@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2013-2016 INRIX, Inc.
+
+  INRIX is a registered trademark of INRIX, Inc. Any copyright, patent and trademark notice(s)
+  contained herein or in related code, files or documentation shall not be altered and shall be
+  included in all copies and substantial portions of the software. This software is "Sample Code".
+  Refer to the License.pdf file for your rights to use this software.
+  -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <fragment
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.google.android.gms.maps.SupportMapFragment" />
+
+    <LinearLayout
+        android:id="@+id/incident_info_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:visibility="gone"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp" >
+
+            <ImageView
+                android:id="@+id/incident_info_icon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/accident" />
+
+            <TextView
+                android:id="@+id/incident_info_type"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:textColor="#000"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#0C0C0C" />
+
+        <TextView
+            android:id="@+id/incident_info_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:textColor="#030303"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:id="@+id/incident_confirm_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2" >
+
+            <Button
+                android:id="@+id/incident_confirm_button"
+                style="?android:attr/actionButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/incident_report_confirm"
+                android:textColor="#000" />
+
+            <Button
+                android:id="@+id/incident_clear_button"
+                style="?android:attr/actionButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/incident_report_clear"
+                android:textColor="#000" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/incident_delete_button"
+            style="?android:attr/actionButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/incident_report_delete"
+            android:textColor="#000" />
+    </LinearLayout>
+
+</FrameLayout>
