@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.inrix.sample.R;
@@ -80,8 +81,15 @@ public class RouteOnMapActivity extends InrixSdkActivity {
         super.onCreate(savedInstanceState);
 
         ButterKnife.bind(this);
+        final SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                map = googleMap;
+                setUpMap();
+            }
+        });
 
-        setUpMapIfNeeded();
         this.routeManager = InrixCore.getRouteManager();
 
         if (savedInstanceState != null) {
@@ -89,13 +97,7 @@ public class RouteOnMapActivity extends InrixSdkActivity {
         }
     }
 
-    private void setUpMapIfNeeded() {
-        if (this.map != null) {
-            return;
-        }
-        this.map = ((SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map)).getMap();
-
+    private void setUpMap() {
         this.map.moveCamera(CameraUpdateFactory.newLatLngZoom(SEATTLE, 13));
         this.polylineRouteOverlay = new PolylineRouteOverlay(map);
         this.tileRouteOverlay = new TileRouteOverlay(this, map);
@@ -108,6 +110,10 @@ public class RouteOnMapActivity extends InrixSdkActivity {
     }
 
     private void findRoutes() {
+        if (this.map == null) {
+            return;
+        }
+
         if (currentRequest != null) {
             currentRequest.cancel();
             currentRequest = null;
@@ -214,6 +220,11 @@ public class RouteOnMapActivity extends InrixSdkActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (this.map == null) {
+            Toast.makeText(this, "Map's not ready yet.", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
         switch (item.getItemId()) {
             case R.id.action_find_routes:
                 findRoutes();

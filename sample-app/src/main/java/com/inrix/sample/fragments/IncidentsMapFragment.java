@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.maps.android.clustering.ClusterManager;
 import com.inrix.sample.BusProvider;
@@ -31,15 +32,24 @@ import java.util.List;
 import static com.inrix.sample.util.GeoPointHelper.toLatLng;
 
 public class IncidentsMapFragment extends SupportMapFragment {
-
-    private GoogleMap map = null;
-    private ClusterManager<MapClusterItem> clusterManager;
     private final GeoPoint SEATTLE_POSITION = new GeoPoint(47.614496, -122.328758);
+
+    private GoogleMap map;
+    private ClusterManager<MapClusterItem> clusterManager;
+
+    private List<Incident> pendingIncidents;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
-        setUpMapIfNeeded();
+
+        this.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                setUpMap(googleMap);
+            }
+        });
+
         return v;
     }
 
@@ -55,27 +65,23 @@ public class IncidentsMapFragment extends SupportMapFragment {
         super.onDetach();
     }
 
-    private void setUpMapIfNeeded() {
-        if (this.map != null) {
-            return;
-        }
-        this.map = getMap();
-        if (map != null) {
-            //noinspection MissingPermission
-            map.setMyLocationEnabled(false);
-            map.getUiSettings().setMyLocationButtonEnabled(false);
-            map.getUiSettings().setZoomControlsEnabled(true);
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(toLatLng(SEATTLE_POSITION), 12));
-            clusterManager = new ClusterManager<>(getActivity(), map);
-            this.map.setOnCameraChangeListener(clusterManager);
+    private void setUpMap(final GoogleMap googleMap) {
+        this.map = googleMap;
+
+        //noinspection MissingPermission
+        this.map.setMyLocationEnabled(false);
+        this.map.getUiSettings().setMyLocationButtonEnabled(false);
+        this.map.getUiSettings().setZoomControlsEnabled(true);
+        this.map.moveCamera(CameraUpdateFactory.newLatLngZoom(toLatLng(SEATTLE_POSITION), 12));
+        this.clusterManager = new ClusterManager<>(getActivity(), this.map);
+        this.map.setOnCameraChangeListener(clusterManager);
+
+        if (this.pendingIncidents != null) {
+            this.setIncidents(this.pendingIncidents);
         }
     }
 
     public void setIncidents(List<Incident> incidents) {
-        setUpMapIfNeeded();
-        if (this.map == null) {
-            return;
-        }
         this.map.clear();
         if (incidents == null) {
             return;
@@ -84,10 +90,15 @@ public class IncidentsMapFragment extends SupportMapFragment {
             clusterManager.addItem(new MapClusterItem(incident.getLatitude(), incident.getLongitude()));
         }
         clusterManager.cluster();
+        this.pendingIncidents = null;
     }
 
     @Subscribe
     public void onIncidentsReceived(IncidentsReceivedEvent incidentsEvent) {
-        setIncidents(incidentsEvent.getIncidents());
+        if (this.map == null) {
+            this.pendingIncidents = incidentsEvent.getIncidents();
+        } else {
+            this.setIncidents(incidentsEvent.getIncidents());
+        }
     }
 }

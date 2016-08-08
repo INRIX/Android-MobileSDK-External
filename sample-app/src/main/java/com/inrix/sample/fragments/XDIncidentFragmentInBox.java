@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -48,29 +49,19 @@ public class XDIncidentFragmentInBox extends SupportMapFragment implements
         IncidentsManager.IXDIncidentResponseListener,
         ClusterManager.OnClusterItemClickListener<XDIncidentFragmentInBox.XDIncidentClusterItem> {
 
-    /**
-     * The map.
-     */
-    private GoogleMap map = null;
-
-    /**
-     * Displays XDIncident locations.
-     */
-    private List<Marker> resultMarkers;
-
-    /**
-     * The Incidents Manager
-     */
-    private IncidentsManager manager;
-
-    private ClusterManager<XDIncidentClusterItem> clusterManager;
-
     private final GeoPoint CORNER1 = new GeoPoint(47.689874, -122.354808);
     private final GeoPoint CORNER2 = new GeoPoint(47.572138, -122.152290);
     private final GeoPoint box3 = new GeoPoint(CORNER1.getLatitude(), CORNER2.getLongitude());
     private final GeoPoint box4 = new GeoPoint(CORNER2.getLatitude(), CORNER1.getLongitude());
 
+    private GoogleMap map;
+    private List<Marker> resultMarkers;
+
+    private ClusterManager<XDIncidentClusterItem> clusterManager;
+
+    private IncidentsManager manager;
     private ICancellable currentRequest;
+
     private Polygon polygon;
     private PolygonOptions polygonOptions;
 
@@ -82,39 +73,43 @@ public class XDIncidentFragmentInBox extends SupportMapFragment implements
 
         this.manager = InrixCore.getIncidentsManager();
 
-        setUpMapIfNeeded();
+        this.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                setUpMap(googleMap);
+            }
+        });
+
         return view;
     }
 
     /**
      * Initializes the map if it wasn't initialized yet.
+     *
+     * @param googleMap Map instance.
      */
-    private void setUpMapIfNeeded() {
-        if (this.map != null) {
-            return;
-        }
-        this.map = getMap();
-        if (this.map != null) {
-            //noinspection MissingPermission
-            this.map.setMyLocationEnabled(true);
-            this.map.getUiSettings().setMyLocationButtonEnabled(false);
-            this.map.getUiSettings().setZoomControlsEnabled(true);
-            LatLng centerPoint = new LatLng((CORNER1.getLatitude() + CORNER2.getLatitude()) / 2, (CORNER1.getLongitude() + CORNER2.getLongitude()) / 2);
-            this.map.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder().target(centerPoint).zoom(10).build()));
-            this.clusterManager = new ClusterManager<>(getActivity(), map);
-            this.map.setOnCameraChangeListener(clusterManager);
-            this.map.setOnMarkerClickListener(clusterManager);
-            this.clusterManager.setOnClusterItemClickListener(this);
+    private void setUpMap(final GoogleMap googleMap) {
+        this.map = googleMap;
 
-            IncidentsManager.XDIncidentOptionsInBox options = new IncidentsManager.XDIncidentOptionsInBox(CORNER1, CORNER2);
+        //noinspection MissingPermission
+        this.map.setMyLocationEnabled(true);
+        this.map.getUiSettings().setMyLocationButtonEnabled(false);
+        this.map.getUiSettings().setZoomControlsEnabled(true);
+        LatLng centerPoint = new LatLng((CORNER1.getLatitude() + CORNER2.getLatitude()) / 2, (CORNER1.getLongitude() + CORNER2.getLongitude()) / 2);
+        this.map.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder().target(centerPoint).zoom(10).build()));
+        this.clusterManager = new ClusterManager<>(getActivity(), map);
+        this.map.setOnCameraChangeListener(clusterManager);
+        this.map.setOnMarkerClickListener(clusterManager);
+        this.clusterManager.setOnClusterItemClickListener(this);
 
-            this.currentRequest = manager.getXDIncidentsInBox(options, XDIncidentFragmentInBox.this);
-            this.polygonOptions = new PolygonOptions()
-                    .add(toLatLng(CORNER1), toLatLng(box3), toLatLng(CORNER2), toLatLng(box4))
-                    .strokeColor(Color.BLUE).geodesic(true);
+        IncidentsManager.XDIncidentOptionsInBox options = new IncidentsManager.XDIncidentOptionsInBox(CORNER1, CORNER2);
 
-            this.polygon = this.map.addPolygon(this.polygonOptions);
-        }
+        this.currentRequest = manager.getXDIncidentsInBox(options, XDIncidentFragmentInBox.this);
+        this.polygonOptions = new PolygonOptions()
+                .add(toLatLng(CORNER1), toLatLng(box3), toLatLng(CORNER2), toLatLng(box4))
+                .strokeColor(Color.BLUE).geodesic(true);
+
+        this.polygon = this.map.addPolygon(this.polygonOptions);
     }
 
     @Override
@@ -125,11 +120,6 @@ public class XDIncidentFragmentInBox extends SupportMapFragment implements
 
 
     public void setXdIncidents(List<Marker> incidents) {
-        setUpMapIfNeeded();
-        if (this.map == null) {
-            return;
-        }
-
         this.map.clear();
 
         this.polygon = this.map.addPolygon(polygonOptions);

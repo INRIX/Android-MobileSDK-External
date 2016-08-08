@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMyLocationChangeListener;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -36,17 +37,24 @@ import java.util.List;
 import static com.inrix.sample.util.GeoPointHelper.toLatLng;
 
 public class IncidentAlertsMapFragment extends SupportMapFragment {
+    private static final GeoPoint SEATTLE_POSITION = new GeoPoint(47.614496, -122.328758);
 
-    private GoogleMap map = null;
+    private GoogleMap map;
     private ClusterManager<MapClusterItem> clusterManager;
     private Location lastKnownLocation;
-
-    private final GeoPoint SEATTLE_POSITION = new GeoPoint(47.614496, -122.328758);
+    private List<Incident> pendingIncidents;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
-        setUpMapIfNeeded();
+
+        this.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                setUpMapIfNeeded(googleMap);
+            }
+        });
+
         return v;
     }
 
@@ -62,35 +70,39 @@ public class IncidentAlertsMapFragment extends SupportMapFragment {
         super.onDetach();
     }
 
-    private void setUpMapIfNeeded() {
-        if (this.map != null) {
-            return;
-        }
-        this.map = getMap();
-        if (this.map != null) {
-            //noinspection MissingPermission
-            this.map.setMyLocationEnabled(true);
-            this.map.getUiSettings().setMyLocationButtonEnabled(false);
-            this.map.getUiSettings().setZoomControlsEnabled(true);
-            this.map.setOnMyLocationChangeListener(new OnMyLocationChangeListener() {
+    private void setUpMapIfNeeded(GoogleMap googleMap) {
+        this.map = googleMap;
 
-                @Override
-                public void onMyLocationChange(Location location) {
-                    lastKnownLocation = location;
-                }
-            });
+        //noinspection MissingPermission
+        this.map.setMyLocationEnabled(true);
+        this.map.getUiSettings().setMyLocationButtonEnabled(false);
+        this.map.getUiSettings().setZoomControlsEnabled(true);
+        this.map.setOnMyLocationChangeListener(new OnMyLocationChangeListener() {
 
-            this.map.moveCamera(CameraUpdateFactory.newLatLngZoom(toLatLng(SEATTLE_POSITION), 12));
+            @Override
+            public void onMyLocationChange(Location location) {
+                lastKnownLocation = location;
+            }
+        });
 
-            this.clusterManager = new ClusterManager<>(getActivity(), this.map);
+        this.map.moveCamera(CameraUpdateFactory.newLatLngZoom(toLatLng(SEATTLE_POSITION), 12));
 
-            this.map.setOnCameraChangeListener(this.clusterManager);
+        this.clusterManager = new ClusterManager<>(getActivity(), this.map);
+
+        this.map.setOnCameraChangeListener(this.clusterManager);
+
+        if (this.pendingIncidents != null) {
+            this.setIncidents(this.pendingIncidents);
         }
     }
 
     @Subscribe
     public void onIncidentsReceived(IncidentsReceivedEvent incidentsEvent) {
-        setIncidents(incidentsEvent.getIncidents());
+        if (this.map == null) {
+            this.pendingIncidents = incidentsEvent.getIncidents();
+        } else {
+            setIncidents(incidentsEvent.getIncidents());
+        }
     }
 
     private void moveMapToCurrentLocation() {
@@ -113,11 +125,6 @@ public class IncidentAlertsMapFragment extends SupportMapFragment {
     }
 
     public void setIncidents(List<Incident> incidents) {
-        setUpMapIfNeeded();
-        if (this.map == null) {
-            return;
-        }
-
         this.map.clear();
         this.clusterManager.clearItems();
 
@@ -130,5 +137,6 @@ public class IncidentAlertsMapFragment extends SupportMapFragment {
             this.clusterManager.addItem(new MapClusterItem(incident.getLatitude(), incident.getLongitude()));
         }
         this.clusterManager.cluster();
+        this.pendingIncidents = null;
     }
 }

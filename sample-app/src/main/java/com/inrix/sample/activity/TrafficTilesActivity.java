@@ -16,6 +16,7 @@ import android.view.MenuItem;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.TileOverlay;
@@ -29,7 +30,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class TrafficTilesActivity extends InrixSdkActivity {
-    private GoogleMap map;
     private LatLng DEFAULT_LOCATION_TULSA = new LatLng(36.2151784, -95.888836); // Mohwak peak!
     private TileOverlay trafficTileOverlay;
     private TileManager tileManager;
@@ -44,8 +44,12 @@ public class TrafficTilesActivity extends InrixSdkActivity {
         super.onCreate(savedInstanceState);
 
         this.tileManager = InrixCore.getTileManager();
-        this.map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
-        setUpMap();
+        ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                setUpMap(googleMap);
+            }
+        });
     }
 
     @Override
@@ -68,12 +72,14 @@ public class TrafficTilesActivity extends InrixSdkActivity {
 
     /**
      * Set up google map with the tile stuff.
+     *
+     * @param map {@link GoogleMap} instance.
      */
-    private void setUpMap() {
+    private void setUpMap(GoogleMap map) {
         TileOverlayOptions opts = new TileOverlayOptions();
         opts.tileProvider(new InrixTrafficTileProvider(this.tileManager));
-        this.trafficTileOverlay = this.map.addTileOverlay(opts);
-        this.map.animateCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION_TULSA, 10));
+        this.trafficTileOverlay = map.addTileOverlay(opts);
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION_TULSA, 10));
     }
 
     /**

@@ -32,6 +32,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMyLocationChangeListener;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterManager;
@@ -117,8 +118,16 @@ public class IncidentManagementActivity extends InrixSdkActivity implements OnMy
 
         // Obtain reference to map control.
         final SupportMapFragment mapFragment = (SupportMapFragment) this.getSupportFragmentManager().findFragmentById(R.id.map);
-        this.map = mapFragment.getMap();
+        mapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                map = googleMap;
+                initMap();
+            }
+        });
+    }
 
+    private void initMap() {
         // Setup map.
         //noinspection MissingPermission
         this.map.setMyLocationEnabled(true);
@@ -126,7 +135,7 @@ public class IncidentManagementActivity extends InrixSdkActivity implements OnMy
         this.map.setOnMapLongClickListener(this);
 
         // Setup incidents clustering on map.
-        this.clusterManager = new ClusterManager<MapIncidentItem>(this, this.map);
+        this.clusterManager = new ClusterManager<>(this, this.map);
         this.clusterManager.setOnClusterItemClickListener(this);
 
         this.map.setOnCameraChangeListener(this.clusterManager);
@@ -185,6 +194,10 @@ public class IncidentManagementActivity extends InrixSdkActivity implements OnMy
 
     @Override
     public void onMyLocationChange(Location location) {
+        if (this.map == null) {
+            return;
+        }
+
         final LatLng coords = new LatLng(location.getLatitude(), location.getLongitude());
         this.map.animateCamera(CameraUpdateFactory.newLatLngZoom(coords, 13));
 
@@ -244,6 +257,7 @@ public class IncidentManagementActivity extends InrixSdkActivity implements OnMy
                 break;
         }
 
+        //noinspection ConstantConditions
         options.setSideOfRoad(side);
 
         this.manager.reportIncident(options, new IncidentsManager.IIncidentReportListener() {
@@ -294,7 +308,7 @@ public class IncidentManagementActivity extends InrixSdkActivity implements OnMy
                 break;
         }
 
-        String description = null;
+        String description;
         if (incident == null) {
             description = "";
         } else {
@@ -314,7 +328,7 @@ public class IncidentManagementActivity extends InrixSdkActivity implements OnMy
             this.incidentConfirmContainer.setVisibility(View.GONE);
         } else {
             this.incidentDeleteButton.setVisibility(View.GONE);
-            if (incident.isUgi()) {
+            if (incident != null && incident.isUgi()) {
                 this.incidentConfirmContainer.setVisibility(View.VISIBLE);
             } else {
                 this.incidentConfirmContainer.setVisibility(View.GONE);
@@ -414,6 +428,7 @@ public class IncidentManagementActivity extends InrixSdkActivity implements OnMy
     /**
      * Requests incidents and display them on the map.
      */
+    @SuppressWarnings("deprecation")
     private synchronized void refreshIncidentsOnMap() {
         // Skip refresh, we don't a current location yet.
         if (this.options == null || this.manager == null) {
@@ -520,7 +535,7 @@ public class IncidentManagementActivity extends InrixSdkActivity implements OnMy
 
         @SuppressLint("UseSparseArrays")
         public SessionIncidentCache() {
-            this.cache = new HashMap<Long, IncidentViewModel>();
+            this.cache = new HashMap<>();
         }
 
         public void remove(long id) {
@@ -576,7 +591,7 @@ public class IncidentManagementActivity extends InrixSdkActivity implements OnMy
         }
 
         public List<IncidentViewModel> getAll() {
-            final List<IncidentViewModel> result = new LinkedList<IncidentViewModel>();
+            final List<IncidentViewModel> result = new LinkedList<>();
 
             for (final IncidentViewModel item : this.cache.values()) {
                 result.add(item);

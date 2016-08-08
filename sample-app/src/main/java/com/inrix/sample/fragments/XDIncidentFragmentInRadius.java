@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Circle;
@@ -53,7 +54,7 @@ public class XDIncidentFragmentInRadius extends SupportMapFragment implements
     /**
      * The map.
      */
-    private GoogleMap map = null;
+    private GoogleMap map;
 
     /**
      * Displays XDIncident locations.
@@ -87,30 +88,35 @@ public class XDIncidentFragmentInRadius extends SupportMapFragment implements
 
         this.manager = InrixCore.getIncidentsManager();
 
-        setUpMapIfNeeded();
+        this.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                setUpMap(googleMap);
+            }
+        });
+
+
         return view;
     }
 
     /**
      * Initializes the map if it wasn't initialized yet.
+     *
+     * @param googleMap Mpa instance.
      */
-    private void setUpMapIfNeeded() {
-        if (this.map != null) {
-            return;
-        }
-        this.map = getMap();
-        if (this.map != null) {
-            //noinspection MissingPermission
-            this.map.setMyLocationEnabled(true);
-            this.map.getUiSettings().setMyLocationButtonEnabled(false);
-            this.map.getUiSettings().setZoomControlsEnabled(true);
-            this.map.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder().target(toLatLng(SEATTLE_POSITION)).zoom(10).build()));
-            this.map.setOnMapLongClickListener(new MapLongClickListener());
-            this.clusterManager = new ClusterManager<>(getActivity(), map);
-            this.map.setOnCameraChangeListener(clusterManager);
-            this.map.setOnMarkerClickListener(clusterManager);
-            this.clusterManager.setOnClusterItemClickListener(this);
-        }
+    private void setUpMap(GoogleMap googleMap) {
+        this.map = googleMap;
+
+        //noinspection MissingPermission
+        this.map.setMyLocationEnabled(true);
+        this.map.getUiSettings().setMyLocationButtonEnabled(false);
+        this.map.getUiSettings().setZoomControlsEnabled(true);
+        this.map.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder().target(toLatLng(SEATTLE_POSITION)).zoom(10).build()));
+        this.map.setOnMapLongClickListener(new MapLongClickListener());
+        this.clusterManager = new ClusterManager<>(getActivity(), map);
+        this.map.setOnCameraChangeListener(clusterManager);
+        this.map.setOnMarkerClickListener(clusterManager);
+        this.clusterManager.setOnClusterItemClickListener(this);
     }
 
     /**
@@ -183,11 +189,6 @@ public class XDIncidentFragmentInRadius extends SupportMapFragment implements
     }
 
     public void setXdIncidents(List<Marker> incidents) {
-        setUpMapIfNeeded();
-        if (this.map == null) {
-            return;
-        }
-
         map.clear();
 
         circle = map.addCircle(circleOptions);

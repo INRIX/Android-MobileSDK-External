@@ -12,12 +12,12 @@ package com.inrix.sample.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -38,7 +38,6 @@ import java.util.List;
 public class IncidentDetailsActivity extends AppCompatActivity {
     private static final String INCIDENT = "incident";
 
-    private GoogleMap map;
     private IncidentDetailsFragment details;
 
     public static Intent generateIncidentDetailsActivity(final Context context, Incident incident) {
@@ -52,17 +51,21 @@ public class IncidentDetailsActivity extends AppCompatActivity {
         super.onCreate(arg0);
         setContentView(R.layout.activity_incident_details);
 
-        this.map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
+        final SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                bindIncidentDetails(googleMap);
+            }
+        });
 
         this.details = (IncidentDetailsFragment) getSupportFragmentManager().findFragmentById(R.id.details);
-
-        this.bindIncidentDetails();
     }
 
     /**
      * Bind incident details.
      */
-    private void bindIncidentDetails() {
+    private void bindIncidentDetails(final GoogleMap map) {
         Intent launchIntent = this.getIntent();
         Incident incident = launchIntent.getParcelableExtra(INCIDENT);
         final String description = incident.getDescription() == null ? "Incident" : incident.getDescription();
@@ -76,10 +79,10 @@ public class IncidentDetailsActivity extends AppCompatActivity {
 
         LatLngBounds.Builder builder = LatLngBounds.builder();
 
-        LatLng incidentLatLang = this.addPointOnMap(incidentPoint, R.drawable.incident, null);
+        LatLng incidentLatLang = this.addPointOnMap(map, incidentPoint, R.drawable.incident, null);
         builder.include(incidentLatLang);
 
-        LatLng head = this.addPointOnMap(incidentHead, R.drawable.incident_head, "Head");
+        LatLng head = this.addPointOnMap(map, incidentHead, R.drawable.incident_head, "Head");
 
         if (head != null) {
             builder.include(head);
@@ -88,30 +91,33 @@ public class IncidentDetailsActivity extends AppCompatActivity {
         if (tails != null) {
             for (GeoPoint tail : tails) {
                 builder.include(
-                        this.addPointOnMap(tail, R.drawable.incident_tail, "Tail"));
+                        this.addPointOnMap(map, tail, R.drawable.incident_tail, "Tail"));
             }
         }
 
         if (detours != null) {
             for (GeoPoint detour : detours) {
                 builder.include(
-                        this.addPointOnMap(detour, R.drawable.incident_detour, "Detour"));
+                        this.addPointOnMap(map, detour, R.drawable.incident_detour, "Detour"));
             }
         }
 
-        this.map.animateCamera(CameraUpdateFactory.newLatLngZoom(incidentLatLang, 14));
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(incidentLatLang, 14));
     }
 
     /**
      * Adds the point on map.
      *
+     * @param map {@link GoogleMap} instance.
      * @param point       the point
      * @param resourcesId the resources id
      * @param title       the title
      */
-    private LatLng addPointOnMap(final GeoPoint point,
-                                 int resourcesId,
-                                 final String title) {
+    private LatLng addPointOnMap(
+            final GoogleMap map,
+            final GeoPoint point,
+            int resourcesId,
+            final String title) {
         if (point == null) {
             return null;
         }
@@ -124,7 +130,7 @@ public class IncidentDetailsActivity extends AppCompatActivity {
             options.title(title);
         }
 
-        this.map.addMarker(options);
+        map.addMarker(options);
         return position;
     }
 
