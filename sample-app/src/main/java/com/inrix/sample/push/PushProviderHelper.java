@@ -6,60 +6,41 @@
  * included in all copies and substantial portions of the software. This software is "Sample Code".
  * Refer to the License.pdf file for your rights to use this software.
  */
-
 package com.inrix.sample.push;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.inrix.sdk.push.IPushChannel;
 import com.inrix.sdk.push.PushChannelFactory;
-import com.parse.Parse;
-import com.parse.ParseException;
-import com.parse.ParseInstallation;
-import com.parse.SaveCallback;
 
 /**
  * Push provider helper.
  */
 public class PushProviderHelper {
 
-    public interface IPushProviderListener {
-        void onTokenAvailable(String token);
-        void onError(final String errorMessage);
-    }
-
-    public static final String PARSE_CHANNEL_NAME = "Sample,Application,SDK,6";
+    /**
+     * Push channel name as provided by INRIX.
+     */
+    public static final String PUSH_CHANNEL_NAME = "Sample,Application,SDK,6";
 
     /**
-     * Initialize push provider.
+     * Sync the push token with INRIX services.
      *
-     * @param context application context.
+     * @param context An instance of {@link Context}.
      */
-    public static void initializeProvider(final Context context, final IPushProviderListener listener) {
-        Parse.initialize(context);
-        ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if(listener == null){
-                    return;
-                }
-
-                if (e != null) {
-                    listener.onError(e.getMessage());
-                } else {
-                    listener.onTokenAvailable(getPushToken());
-                }
-            }
-        });
+    public static void syncPushToken(@NonNull Context context) {
+        PushTokenSyncService.syncPushToken(context);
     }
 
     /**
-     * Generates push info to register with server.
+     * Generates push channel to register with server.
      *
-     * @return
+     * @return The push channel.
      */
-    public static IPushChannel getIPushChannel() {
-        return PushChannelFactory.getParseChannel(PARSE_CHANNEL_NAME, getPushToken());
+    public static IPushChannel getPushChannel() {
+        return PushChannelFactory.getFirebaseChannel(PUSH_CHANNEL_NAME, getPushToken());
     }
 
     /**
@@ -68,6 +49,6 @@ public class PushProviderHelper {
      * @return push token.
      */
     public static String getPushToken() {
-        return ParseInstallation.getCurrentInstallation().getObjectId();
+        return FirebaseInstanceId.getInstance().getToken();
     }
 }

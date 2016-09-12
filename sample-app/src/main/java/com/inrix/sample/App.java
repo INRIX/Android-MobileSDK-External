@@ -11,7 +11,6 @@ package com.inrix.sample;
 
 import android.app.Application;
 
-import com.inrix.sample.push.PushProviderHelper;
 import com.inrix.sample.util.PermissionHelper;
 import com.inrix.sdk.InrixCore;
 
@@ -25,7 +24,6 @@ public class App extends Application {
      */
     @Override
     public void onCreate() {
-        PushProviderHelper.initializeProvider(this, null);
         super.onCreate();
 
         if (PermissionHelper.hasAllPermissions(this)) {

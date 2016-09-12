@@ -11,7 +11,6 @@ package com.inrix.sample.push;
 
 import android.app.Notification;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
@@ -20,7 +19,6 @@ import com.inrix.sample.R;
 import com.inrix.sdk.model.PreDriveNotification;
 import com.inrix.sdk.push.IPushNotification;
 import com.inrix.sdk.push.PushNotificationParser;
-import com.parse.ParsePushBroadcastReceiver;
 
 
 /**
@@ -28,16 +26,15 @@ import com.parse.ParsePushBroadcastReceiver;
  */
 public class PushNotificationBuilder {
 
-    private IPushNotification alert;
+    private final IPushNotification alert;
 
     /**
-     * Constructs display info from intent.
+     * Initialize {@link PushNotificationBuilder} with the given alert json data.
      *
-     * @param intent contains Pre-drive alert information.
+     * @param alertJson Alert json data that contains Pre-drive alert information.
      */
-    public PushNotificationBuilder(Intent intent) {
-        String alertJson = intent.getStringExtra(ParsePushBroadcastReceiver.KEY_PUSH_DATA);
-        this.alert = (IPushNotification) PushNotificationParser.parse(alertJson);
+    public PushNotificationBuilder(String alertJson) {
+        this.alert = PushNotificationParser.parse(alertJson);
     }
 
     /**
@@ -65,5 +62,4 @@ public class PushNotificationBuilder {
 
         return null;
     }
-
 }

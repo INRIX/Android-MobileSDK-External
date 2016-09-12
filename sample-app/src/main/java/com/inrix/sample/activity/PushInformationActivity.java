@@ -11,7 +11,6 @@ package com.inrix.sample.activity;
 
 import android.os.Bundle;
 import android.util.Pair;
-import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -23,6 +22,17 @@ import com.inrix.sdk.InrixCore;
 import com.inrix.sdk.UserManager;
 import com.inrix.sdk.authentication.Account;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+/**
+ * Sample activity that demonstrates push operation.
+ * <p/>
+ * You will need to update the google-services.json file with your own credentials in order to get
+ * a push token and receive push notifications.
+ *
+ * @see <a href="https://developers.google.com/cloud-messaging/android/start">Firebase Getting Started</a>
+ */
 public class PushInformationActivity extends InrixSdkActivity {
     private UserManager userManager;
     private Gson serializer;
@@ -36,65 +46,29 @@ public class PushInformationActivity extends InrixSdkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        try {
-            PushProviderHelper.initializeProvider(getApplicationContext(), new PushProviderHelper.IPushProviderListener() {
-                @Override
-                public void onTokenAvailable(String token) {
-                    ((TextView) findViewById(R.id.parseObjectId)).setText(
-                            getString(R.string.parse_installation_id_label_format, token));
-                }
-
-                @Override
-                public void onError(String errorMessage) {
-                    showStatus(errorMessage);
-                }
-            });
-        } catch (Exception ex) {
-            this.showStatus(ex.getMessage());
-        }
+        ButterKnife.bind(this);
 
         this.userManager = InrixCore.getUserManager();
         this.serializer = new GsonBuilder().setPrettyPrinting().create();
 
-        // Attach handlers.
-        this.findViewById(R.id.status).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v instanceof TextView) {
-                    ((TextView) v).setText("");
-                }
-            }
-        });
-
-        // Attach handlers.
-        this.findViewById(R.id.buttonCreateAccount).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onCreateAccount();
-            }
-        });
-
-        this.findViewById(R.id.buttonUpdatePushChannel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updatePushChannel();
-            }
-        });
+        final String pushToken = getString(R.string.push_token_label_format, PushProviderHelper.getPushToken());
+        ButterKnife.<TextView>findById(this, R.id.pushTokenId).setText(pushToken);
     }
 
-    private Pair<String, String> getLoginCredentials() {
-        final String loginName = ((TextView) this.findViewById(R.id.loginName)).getText().toString();
-        final String password = ((TextView) this.findViewById(R.id.password)).getText().toString();
-        return new Pair<String, String>(loginName, password);
+    @OnClick(R.id.status)
+    void onStatusClicked() {
+        showStatus("");
     }
 
-    private void onCreateAccount() {
+    @OnClick(R.id.buttonCreateAccount)
+    void onCreateAccount() {
         final Pair<String, String> credentials = this.getLoginCredentials();
         final UserManager.UserCreateOptions options = new UserManager.UserCreateOptions(credentials.first, credentials.second);
         this.userManager.create(options, new UserManager.UserCreateListener() {
             @Override
             public void onResult(Account data) {
                 showStatus(serializer.toJson(data));
+                updatePushChannel();
             }
 
             @Override
@@ -104,22 +78,31 @@ public class PushInformationActivity extends InrixSdkActivity {
         });
     }
 
-    private void updatePushChannel() {
-        this.userManager.updatePushNotificationInformation(
-                new UserManager.UpdatePushNotificationInformationOptions(PushProviderHelper.getIPushChannel()),
-                new UserManager.UpdatePushNotificationInformationListener() {
-                    @Override
-                    public void onResult(Boolean data) {
-                        showStatus("Push Channel Information Updated " + (data ? "Success" : "Failure"));
-                    }
-
-                    @Override
-                    public void onError(com.inrix.sdk.Error error) {
-                        showStatus(error.getErrorMessage());
-                    }
-                });
+    @OnClick(R.id.buttonUpdatePushChannel)
+    void onUpdatePushChannel() {
+        updatePushChannel();
     }
 
+    /**
+     * Update the push channel information for the user.
+     * <p/>
+     * This should be called anytime a new user is created or signs in.
+     */
+    private void updatePushChannel() {
+        PushProviderHelper.syncPushToken(this);
+    }
+
+    private Pair<String, String> getLoginCredentials() {
+        final String loginName = ((TextView) this.findViewById(R.id.loginName)).getText().toString();
+        final String password = ((TextView) this.findViewById(R.id.password)).getText().toString();
+        return new Pair<>(loginName, password);
+    }
+
+    /**
+     * Show status text.
+     *
+     * @param status The text to display.
+     */
     private void showStatus(final String status) {
         ((TextView) this.findViewById(R.id.status)).setText(status);
     }

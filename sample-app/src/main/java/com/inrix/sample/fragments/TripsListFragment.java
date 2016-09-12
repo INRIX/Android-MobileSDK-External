@@ -53,8 +53,8 @@ public class TripsListFragment extends Fragment implements AbsListView.OnItemCli
                     entry.getOrigin().getName(),
                     entry.getDestination().getName()));
             featureView.setDescription(entry.getSchedule().getScheduleOptions().isRecurring() ?
-            getString(R.string.trip_list_item_recurring) :
-            getString(R.string.trip_list_item_one_time));
+                    getString(R.string.trip_list_item_recurring) :
+                    getString(R.string.trip_list_item_one_time));
 
             return featureView;
         }
@@ -146,7 +146,20 @@ public class TripsListFragment extends Fragment implements AbsListView.OnItemCli
         }
     }
 
+    /**
+     * Check if fragment is inactive
+     *
+     * @return true if inactive
+     */
+    public boolean isFragmentInactive() {
+        return isDetached() || isRemoving() || !isResumed();
+    }
+
     private void notifyDataSetChanged() {
+        if (isFragmentInactive()) {
+            return;
+        }
+
         TripsListFragment.this.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {

@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   Copyright (c) 2013-2016 INRIX, Inc.
 
   INRIX is a registered trademark of INRIX, Inc. Any copyright, patent and trademark notice(s)
@@ -96,8 +97,8 @@
     <string name="uas_sign_out">Sign Out</string>
     <string name="uas_reset_password">Reset Password</string>
     <string name="uas_change_password">Change Password</string>
-    <string name="uas_update_push_info">Update Parse Information</string>
-    <string name="empty_cameras">Select cameras API from menu</string>
+    <string name="uas_update_push_info">Update Push Information</string>
+    <string name="empty">Select API from menu</string>
     <string name="xdincident_noresults">No XDIncidents Found!</string>
     <string name="sample_xdincidents">XDIncidents</string>
     <string name="sample_xd_incidents">Find XDIncidents</string>
@@ -126,7 +127,7 @@
     <string name="service_invocation_title">Service Invocation Sample</string>
     <string name="service_invocation_invoke">Invoke</string>
     <string name="service_invocation_result">Result:</string>
-    <string name="parse_installation_id_label_format">Parse installation id: %1$s</string>
+    <string name="push_token_label_format">Push Token: %1$s</string>
     <string name="tab_title_nearby_search">Nearby</string>
     <string name="tab_title_autocomplete_search">Autocomplete</string>
     <string name="autocomplete_hint">Start typing to search...</string>
@@ -159,5 +160,9 @@
     <string name="parking_section_zone_time_limited">Time-limited parking</string>
     <string name="parking_section_zone_unrestricted">Unrestricted</string>
     <string name="parking_section_zone_none">Unknown</string>
+
+    <!-- Gas Stations -->
+    <string name="gas_stations_on_route">Get gas stations along a route</string>
+    <string name="gas_stations_in_radius">Get gas stations around a radius</string>
 
 </resources>

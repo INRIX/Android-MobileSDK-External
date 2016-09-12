@@ -65,7 +65,7 @@ public class CamerasActivity extends InrixSdkActivity {
     private final GeoPoint SEATTLE = new GeoPoint(47.614496, -122.328758);
 
     /**
-     * The redmond.
+     * Redmond, WA.
      */
     private final GeoPoint REDMOND = new GeoPoint(47.672704, -122.123504);
 

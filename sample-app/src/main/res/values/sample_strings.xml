@@ -14,7 +14,7 @@
     <string name="sample_busy_commuter_tile">Busy Commuter</string>
     <string name="sample_busy_commuter_description">Routes and Incidents for multiple cities</string>
     <string name="sample_gas_stations">Gas Stations</string>
-    <string name="sample_gas_stations_description">Get gas stations around a radius</string>
+    <string name="sample_gas_stations_description">Gas Stations Samples - around Seattle, and on route from Redmond to Seattle</string>
     <string name="sample_parking_off_street">Parking Facilities</string>
     <string name="sample_parking_off_street_description">Get parking facilities around a radius</string>
     <string name="sample_parking_on_street">On-street parking</string>
