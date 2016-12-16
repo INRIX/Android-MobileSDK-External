@@ -114,7 +114,7 @@ public class XDIncidentFragmentInRadius extends SupportMapFragment implements
         this.map.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder().target(toLatLng(SEATTLE_POSITION)).zoom(10).build()));
         this.map.setOnMapLongClickListener(new MapLongClickListener());
         this.clusterManager = new ClusterManager<>(getActivity(), map);
-        this.map.setOnCameraChangeListener(clusterManager);
+        this.map.setOnCameraIdleListener(clusterManager);
         this.map.setOnMarkerClickListener(clusterManager);
         this.clusterManager.setOnClusterItemClickListener(this);
     }

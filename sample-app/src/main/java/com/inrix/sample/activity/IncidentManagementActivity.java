@@ -138,7 +138,7 @@ public class IncidentManagementActivity extends InrixSdkActivity implements OnMy
         this.clusterManager = new ClusterManager<>(this, this.map);
         this.clusterManager.setOnClusterItemClickListener(this);
 
-        this.map.setOnCameraChangeListener(this.clusterManager);
+        this.map.setOnCameraIdleListener(this.clusterManager);
         this.map.setOnMarkerClickListener(this.clusterManager);
         this.map.setOnMapClickListener(this);
     }

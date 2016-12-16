@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright (c) 2013-2016 INRIX, Inc.
 
   INRIX is a registered trademark of INRIX, Inc. Any copyright, patent and trademark notice(s)
@@ -58,6 +57,7 @@
         <activity android:name=".activity.ServiceInvocationActivity" />
         <activity android:name=".activity.PushInformationActivity" />
         <activity android:name=".activity.ParkingBlocksActivity" />
+        <activity android:name=".activity.DangerousSlowdownsActivity" />
 
         <!-- Firebase Cloud Messaging (FCM) section-->
         <service android:name=".push.InstanceIdListenerService">

@@ -111,5 +111,9 @@ public final class SampleAppDetailsList {
             new SampleAppDetails(R.string.sample_push_information,
                     R.string.sample_push_information_description,
                     PushInformationActivity.class),
+            // Dangerous Slowdowns.
+            new SampleAppDetails(R.string.sample_dangerous_slowdowns,
+                    R.string.sample_dangerous_slowdowns_description,
+                    DangerousSlowdownsActivity.class)
     };
 }

@@ -23,4 +23,11 @@
     <color name="parking_section_occupancy_1">#F44336</color>
     <color name="parking_section_occupancy_0">#795548</color>
     <color name="parking_section_occupancy_none">#263238</color>
+
+    <color name="dangerous_slowdowns_severity_5">#FF0000</color>
+    <color name="dangerous_slowdowns_severity_4">#BE1A1A</color>
+    <color name="dangerous_slowdowns_severity_3">#8C2E2E</color>
+    <color name="dangerous_slowdowns_severity_2">#6B3939</color>
+    <color name="dangerous_slowdowns_severity_1">#464646</color>
+    <color name="dangerous_slowdowns_severity_unknown">#2C2D26</color>
 </resources>

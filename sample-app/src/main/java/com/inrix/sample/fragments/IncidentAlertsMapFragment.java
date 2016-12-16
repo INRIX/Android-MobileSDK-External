@@ -89,7 +89,7 @@ public class IncidentAlertsMapFragment extends SupportMapFragment {
 
         this.clusterManager = new ClusterManager<>(getActivity(), this.map);
 
-        this.map.setOnCameraChangeListener(this.clusterManager);
+        this.map.setOnCameraIdleListener(this.clusterManager);
 
         if (this.pendingIncidents != null) {
             this.setIncidents(this.pendingIncidents);

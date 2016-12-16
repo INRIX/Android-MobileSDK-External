@@ -24,118 +24,190 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.inrix.sample.R;
+import com.inrix.sample.view.MapInfoWindowAdapter;
+import com.inrix.sdk.Error;
 import com.inrix.sdk.ICancellable;
 import com.inrix.sdk.InrixCore;
 import com.inrix.sdk.SearchManager;
+import com.inrix.sdk.SearchManager.ISearchResponseListener;
 import com.inrix.sdk.model.GeoPoint;
 import com.inrix.sdk.model.LocationMatch;
 
 import java.util.List;
 
 import static com.inrix.sample.util.GeoPointHelper.fromLatLng;
+import static com.inrix.sample.util.GeoPointHelper.toLatLng;
 
 /**
  * Demonstrates reverse geocode functions.
  */
-public class ReverseGeocodeOnMapFragment extends SupportMapFragment implements SearchManager.ISearchResponseListener, OnMapReadyCallback {
+@SuppressWarnings("MissingPermission")
+public class ReverseGeocodeOnMapFragment extends SupportMapFragment implements OnMapReadyCallback {
     /**
      * Default start position.
      */
     private static final GeoPoint SEATTLE_POSITION = new GeoPoint(47.614496, -122.328758);
 
-    private GoogleMap map = null;
+    private GoogleMap map;
     private Marker marker;
     private SearchManager searchManager;
     private ICancellable searchRequest;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public View onCreateView(LayoutInflater inflater,
-                             ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater,
+                             final ViewGroup container,
+                             final Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         this.searchManager = InrixCore.getSearchManager();
         this.getMapAsync(this);
         return view;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onDestroyView() {
         if (this.searchRequest != null) {
             this.searchRequest.cancel();
         }
+
         super.onDestroyView();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
         this.map = googleMap;
-        //noinspection MissingPermission
+        this.map.setInfoWindowAdapter(new MapInfoWindowAdapter(this.getActivity()));
         this.map.setMyLocationEnabled(true);
         this.map.getUiSettings().setMyLocationButtonEnabled(false);
         this.map.getUiSettings().setZoomControlsEnabled(true);
 
-        this.map.moveCamera(
-                CameraUpdateFactory.newLatLngZoom(
-                        new LatLng(SEATTLE_POSITION.getLatitude(), SEATTLE_POSITION.getLongitude()), 12)
-        );
+        this.map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(
+                        SEATTLE_POSITION.getLatitude(),
+                        SEATTLE_POSITION.getLongitude()),
+                12));
 
-        this.map.setOnMapLongClickListener(new MapLongClickListener());
+        this.map.setOnMapLongClickListener(new OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                performGeocodingForLocation(fromLatLng(latLng));
+            }
+        });
     }
 
     /**
-     * Shows the marker.
+     * Perform geocoding.
      *
-     * @param text   Text to show.
-     * @param latLng Position to show marker.
+     * @param geoPoint Target location.
      */
-    private synchronized void showMarker(String text, LatLng latLng) {
-        hideMarker();
-        this.marker = this.map.addMarker(new MarkerOptions().position(latLng)
-                .title(text));
+    private void performGeocodingForLocation(final GeoPoint geoPoint) {
+        if (this.searchRequest != null) {
+            this.searchRequest.cancel();
+            this.searchRequest = null;
+        }
+
+        if (this.marker != null) {
+            this.marker.remove();
+        }
+
+        this.marker = this.map.addMarker(
+                new MarkerOptions()
+                        .position(toLatLng(geoPoint))
+                        .title(getString(R.string.geocode_status_in_progress)));
         this.marker.showInfoWindow();
+
+        this.searchRequest = searchManager.reverseGeocode(
+                new SearchManager.ReverseGeocodeOptions(geoPoint),
+                new ISearchResponseListener() {
+                    @Override
+                    public void onResult(List<LocationMatch> data) {
+                        if (data != null && data.size() > 0) {
+                            LocationMatch match = data.get(0);
+                            showResultOnMap(match);
+                        } else {
+                            showError(getString(R.string.geocode_status_no_address_found));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Error error) {
+                        showError(error.getErrorMessage());
+                    }
+                });
     }
 
     /**
-     * Hides the marker.
+     * Shows geocode result on map.
+     *
+     * @param locationMatch Geocode result.
      */
-    private synchronized void hideMarker() {
+    private void showResultOnMap(final LocationMatch locationMatch) {
         if (this.marker != null && this.marker.isVisible()) {
             this.marker.remove();
         }
-    }
 
-    @Override
-    public void onResult(List<LocationMatch> data) {
-        if (data != null && data.size() > 0) {
-            LocationMatch match = data.get(0);
-            showMarker(match.getFormattedAddress(), new LatLng(match.getPoint().getLatitude(), match.getPoint().getLongitude()));
-        } else {
-            Toast.makeText(getActivity(),
-                    R.string.geocode_status_no_address_found,
-                    Toast.LENGTH_LONG).show();
-        }
-    }
+        final String title = locationMatch.getLocationName() == null
+                ? locationMatch.getFormattedAddress()
+                : locationMatch.getLocationName();
 
-    @Override
-    public void onError(com.inrix.sdk.Error error) {
-        Toast.makeText(getActivity(), error.getErrorMessage(),
-                Toast.LENGTH_LONG).show();
+        final LatLng markerLocation = toLatLng(locationMatch.getPoint());
+        this.marker = this.map.addMarker(
+                new MarkerOptions()
+                        .position(markerLocation)
+                        .title(title)
+                        .snippet(formatResult(locationMatch)));
+        this.marker.showInfoWindow();
+
+        this.map.animateCamera(CameraUpdateFactory.newLatLng(markerLocation));
     }
 
     /**
-     * Handles long clicks on the map.
+     * Shows error message.
+     *
+     * @param message Error message.
      */
-    private class MapLongClickListener implements OnMapLongClickListener {
-        @Override
-        public void onMapLongClick(LatLng latLng) {
-            showMarker(getString(R.string.geocode_status_in_progress), latLng);
-
-            if (searchRequest != null) {
-                searchRequest.cancel();
-                searchRequest = null;
-            }
-
-            searchRequest = searchManager.reverseGeocode(new SearchManager.ReverseGeocodeOptions(fromLatLng(latLng)), ReverseGeocodeOnMapFragment.this);
+    private void showError(final String message) {
+        if (this.marker != null && this.marker.isVisible()) {
+            this.marker.remove();
         }
+
+        Toast.makeText(this.getActivity(), message, Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * @param match {@link LocationMatch} to format.
+     * @return String representation of {@link LocationMatch}.
+     */
+    private String formatResult(final LocationMatch match) {
+        final String newLine = System.getProperty("line.separator");
+        final StringBuilder result = new StringBuilder();
+        result.append(this.getString(R.string.geocode_match_result_address, match.getFormattedAddress()));
+        result.append(newLine);
+
+        if (match.getAddress() != null) {
+            result.append(this.getString(R.string.geocode_match_result_city, match.getAddress().getCity()));
+            result.append(newLine);
+            result.append(this.getString(R.string.geocode_match_result_state, match.getAddress().getState()));
+            result.append(newLine);
+            result.append(this.getString(R.string.geocode_match_result_postal_code, match.getAddress().getPostalCode()));
+            result.append(newLine);
+            result.append(this.getString(R.string.geocode_match_result_country, match.getAddress().getCountry()));
+            result.append(newLine);
+        }
+
+        if (match.getPoint() != null) {
+            result.append(this.getString(R.string.geocode_match_result_point, match.getPoint().getLatitude(), match.getPoint().getLongitude()));
+            result.append(newLine);
+        }
+
+        result.append(this.getString(R.string.geocode_match_result_place_id, match.getPlaceId()));
+        return result.toString();
     }
 }

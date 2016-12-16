@@ -74,7 +74,7 @@ public class IncidentsMapFragment extends SupportMapFragment {
         this.map.getUiSettings().setZoomControlsEnabled(true);
         this.map.moveCamera(CameraUpdateFactory.newLatLngZoom(toLatLng(SEATTLE_POSITION), 12));
         this.clusterManager = new ClusterManager<>(getActivity(), this.map);
-        this.map.setOnCameraChangeListener(clusterManager);
+        this.map.setOnCameraIdleListener(clusterManager);
 
         if (this.pendingIncidents != null) {
             this.setIncidents(this.pendingIncidents);

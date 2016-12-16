@@ -53,6 +53,13 @@
     <string name="geocode_result_latitude">Lat:&#160;</string>
     <string name="geocode_result_longitude">Lng:&#160;</string>
     <string name="geocode_results">Result:\n%1$s</string>
+    <string name="geocode_match_result_address">Address: %s</string>
+    <string name="geocode_match_result_city">City: %s</string>
+    <string name="geocode_match_result_state">State: %s</string>
+    <string name="geocode_match_result_postal_code">Postal code: %s</string>
+    <string name="geocode_match_result_country">Country: %s</string>
+    <string name="geocode_match_result_point">Location: %1$f, %2$f</string>
+    <string name="geocode_match_result_place_id">Place ID: %s</string>
     <string name="incident_report_activity_title">Report Incident</string>
     <string name="incident_report_this_side">This side</string>
     <string name="incident_report_other_side">Other side</string>
@@ -164,5 +171,8 @@
     <!-- Gas Stations -->
     <string name="gas_stations_on_route">Get gas stations along a route</string>
     <string name="gas_stations_in_radius">Get gas stations around a radius</string>
+
+    <!-- Dangerous slowdowns -->
+    <string name="dangerous_slowdowns_list_item_text">Slowdown from %1$d mph to %2$d mph @ %3$s.</string>
 
 </resources>

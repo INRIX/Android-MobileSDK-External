@@ -98,7 +98,7 @@ public class XDIncidentFragmentInBox extends SupportMapFragment implements
         LatLng centerPoint = new LatLng((CORNER1.getLatitude() + CORNER2.getLatitude()) / 2, (CORNER1.getLongitude() + CORNER2.getLongitude()) / 2);
         this.map.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder().target(centerPoint).zoom(10).build()));
         this.clusterManager = new ClusterManager<>(getActivity(), map);
-        this.map.setOnCameraChangeListener(clusterManager);
+        this.map.setOnCameraIdleListener(clusterManager);
         this.map.setOnMarkerClickListener(clusterManager);
         this.clusterManager.setOnClusterItemClickListener(this);
 

@@ -41,10 +41,8 @@ import com.inrix.sdk.UserManager.UserGetOptions;
 import com.inrix.sdk.UserManager.UserSignInOptions;
 import com.inrix.sdk.authentication.Account;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -53,8 +51,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class AccountManagementActivity extends InrixSdkActivity {
-
-    private static final String FACEBOOK_OAUTH_PROVIDER = "facebook";
     private static final String FACEBOOK_GRAPH_FIELDS = "fields";
     private static final String FACEBOOK_EMAIL = "email";
     private static final String FACEBOOK_GENDER = "gender";
@@ -103,9 +99,12 @@ public class AccountManagementActivity extends InrixSdkActivity {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken,
                                                        AccessToken currentAccessToken) {
-                if (currentAccessToken == null) {
-                    // Capture log out via Facebook LoginButton
+                final String oauthToken = currentAccessToken != null ? currentAccessToken.getToken() : null;
+                if (TextUtils.isEmpty(oauthToken)) {
+                    // Sign out if Facebook is no longer authorized.
                     onSignOut();
+                } else {
+                    userManager.updateOAuthCredentials(new UserManager.UpdateOAuthCredentialsOptions(oauthToken));
                 }
             }
         };
@@ -118,23 +117,7 @@ public class AccountManagementActivity extends InrixSdkActivity {
         loginButton.registerCallback(this.facebookCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                final AccessToken accessToken = loginResult.getAccessToken();
-                final String userId = accessToken.getUserId();
-                final String token = accessToken.getToken();
-                final String provider = FACEBOOK_OAUTH_PROVIDER;
-                final UserSignInOptions options = new UserSignInOptions(null, userId, token, provider);
-                userManager.signIn(options, new UserManager.UserSignInListener() {
-                    @Override
-                    public void onResult(Boolean result) {
-                        showStatus("Sign in successful: " + result);
-                        requestFacebookEmail();
-                    }
-
-                    @Override
-                    public void onError(Error error) {
-                        showStatus(serializer.toJson(error));
-                    }
-                });
+                getFacebookEmailAndSignInToInrix();
             }
 
             @Override
@@ -187,8 +170,8 @@ public class AccountManagementActivity extends InrixSdkActivity {
         final UserSignInOptions options = new UserSignInOptions(credentials.first, credentials.second);
         this.userManager.signIn(options, new UserManager.UserSignInListener() {
             @Override
-            public void onResult(Boolean result) {
-                showStatus("Sign in successful: " + result);
+            public void onResult(final Account data) {
+                showStatus(serializer.toJson(data));
             }
 
             @Override
@@ -220,18 +203,20 @@ public class AccountManagementActivity extends InrixSdkActivity {
 
     @OnClick(R.id.buttonSignOut)
     protected void onSignOut() {
-        this.userManager.signOut(new UserManager.UserSignOutListener() {
-            @Override
-            public void onResult(Boolean data) {
-                showStatus("Log out successful");
-                logOutOfFacebook();
-            }
+        if (this.userManager.isSignedIn()) {
+            this.userManager.signOut(new UserManager.UserSignOutListener() {
+                @Override
+                public void onResult(Boolean data) {
+                    logOutOfFacebook();
+                    showStatus("Log out successful");
+                }
 
-            @Override
-            public void onError(Error error) {
-                showStatus(serializer.toJson(error));
-            }
-        });
+                @Override
+                public void onError(Error error) {
+                    showStatus(serializer.toJson(error));
+                }
+            });
+        }
     }
 
     @OnClick(R.id.buttonChangePassword)
@@ -298,26 +283,96 @@ public class AccountManagementActivity extends InrixSdkActivity {
     }
 
     /**
-     * Request Facebook email and update the user's account.
+     * Get Facebook email and then sign in to INRIX.
      */
-    private void requestFacebookEmail() {
+    private void getFacebookEmailAndSignInToInrix() {
         final AccessToken facebookToken = AccessToken.getCurrentAccessToken();
         if (facebookToken == null) {
             // Not logged in
             return;
         }
 
-        final GraphRequest emailRequest = GraphRequest.newMeRequest(
+        final GraphRequest graphRequest = GraphRequest.newMeRequest(
                 facebookToken,
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
+                        if (object == null) {
+                            // Error making graph request
+                            showStatus("Graph request error: " + response.getError().toString());
+                            return;
+                        }
+
+                        signInToInrixWithFacebook(object.optString(FACEBOOK_EMAIL, null));
+                    }
+                });
+
+        final Bundle params = new Bundle();
+        params.putString(FACEBOOK_GRAPH_FIELDS, FACEBOOK_EMAIL);
+        graphRequest.setParameters(params);
+        graphRequest.executeAsync();
+    }
+
+    /**
+     * Sign in to INRIX using Facebook OAuth credentials.
+     *
+     * @param email The email address associated with the user's Facebook account.
+     */
+    private void signInToInrixWithFacebook(final String email) {
+        final AccessToken facebookToken = AccessToken.getCurrentAccessToken();
+        if (facebookToken == null) {
+            // Not logged in
+            return;
+        }
+
+        final String userId = facebookToken.getUserId();
+        final String token = facebookToken.getToken();
+        final UserManager.OAuthSignInOptions options = UserManager.OAuthSignInOptions.getFacebookSignInOptions(
+                email, userId, token);
+        this.userManager.signInWithOAuth(options, new UserManager.OAuthSignInListener() {
+            @Override
+            public void onResult(final Account data) {
+                showStatus(serializer.toJson(data));
+                updateUserDetails();
+            }
+
+            @Override
+            public void onError(Error error) {
+                showStatus(serializer.toJson(error));
+            }
+        });
+    }
+
+    /**
+     * Update INRIX with the user's details gathered from Facebook.
+     */
+    private void updateUserDetails() {
+        final AccessToken facebookToken = AccessToken.getCurrentAccessToken();
+        if (facebookToken == null) {
+            // Not logged in
+            return;
+        }
+
+        final GraphRequest graphRequest = GraphRequest.newMeRequest(
+                facebookToken,
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        if (object == null) {
+                            // Error making graph request
+                            showStatus(statusView.getText() + "\n\n"
+                                    + "Graph request error: " + response.getError().toString());
+                            return;
+                        }
+
                         final UserManager.UserUpdateOptions options = new UserManager.UserUpdateOptions();
 
-                        try {
-                            options.setSignInName(object.getString(FACEBOOK_EMAIL));
-                            options.setGender(object.getString(FACEBOOK_GENDER));
-                        } catch (JSONException ignored) {
+                        if (object.has(FACEBOOK_EMAIL)) {
+                            options.setSignInName(object.optString(FACEBOOK_EMAIL, null));
+                        }
+
+                        if (object.has(FACEBOOK_GENDER)) {
+                            options.setGender(object.optString(FACEBOOK_GENDER, null));
                         }
 
                         final Profile profile = Profile.getCurrentProfile();
@@ -343,9 +398,9 @@ public class AccountManagementActivity extends InrixSdkActivity {
                 });
 
         final Bundle params = new Bundle();
-        params.putString(FACEBOOK_GRAPH_FIELDS, TextUtils.join(",", Arrays.asList(FACEBOOK_EMAIL, FACEBOOK_GENDER)));
-        emailRequest.setParameters(params);
-        emailRequest.executeAsync();
+        params.putString(FACEBOOK_GRAPH_FIELDS, FACEBOOK_GENDER);
+        graphRequest.setParameters(params);
+        graphRequest.executeAsync();
     }
 
     /**
