@@ -5,17 +5,97 @@ This repository contains multiple components that make up an SDK for building
 applications to run on Android and access INRIX services/data.  
 
 IDs/Keys
-=======
+-------
 Each new project will require a set of IDs/Keys to enable projects to be built and data services to be accessed.  Some IDs are specific/unique to the project.
 
+Quick Start Guide
+-------
+
+Download INRIX SDK .aar libraries and add to you project. These libraries can be found here: [https://github.com/INRIX/Android-MobileSDK-External/tree/master/sample-app/libs](https://github.com/INRIX/Android-MobileSDK-External/tree/preview/sample-app/libs) 
+
+Update your app's **build.gradle** to include INRIX SDK dependences
+
+```groovy
+dependencies {
+    // INRIX SDK.
+    compile(name: "com.inrix.sdk-${inrixSdkVersion}", ext: 'aar')
+    compile(name: "com.inrix.sdk.cache-${inrixCacheVersion}", ext: 'aar')
+
+    // Google Play Services.
+    compile "com.google.android.gms:play-services-base:${googlePlayServicesVersion}"
+    compile "com.google.android.gms:play-services-gcm:${googlePlayServicesVersion}"
+    compile "com.google.android.gms:play-services-location:${googlePlayServicesVersion}"
+
+    // Addional INRIX SDK dependencies.
+    compile "com.android.support:support-v4:${supportLibVersion}"
+    compile "com.google.code.gson:gson:${gsonVersion}"
+    compile "com.android.volley:volley:${volleyVersion}"
+    compile "org.slf4j:slf4j-api:${slf4jVersion}"
+
+	...
+}
+
+```
+
+Configure and initialize INRIX SDK:
+
+1. Add following configuration to AndroidManifest.xml in your project under `<application>` node: 
+
+	```xml
+	<meta-data
+		android:name="com.inrix.appKey"
+	  	android:value="@string/inrix_app_key"/>
+	<meta-data
+		android:name="com.inrix.appId"
+		android:value="@string/inrix_app_id"/>
+	```
+
+2. Initialize INRIX SDK in Application's `onCreate`
+
+	```java
+	public class App extends Application {
+	    @Override
+	    public void onCreate() {
+	        super.onCreate();
+	
+	        InrixCore.initialize(this);
+	    }
+	}
+	```
+	if additional configuration is needed, [InrixCore.initialize(context, Configuration)](http://inrix.github.io/Android-MobileSDK-External/com/inrix/sdk/InrixCore.html#initialize(android.content.Context, com.inrix.sdk.Configuration)) can be used to configure INRIX SDK.
+
+Call INRIX APIs:
+
+```java
+public void onButtonClick() {
+    final IncidentsManager incidentsManager = InrixCore.getIncidentsManager();
+    final IncidentsManager.IncidentRadiusOptions options = new IncidentRadiusOptions(new GeoPoint(47, -122), 500);
+    incidentsManager.getIncidentsInRadius(options, new IIncidentsResponseListener() {
+        @Override
+        public void onResult(List<Incident> incidents) {
+            // TODO: Handle results.
+        }
+
+        @Override
+        public void onError(Error error) {
+            // TODO: Handle error.
+        }
+    });
+}
+```
+
+JavaDocs
+-------
+
+INRIX SDK JavaDocs can be found here: [http://inrix.github.io/Android-MobileSDK-External/](http://inrix.github.io/Android-MobileSDK-External/)
 
 License
-=======
+-------
 
 The SDK Developer License can be found here as License.pdf
 
 
 Terms of Service & Privacy Policy
-=================================
+-------
 
 Now included are samples for the “Terms of Service” and “Privacy Policy”.  These are just samples.  All commercial applications will access these documents via a future public URL.
