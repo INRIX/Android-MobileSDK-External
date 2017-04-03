@@ -84,6 +84,19 @@ public void onButtonClick() {
 }
 ```
 
+Migrating from 6.x to 7.0
+-------------------------
+
+In 7.0 we changed the default `InrixCore.initialize(Context)` behavior and updated the **Configuration.Builder** default features. The INRIX SDK is now initialized with the following **Configuration.Builder** methods disabled, unless explicitly set to **true**:
+
+| Methods now disabled by default |
+| --- |
+| com.inrix.sdk.Configuration.Builder.calendarSyncEnabled |
+| com.inrix.sdk.Configuration.Builder.tripRecordingEnabled |
+| com.inrix.sdk.Configuration.Builder.monitorUserLocation |
+
+We have also removed the `android.permission.READ_CALENDAR` permission from the SDK's manifest. In order for calendar syncing to function properly, the application must have this permission granted.
+
 JavaDocs
 -------
 
@@ -93,7 +106,6 @@ License
 -------
 
 The SDK Developer License can be found here as License.pdf
-
 
 Terms of Service & Privacy Policy
 -------
