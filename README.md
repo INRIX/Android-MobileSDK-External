@@ -11,7 +11,7 @@ Each new project will require a set of IDs/Keys to enable projects to be built a
 Quick Start Guide
 -------
 
-Download INRIX SDK .aar libraries and add to you project. These libraries can be found here: [https://github.com/INRIX/Android-MobileSDK-External/tree/master/sample-app/libs](https://github.com/INRIX/Android-MobileSDK-External/tree/preview/sample-app/libs) 
+Download INRIX SDK .aar libraries and add to you project. These libraries can be found here: [sample-app/libs](sample-app/libs) 
 
 Update your app's **build.gradle** to include INRIX SDK dependences
 
@@ -62,7 +62,7 @@ Configure and initialize INRIX SDK:
 	    }
 	}
 	```
-	if additional configuration is needed, [InrixCore.initialize(context, Configuration)](http://inrix.github.io/Android-MobileSDK-External/com/inrix/sdk/InrixCore.html#initialize(android.content.Context, com.inrix.sdk.Configuration)) can be used to configure INRIX SDK.
+	if additional configuration is needed, [InrixCore.initialize(context, Configuration)](http://inrix.github.io/Android-MobileSDK-External/com/inrix/sdk/InrixCore.html#initialize(android.content.Context%2C%20com.inrix.sdk.Configuration)) can be used to configure INRIX SDK.
 
 Call INRIX APIs:
 
