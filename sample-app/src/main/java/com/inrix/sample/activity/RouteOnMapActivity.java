@@ -178,7 +178,7 @@ public class RouteOnMapActivity extends InrixSdkActivity {
         List<GeoPoint> routePoints = route.getPoints();
         GeoPoint currentLocation = routePoints.get(routePoints.size() / 5);
 
-        UpdatedRouteOptions options = new UpdatedRouteOptions(route, currentLocation, true);
+        UpdatedRouteOptions options = new UpdatedRouteOptions(route, currentLocation, true, true);
         options.setOutputFields(RouteManager.ROUTE_OUTPUT_FIELD_BOUNDING_BOX
                 | RouteManager.ROUTE_OUTPUT_FIELD_POINTS | RouteManager.ROUTE_OUTPUT_FIELD_SUMMARY);
         options.setSpeedBucketsEnabled(true);

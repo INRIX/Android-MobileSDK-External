@@ -21,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.inrix.sample.App;
 import com.inrix.sample.R;
 import com.inrix.sample.util.PermissionHelper;
 import com.inrix.sdk.InrixCore;
@@ -122,8 +123,7 @@ public final class SampleAppsActivity extends ListActivity
                 PermissionHelper.requestLocationPermissions(this);
             }
         } else if (initializeSdk) {
-            //noinspection ResourceType
-            InrixCore.initialize(getApplicationContext());
+            ((App) getApplicationContext()).initializeInrixSdk();
         }
     }
 }

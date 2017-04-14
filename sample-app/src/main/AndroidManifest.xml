@@ -13,6 +13,9 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
+    <!-- Calendar permission for use with Configuration.calendarSyncEnabled(true) -->
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />

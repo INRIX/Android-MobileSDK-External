@@ -277,6 +277,16 @@ public class XDIncidentFragmentInRadius extends SupportMapFragment implements
             return position;
         }
 
+        @Override
+        public String getTitle() {
+            return null;
+        }
+
+        @Override
+        public String getSnippet() {
+            return null;
+        }
+
         public String getDescription() {
             return description;
         }

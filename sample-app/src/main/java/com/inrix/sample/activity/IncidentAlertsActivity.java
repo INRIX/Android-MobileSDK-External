@@ -89,7 +89,7 @@ public class IncidentAlertsActivity extends InrixSdkActivity implements IInciden
         getSupportFragmentManager().popBackStack();
         BusProvider.getBus().post(new IncidentsReceivedEvent(data));
         Date date = new Date(System.currentTimeMillis());
-        this.timestamp.setText("Last update: " + date.toString() + " \n Last requested distance:" + this.alert.getLastRequestedDistance());
+        this.timestamp.setText("Last update: " + date.toString());
         this.progressBar.setVisibility(View.GONE);
     }
 

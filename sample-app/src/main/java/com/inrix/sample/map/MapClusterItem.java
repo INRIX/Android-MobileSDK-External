@@ -23,4 +23,14 @@ public class MapClusterItem implements ClusterItem {
     public LatLng getPosition() {
         return position;
     }
+
+    @Override
+    public String getTitle() {
+        return null;
+    }
+
+    @Override
+    public String getSnippet() {
+        return null;
+    }
 }

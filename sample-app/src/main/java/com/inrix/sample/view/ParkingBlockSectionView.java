@@ -99,17 +99,17 @@ public class ParkingBlockSectionView extends LinearLayout {
                 Locale.getDefault(),
                 this.getContext().getString(R.string.parking_block_section_capacity_format),
                 section.getCapacity() < 0 ? 0 : section.getCapacity(),
-                section.getOccupancy() == null ? -1 : section.getOccupancy().getValue(),
+                section.getAvailability() == null ? -1 : section.getAvailability().getValue(),
                 section.getStartOffset(),
                 section.getEndOffset());
 
         this.capacityText.setText(text);
 
-        if (section.getOccupancy() == null) {
+        if (section.getAvailability() == null) {
             return;
         }
 
-        switch (section.getOccupancy().getBucket()) {
+        switch (section.getAvailability().getBucket()) {
             case 4:
                 this.capacityText.setTextColor(this.getContext().getResources().getColor(R.color.parking_section_occupancy_4));
                 break;
