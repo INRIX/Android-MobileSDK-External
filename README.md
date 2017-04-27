@@ -11,7 +11,7 @@ Each new project will require a set of IDs/Keys to enable projects to be built a
 Quick Start Guide
 -------
 
-Download INRIX SDK .aar libraries and add to you project. These libraries can be found here: [sample-app/libs](sample-app/libs) 
+Download the INRIX SDK .aar library files and add them to your project. These libraries can be found here: [sample-app/libs](sample-app/libs) 
 
 Update your app's **build.gradle** to include INRIX SDK dependences
 
@@ -26,7 +26,7 @@ dependencies {
     compile "com.google.android.gms:play-services-gcm:${googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-location:${googlePlayServicesVersion}"
 
-    // Addional INRIX SDK dependencies.
+    // Additional INRIX SDK dependencies.
     compile "com.android.support:support-v4:${supportLibVersion}"
     compile "com.google.code.gson:gson:${gsonVersion}"
     compile "com.android.volley:volley:${volleyVersion}"
@@ -43,11 +43,11 @@ Configure and initialize INRIX SDK:
 
 	```xml
 	<meta-data
-		android:name="com.inrix.appKey"
-	  	android:value="@string/inrix_app_key"/>
+	    android:name="com.inrix.appKey"
+	    android:value="@string/inrix_app_key"/>
 	<meta-data
-		android:name="com.inrix.appId"
-		android:value="@string/inrix_app_id"/>
+	    android:name="com.inrix.appId"
+	    android:value="@string/inrix_app_id"/>
 	```
 
 2. Initialize INRIX SDK in Application's `onCreate`
