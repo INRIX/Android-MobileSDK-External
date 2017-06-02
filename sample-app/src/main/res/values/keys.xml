@@ -9,8 +9,8 @@
   -->
 
 <resources>
-    <string name="google_maps_key" translatable="false">INSERT KEY HERE</string>
-    <string name="inrix_app_key" translatable="false">INSERT KEY HERE</string>
-    <string name="inrix_app_id" translatable="false">INSERT KEY HERE</string>
-    <string name="facebook_app_id" translatable="false">INSERT KEY HERE</string>
+    <string name="google_maps_key" translatable="false">AIzaSyCC09szppcyNqGgjxAHmJ5SdiwmRlQFGpg</string>
+    <string name="inrix_app_key" translatable="false">346293422ECB7C502A765FF67</string>
+    <string name="inrix_app_id" translatable="false">35367e82-31b3-4e08-be7e-63b9158ddc67</string>
+    <string name="facebook_app_id" translatable="false">1290343097672335</string>
 </resources>

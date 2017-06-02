@@ -75,7 +75,7 @@ public class TrafficTilesActivity extends InrixSdkActivity {
      *
      * @param map {@link GoogleMap} instance.
      */
-    private void setUpMap(GoogleMap map) {
+    void setUpMap(GoogleMap map) {
         TileOverlayOptions opts = new TileOverlayOptions();
         opts.tileProvider(new InrixTrafficTileProvider(this.tileManager));
         this.trafficTileOverlay = map.addTileOverlay(opts);
@@ -89,7 +89,7 @@ public class TrafficTilesActivity extends InrixSdkActivity {
         private final TileManager tileManager;
 
         public InrixTrafficTileProvider(TileManager tileManager) {
-            super(TileManager.TILE_DEFAULT_WIDTH, TileManager.TILE_DEFAULT_HEIGHT);
+            super(256, 256);
             this.tileManager = tileManager;
         }
 

@@ -1,12 +1,11 @@
 /**
- * Copyright (c) 2013-2016 INRIX, Inc.
+ * Copyright (c) 2013-2017 INRIX, Inc.
  * <p/>
  * INRIX is a registered trademark of INRIX, Inc. Any copyright, patent and trademark notice(s)
  * contained herein or in related code, files or documentation shall not be altered and shall be
  * included in all copies and substantial portions of the software. This software is "Sample Code".
  * Refer to the License.pdf file for your rights to use this software.
  */
-
 package com.inrix.sample.activity;
 
 import com.inrix.sample.R;
@@ -28,6 +27,11 @@ public final class SampleAppDetailsList {
             new SampleAppDetails(R.string.sample_busy_commuter_tile,
                     R.string.sample_busy_commuter_description,
                     BusyCommuterActivity.class),
+            // Places.
+            new SampleAppDetails(
+                    R.string.sample_places,
+                    R.string.sample_places_description,
+                    PlacesActivity.class),
             // Gas Stations
             new SampleAppDetails(R.string.sample_gas_stations,
                     R.string.sample_gas_stations_description,
@@ -114,6 +118,10 @@ public final class SampleAppDetailsList {
             // Dangerous Slowdowns.
             new SampleAppDetails(R.string.sample_dangerous_slowdowns,
                     R.string.sample_dangerous_slowdowns_description,
-                    DangerousSlowdownsActivity.class)
+                    DangerousSlowdownsActivity.class),
+            // Speed Limit
+            new SampleAppDetails(R.string.sample_speed_limit,
+                    R.string.sample_speed_limit_description,
+                    SpeedLimitActivity.class)
     };
 }

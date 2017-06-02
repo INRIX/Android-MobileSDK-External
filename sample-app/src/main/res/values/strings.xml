@@ -10,6 +10,7 @@
 
 <resources>
     <string name="app_name">INRIX Sample Application</string>
+    <string name="loading">Loading...</string>
 
     <string name="permission_rationale_location">Current location is needed to initialize INRIX SDK</string>
 
@@ -138,6 +139,19 @@
     <string name="tab_title_nearby_search">Nearby</string>
     <string name="tab_title_autocomplete_search">Autocomplete</string>
     <string name="autocomplete_hint">Start typing to search...</string>
+    <string name="get_speed_limit_latitude_label">Latitude:</string>
+    <string name="get_speed_limit_latitude">39.130117</string>
+    <string name="get_speed_limit_longitude_label">Longitude:</string>
+    <string name="get_speed_limit_longitude">-94.499018</string>
+    <string name="get_speed_limit_heading_label">Heading:</string>
+    <string name="get_speed_limit_heading">93</string>
+    <string name="get_speed_limit_button">Get speed limit</string>
+    <string name="get_speed_limit_pending">Getting speed limit...</string>
+    <string name="get_speed_limit_no_results">No results</string>
+    <string name="get_speed_limit_result_format">Results:\n%1$s</string>
+    <string name="get_speed_limit_result_speed_limit">Speed Limit: %1$s</string>
+    <string name="get_speed_limit_result_road_name">Road Name: %1$s</string>
+    <string name="get_speed_limit_result_frc_level">FRC Level: %1$s</string>
 
     <string name="bullet_list_item_format">•\t%1$s</string>
 
@@ -174,5 +188,22 @@
 
     <!-- Dangerous slowdowns -->
     <string name="dangerous_slowdowns_list_item_text">Slowdown from %1$d mph to %2$d mph @ %3$s.</string>
+
+    <!-- Places -->
+    <string name="places_title">Places sample</string>
+    <string name="places_menu_add">Add new place</string>
+
+    <string name="places_saving_location_message">Saving location...</string>
+    <string name="places_loading_places_message">Loading places...</string>
+    <string name="places_resolving_address_message">Resolving address...</string>
+
+    <string name="places_edit_hint_name">Name</string>
+    <string name="places_edit_hint_address">Address</string>
+    <string name="places_edit_hint_type">Type</string>
+    <string name="places_type_home">Home</string>
+    <string name="places_type_work">Work</string>
+    <string name="places_type_other">Other</string>
+    <string name="places_header_saved">Saved places</string>
+    <string name="places_header_learned">Learned places</string>
 
 </resources>

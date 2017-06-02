@@ -8,19 +8,28 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="wrap_content"
-  android:layout_margin="5dp"
-  android:layout_weight="1"
-  android:orientation="vertical">
-  <TextView
-    android:id="@+id/title"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textSize="16sp"/>
-  <TextView
-    android:id="@+id/description"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textSize="12sp"/>
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:paddingBottom="@dimen/list_item_padding_vertical"
+              android:paddingEnd="@dimen/list_item_padding_horizontal"
+              android:paddingLeft="@dimen/list_item_padding_horizontal"
+              android:paddingStart="@dimen/list_item_padding_horizontal"
+              android:paddingTop="@dimen/list_item_padding_vertical">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/list_item_margin_vertical"
+        tools:text="Title"/>
+
+    <TextView
+        android:id="@+id/description"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Description text"/>
 </LinearLayout>

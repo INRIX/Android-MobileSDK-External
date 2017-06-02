@@ -7,11 +7,55 @@
   Refer to the License.pdf file for your rights to use this software.
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar"></style>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+    </style>
 
-    <style name="AppTheme" parent="AppTheme.Base"></style>
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="colorPrimaryDark">@color/primary</item>
+        <item name="colorControlNormal">@color/primary</item>
+        <item name="colorControlActivated">@color/accent</item>
+        <item name="colorControlHighlight">@color/highlight</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+
+        <item name="toolbarStyle">@style/Toolbar</item>
+        <item name="android:actionMenuTextAppearance">@style/ToolbarMenuItemTextAppearance</item>
+        <item name="cpbStyle">@style/CircularProgressBar</item>
+    </style>
+
+    <style name="Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/primary</item>
+    </style>
+
+    <style name="ToolbarMenuItemTextAppearance" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Menu">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif</item>
+        <item name="android:textColor">?android:attr/actionMenuTextColor</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="Dialog" parent="AppTheme.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/primary</item>
+    </style>
+
+    <style name="Hint" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
 
     <style name="TextAppearenceDark" parent="@android:style/TextAppearance">
         <item name="android:textColor">#a7a9ab</item>

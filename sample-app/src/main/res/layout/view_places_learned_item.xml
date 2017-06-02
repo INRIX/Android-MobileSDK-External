@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="?selectableItemBackground"
+              android:clickable="true"
+              android:orientation="horizontal"
+              android:paddingBottom="@dimen/list_item_margin_vertical"
+              android:paddingEnd="@dimen/activity_horizontal_margin"
+              android:paddingStart="@dimen/activity_horizontal_margin"
+              android:paddingTop="@dimen/list_item_margin_vertical"
+              android:weightSum="1">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        tools:ignore="RtlSymmetry">
+
+        <TextView
+            android:id="@+id/places_learned_item_view_name"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/list_item_margin_vertical"
+            android:drawablePadding="4dp"
+            android:ellipsize="end"
+            android:lines="1"
+            tools:text="Title"/>
+
+        <TextView
+            android:id="@+id/places_learned_item_view_address"
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Description text"/>
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/places_learned_item_view_hide"
+        android:layout_width="@dimen/places_action_button_width"
+        android:layout_height="match_parent"
+        android:background="?selectableItemBackground"
+        android:src="@drawable/ic_hide"/>
+
+</LinearLayout>

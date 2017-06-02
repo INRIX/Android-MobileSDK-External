@@ -38,14 +38,14 @@ public class MapLocationPickerDialog extends DialogFragment {
         void onLocationSelected(final LatLng location);
     }
 
-    private static final String MAP_TAG = MapLocationPickerDialog.class.getCanonicalName() + ":map";
+    protected static final String MAP_TAG = MapLocationPickerDialog.class.getCanonicalName() + ":map";
 
-    private static final LatLng DEFAULT_CENTER = new LatLng(47.620405, -122.349363);
-    private static final float DEFAULT_ZOOM = 11f;
+    protected static final LatLng DEFAULT_CENTER = new LatLng(47.620405, -122.349363);
+    protected static final float DEFAULT_ZOOM = 11f;
 
-    private Marker marker;
+    protected Marker marker;
 
-    private OnLocationSelectedListener listener;
+    protected OnLocationSelectedListener listener;
 
     /**
      * {@inheritDoc}
@@ -59,6 +59,9 @@ public class MapLocationPickerDialog extends DialogFragment {
             return;
         }
 
+        this.setStyle(STYLE_NO_TITLE, R.style.Dialog);
+
+        //noinspection ConstantConditions
         dialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
@@ -116,7 +119,7 @@ public class MapLocationPickerDialog extends DialogFragment {
         this.listener = listener;
     }
 
-    private void mapReady(final GoogleMap googleMap) {
+    protected void mapReady(final GoogleMap googleMap) {
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_CENTER, DEFAULT_ZOOM));
 
         createMarkerAtLocation(googleMap, DEFAULT_CENTER);
@@ -133,7 +136,7 @@ public class MapLocationPickerDialog extends DialogFragment {
         });
     }
 
-    private void createMarkerAtLocation(GoogleMap googleMap, final LatLng location) {
+    protected void createMarkerAtLocation(GoogleMap googleMap, final LatLng location) {
         final MarkerOptions opts = new MarkerOptions();
         opts.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         opts.position(location);

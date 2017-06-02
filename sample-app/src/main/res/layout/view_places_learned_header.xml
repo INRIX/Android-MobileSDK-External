@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/places_header_height"
+              android:background="@color/places_header"
+              android:orientation="vertical"
+              android:paddingEnd="@dimen/activity_horizontal_margin"
+              android:paddingLeft="@dimen/activity_horizontal_margin"
+              android:paddingStart="@dimen/activity_horizontal_margin">
+
+    <TextView
+        android:id="@+id/places_learned_header_view_title"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:textColor="@color/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        tools:text="Title"/>
+
+</LinearLayout>

@@ -8,10 +8,9 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/incident_list_item_height"
-    android:background="#242525" >
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/incident_list_item_height"
+                android:background="@color/text_primary">
 
     <ImageView
         android:id="@+id/incident_icon"
@@ -21,7 +20,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/control_horizontal_margin"
         android:scaleType="fitXY"
-        android:src="@drawable/accident" />
+        android:src="@drawable/accident"/>
 
     <TextView
         android:id="@+id/incident_description"
@@ -32,7 +31,7 @@
         android:layout_marginRight="@dimen/control_horizontal_margin"
         android:layout_marginTop="@dimen/control_vertical_margin"
         android:layout_toRightOf="@+id/incident_icon"
-        android:lines="3" />
+        android:lines="3"/>
 
     <TextView
         android:id="@+id/header1"
@@ -41,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/incident_description"
         android:layout_below="@+id/incident_description"
-        android:singleLine="true" />
+        android:singleLine="true"/>
 
     <TextView
         android:id="@+id/incident_delay"
@@ -52,7 +51,7 @@
         android:layout_marginRight="@dimen/control_horizontal_margin"
         android:layout_toRightOf="@+id/header1"
         android:ellipsize="end"
-        android:singleLine="true" />
+        android:singleLine="true"/>
 
     <TextView
         android:id="@+id/header2"
@@ -61,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/incident_description"
         android:layout_below="@+id/header1"
-        android:singleLine="true" />
+        android:singleLine="true"/>
 
     <TextView
         android:id="@+id/incident_back_up"
@@ -72,7 +71,7 @@
         android:layout_marginRight="@dimen/control_horizontal_margin"
         android:layout_toRightOf="@+id/header2"
         android:ellipsize="end"
-        android:singleLine="true" />
+        android:singleLine="true"/>
 
     <ImageView
         android:id="@+id/logo"
@@ -80,20 +79,20 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:adjustViewBounds="true"
         android:layout_marginLeft="@dimen/control_horizontal_margin"
-        android:src="@drawable/bottom_logo" />
+        android:adjustViewBounds="true"
+        android:src="@drawable/bottom_logo"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/incident_list_item_delimeter_height"
         android:layout_alignParentBottom="true"
-        android:background="#222222" />
+        android:background="#222222"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/incident_list_item_delimeter_height"
         android:layout_alignParentTop="true"
-        android:background="#4f4f4f" />
+        android:background="#4f4f4f"/>
 
 </RelativeLayout>

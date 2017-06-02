@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:padding="@dimen/activity_horizontal_margin"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
+
+    <fr.castorflex.android.circularprogressbar.CircularProgressBar
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:indeterminate="true"/>
+
+    <TextView
+        android:id="@+id/loading_message"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/list_item_margin_vertical"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:gravity="center_horizontal"
+        tools:text="Loading..."/>
+
+</LinearLayout>

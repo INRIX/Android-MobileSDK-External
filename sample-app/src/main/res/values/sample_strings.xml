@@ -49,4 +49,8 @@
     <string name="sample_push_information_description">Push Information sample - update push connection information with server to receive push notification.</string>
     <string name="sample_dangerous_slowdowns">Dangerous Slowdowns</string>
     <string name="sample_dangerous_slowdowns_description">The Dangerous Slowdowns provides notification of severe slowdowns such that free flowing traffic can become aware of slow moving or stopped traffic in advance.</string>
+    <string name="sample_places">Places</string>
+    <string name="sample_places_description">Saved, learned places sample</string>
+    <string name="sample_speed_limit">Speed Limit</string>
+    <string name="sample_speed_limit_description">Speed limit sample</string>
 </resources>

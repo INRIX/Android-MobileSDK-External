@@ -9,10 +9,17 @@
   -->
 
 <resources>
+    <color name="primary">#263238</color>
+    <color name="highlight">#546E7A</color>
     <color name="accent">#00AAEC</color>
     <color name="separator">#CFD8DC</color>
 
-    <color name="incident_button_background_color">#FFFFFF</color>
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#424242</color>
+
+    <color name="background">#FFFFFF</color>
+
+    <color name="incident_button_background_color">@color/background</color>
     <color name="incident_button_background_selected">#C0C0C0</color>
     <color name="incident_button_background_pressed">#ACACAC</color>
     <color name="incident_details_background">#F9FFFFFF</color>
@@ -30,4 +37,7 @@
     <color name="dangerous_slowdowns_severity_2">#6B3939</color>
     <color name="dangerous_slowdowns_severity_1">#464646</color>
     <color name="dangerous_slowdowns_severity_unknown">#2C2D26</color>
+
+    <color name="places_header">#455A64</color>
+    <color name="places_icon_tint">#546E7A</color>
 </resources>

@@ -8,19 +8,30 @@
   -->
 
 <resources>
-
-    <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="list_item_padding_horizontal">16dp</dimen>
+    <dimen name="list_item_padding_vertical">4dp</dimen>
+    <dimen name="list_item_margin_vertical">8dp</dimen>
+
     <dimen name="control_vertical_margin">12dp</dimen>
     <dimen name="control_horizontal_margin">12dp</dimen>
+
     <dimen name="report_incident_vertical_margin">18dp</dimen>
     <dimen name="report_incident_horizontal_margin">18dp</dimen>
+
     <dimen name="control_height">65dp</dimen>
+
     <dimen name="incident_list_item_height">135dp</dimen>
     <dimen name="incident_list_item_delimeter_height">1dp</dimen>
+
     <dimen name="trips_padding">5dp</dimen>
+
     <dimen name="itinerary_margin_left_right">15dp</dimen>
     <dimen name="itinerary_spacing">20dp</dimen>
+
+    <dimen name="places_header_height">48dp</dimen>
+    <dimen name="places_action_button_width">56dp</dimen>
 
 </resources>
