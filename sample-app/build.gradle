@@ -63,7 +63,7 @@ android {
 
 dependencies {
     // INRIX SDK.
-    compile(name: 'com.inrix.sdk-7.1.0', ext: 'aar')
+    compile(name: 'com.inrix.sdk-7.0.0', ext: 'aar')
     compile(name: 'com.inrix.sdk.cache-1.5', ext: 'aar')
 
     // Google Play Services
