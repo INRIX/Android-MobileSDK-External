@@ -36,15 +36,10 @@ public final class SampleAppDetailsList {
             new SampleAppDetails(R.string.sample_gas_stations,
                     R.string.sample_gas_stations_description,
                     GasStationsListActivity.class),
-            // Parking Lots
-            new SampleAppDetails(R.string.sample_parking_off_street,
-                    R.string.sample_parking_off_street_description,
-                    ParkingListActivity.class),
-            // Parking blocks - on-street parking.
-            new SampleAppDetails(
-                    R.string.sample_parking_on_street,
-                    R.string.sample_parking_on_street_description,
-                    ParkingBlocksActivity.class),
+            // Parking information.
+            new SampleAppDetails(R.string.sample_parking,
+                    R.string.sample_parking_description,
+                    ParkingDataActivity.class),
             // Alerts
             new SampleAppDetails(R.string.sample_alerts,
                     R.string.sample_alerts_description,

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-2016 INRIX, Inc.
+ * Copyright (c) 2013-2017 INRIX, Inc.
  * <p/>
  * INRIX is a registered trademark of INRIX, Inc. Any copyright, patent and trademark notice(s)
  * contained herein or in related code, files or documentation shall not be altered and shall be
@@ -14,7 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class ParkingBlockRecyclerView extends RecyclerView {
+public class ParkingRecyclerView extends RecyclerView {
     private View emptyView;
     private View progressView;
 
@@ -26,15 +26,15 @@ public class ParkingBlockRecyclerView extends RecyclerView {
         }
     };
 
-    public ParkingBlockRecyclerView(Context context) {
+    public ParkingRecyclerView(Context context) {
         super(context);
     }
 
-    public ParkingBlockRecyclerView(Context context, AttributeSet attrs) {
+    public ParkingRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ParkingBlockRecyclerView(Context context, AttributeSet attrs, int defStyle) {
+    public ParkingRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -69,11 +69,11 @@ public class ParkingBlockRecyclerView extends RecyclerView {
     }
 
     private void updateEmptyView() {
-        if (this.emptyView == null || getAdapter() == null) {
+        if (this.emptyView == null) {
             return;
         }
 
-        boolean showEmptyView = getAdapter().getItemCount() == 0;
+        boolean showEmptyView = this.getAdapter() == null || this.getAdapter().getItemCount() == 0;
         this.emptyView.setVisibility(showEmptyView ? VISIBLE : GONE);
         this.setVisibility(showEmptyView ? GONE : VISIBLE);
     }

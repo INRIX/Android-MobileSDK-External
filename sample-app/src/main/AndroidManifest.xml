@@ -39,7 +39,7 @@
         <activity android:name=".activity.IncidentListActivity"/>
         <activity android:name=".activity.IncidentAlertsActivity"/>
         <activity android:name=".activity.GasStationsListActivity"/>
-        <activity android:name=".activity.ParkingListActivity"/>
+        <activity android:name=".activity.ParkingDataActivity"/>
         <activity android:name=".activity.TrafficTilesActivity"/>
         <activity android:name=".activity.RouteOnMapActivity"/>
         <activity android:name=".activity.IncidentManagementActivity"/>
@@ -59,7 +59,6 @@
         <activity android:name=".activity.ReportVehicleStateActivity"/>
         <activity android:name=".activity.ServiceInvocationActivity"/>
         <activity android:name=".activity.PushInformationActivity"/>
-        <activity android:name=".activity.ParkingBlocksActivity"/>
         <activity android:name=".activity.DangerousSlowdownsActivity"/>
         <activity android:name=".activity.SpeedLimitActivity"/>
         <activity
