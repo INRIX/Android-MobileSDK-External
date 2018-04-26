@@ -191,14 +191,14 @@ public class ReverseGeocodeOnMapFragment extends SupportMapFragment implements O
         result.append(this.getString(R.string.geocode_match_result_address, match.getFormattedAddress()));
         result.append(newLine);
 
-        if (match.getAddress() != null) {
-            result.append(this.getString(R.string.geocode_match_result_city, match.getAddress().getCity()));
+        if (match.getAddressComponents() != null) {
+            result.append(this.getString(R.string.geocode_match_result_city, match.getCity()));
             result.append(newLine);
-            result.append(this.getString(R.string.geocode_match_result_state, match.getAddress().getState()));
+            result.append(this.getString(R.string.geocode_match_result_state, match.getState()));
             result.append(newLine);
-            result.append(this.getString(R.string.geocode_match_result_postal_code, match.getAddress().getPostalCode()));
+            result.append(this.getString(R.string.geocode_match_result_postal_code, match.getStateCode()));
             result.append(newLine);
-            result.append(this.getString(R.string.geocode_match_result_country, match.getAddress().getCountry()));
+            result.append(this.getString(R.string.geocode_match_result_country, match.getCountry()));
             result.append(newLine);
         }
 
