@@ -29,6 +29,7 @@ import com.inrix.sdk.InrixCore;
 import com.inrix.sdk.SearchManager;
 import com.inrix.sdk.model.GeoPoint;
 import com.inrix.sdk.model.LocationMatch;
+import com.inrix.sdk.model.LocationMatchGoogle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,7 @@ import static com.inrix.sample.util.GeoPointHelper.toLatLng;
  * Demonstrates nearby search
  */
 public class NearbySearchOnMapFragment extends SupportMapFragment implements
-        SearchManager.ISearchResponseListener,
+        SearchManager.ISearchResponseListener<LocationMatchGoogle>,
         OnMapReadyCallback,
         GoogleMap.OnMapLongClickListener {
 
@@ -100,7 +101,7 @@ public class NearbySearchOnMapFragment extends SupportMapFragment implements
     }
 
     @Override
-    public void onResult(final List<LocationMatch> data) {
+    public void onResult(final List<LocationMatchGoogle> data) {
         if (data != null && data.size() > 0) {
             hideMarker(this.searchMarker);
 
@@ -118,7 +119,7 @@ public class NearbySearchOnMapFragment extends SupportMapFragment implements
                     description.append(match.getFormattedAddress());
                 }
 
-                final LatLng latLng = toLatLng(match.getPoint());
+                final LatLng latLng = toLatLng(match.getLocation());
                 Marker result = this.map.addMarker(
                         new MarkerOptions()
                                 .position(latLng)
