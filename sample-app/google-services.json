@@ -6,7 +6,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "YOUR-APP-ID-KEY-HERE",
+        "mobilesdk_app_id": "1:394212169051:android:0ae7415e99037c4d",
         "android_client_info": {
           "package_name": "com.inrix.sample"
         }

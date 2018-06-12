@@ -36,6 +36,7 @@ import com.inrix.sdk.SearchManager;
 import com.inrix.sdk.model.GeoPoint;
 import com.inrix.sdk.model.Incident;
 import com.inrix.sdk.model.LocationMatch;
+import com.inrix.sdk.model.LocationMatchGoogle;
 import com.inrix.sdk.model.Route;
 
 import java.util.ArrayList;
@@ -574,9 +575,9 @@ public class InrixIncidentListFragment extends ListFragment {
                 return;
             }
 
-            searchRequest = searchManager.reverseGeocode(new SearchManager.ReverseGeocodeOptions(new GeoPoint(incident.getLatitude(), incident.getLongitude())), new SearchManager.ISearchResponseListener() {
+            searchRequest = searchManager.reverseGeocode(new SearchManager.ReverseGeocodeOptions(new GeoPoint(incident.getLatitude(), incident.getLongitude())), new SearchManager.ISearchResponseListener<LocationMatchGoogle>() {
                 @Override
-                public void onResult(List<LocationMatch> data) {
+                public void onResult(List<LocationMatchGoogle> data) {
                     LocationMatch address;
                     if (data != null && data.size() > 0
                             && (address = data.get(0)) != null) {

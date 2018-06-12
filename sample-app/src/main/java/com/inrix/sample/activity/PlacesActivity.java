@@ -41,6 +41,7 @@ import com.inrix.sdk.SearchManager.ReverseGeocodeOptions;
 import com.inrix.sdk.model.GeoPoint;
 import com.inrix.sdk.model.LearnedLocation;
 import com.inrix.sdk.model.LocationMatch;
+import com.inrix.sdk.model.LocationMatchGoogle;
 import com.inrix.sdk.model.SavedLocation;
 import com.inrix.sdk.model.SavedLocation.LocationType;
 
@@ -168,9 +169,9 @@ public class PlacesActivity extends InrixSdkActivity implements SavedLocationEdi
         final GeoPoint coordinates = new GeoPoint(location.latitude, location.longitude);
         final SearchManager searchManager = InrixCore.getSearchManager();
         final ReverseGeocodeOptions options = new ReverseGeocodeOptions(coordinates);
-        this.currentRequest = searchManager.reverseGeocode(options, new ISearchResponseListener() {
+        this.currentRequest = searchManager.reverseGeocode(options, new ISearchResponseListener<LocationMatchGoogle>() {
             @Override
-            public void onResult(List<LocationMatch> locationMatches) {
+            public void onResult(List<LocationMatchGoogle> locationMatches) {
                 final LocationMatch match = locationMatches == null || locationMatches.isEmpty()
                         ? null
                         : locationMatches.get(0);

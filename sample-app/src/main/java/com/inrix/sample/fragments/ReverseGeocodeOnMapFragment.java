@@ -32,6 +32,7 @@ import com.inrix.sdk.SearchManager;
 import com.inrix.sdk.SearchManager.ISearchResponseListener;
 import com.inrix.sdk.model.GeoPoint;
 import com.inrix.sdk.model.LocationMatch;
+import com.inrix.sdk.model.LocationMatchGoogle;
 
 import java.util.List;
 
@@ -125,9 +126,9 @@ public class ReverseGeocodeOnMapFragment extends SupportMapFragment implements O
 
         this.searchRequest = searchManager.reverseGeocode(
                 new SearchManager.ReverseGeocodeOptions(geoPoint),
-                new ISearchResponseListener() {
+                new ISearchResponseListener<LocationMatchGoogle>() {
                     @Override
-                    public void onResult(List<LocationMatch> data) {
+                    public void onResult(List<LocationMatchGoogle> data) {
                         if (data != null && data.size() > 0) {
                             LocationMatch match = data.get(0);
                             showResultOnMap(match);
@@ -157,7 +158,7 @@ public class ReverseGeocodeOnMapFragment extends SupportMapFragment implements O
                 ? locationMatch.getFormattedAddress()
                 : locationMatch.getLocationName();
 
-        final LatLng markerLocation = toLatLng(locationMatch.getPoint());
+        final LatLng markerLocation = toLatLng(locationMatch.getLocation());
         this.marker = this.map.addMarker(
                 new MarkerOptions()
                         .position(markerLocation)
@@ -191,7 +192,7 @@ public class ReverseGeocodeOnMapFragment extends SupportMapFragment implements O
         result.append(this.getString(R.string.geocode_match_result_address, match.getFormattedAddress()));
         result.append(newLine);
 
-        if (match.getAddressComponents() != null) {
+        if (match.getFormattedAddress() != null) {
             result.append(this.getString(R.string.geocode_match_result_city, match.getCity()));
             result.append(newLine);
             result.append(this.getString(R.string.geocode_match_result_state, match.getState()));
@@ -202,8 +203,8 @@ public class ReverseGeocodeOnMapFragment extends SupportMapFragment implements O
             result.append(newLine);
         }
 
-        if (match.getPoint() != null) {
-            result.append(this.getString(R.string.geocode_match_result_point, match.getPoint().getLatitude(), match.getPoint().getLongitude()));
+        if (match.getLocation() != null) {
+            result.append(this.getString(R.string.geocode_match_result_point, match.getLocation().getLatitude(), match.getLocation().getLongitude()));
             result.append(newLine);
         }
 

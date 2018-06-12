@@ -24,13 +24,14 @@ import com.inrix.sdk.ICancellable;
 import com.inrix.sdk.InrixCore;
 import com.inrix.sdk.SearchManager;
 import com.inrix.sdk.model.LocationMatch;
+import com.inrix.sdk.model.LocationMatchGoogle;
 
 import java.util.List;
 
 /**
  * Demonstrates geocode functions.
  */
-public class GeocodeFragment extends Fragment implements SearchManager.ISearchResponseListener {
+public class GeocodeFragment extends Fragment implements SearchManager.ISearchResponseListener<LocationMatchGoogle> {
     private TextView resultTextView;
     private SearchManager searchManager;
     private ICancellable searchRequest;
@@ -76,7 +77,7 @@ public class GeocodeFragment extends Fragment implements SearchManager.ISearchRe
     }
 
     @Override
-    public void onResult(List<LocationMatch> data) {
+    public void onResult(List<LocationMatchGoogle> data) {
         StringBuilder stringBuilder = new StringBuilder();
         if (data != null && !data.isEmpty()) {
             int count = data.size();
@@ -84,10 +85,10 @@ public class GeocodeFragment extends Fragment implements SearchManager.ISearchRe
                 LocationMatch address = data.get(i);
                 stringBuilder
                         .append(getString(R.string.geocode_result_latitude))
-                        .append(address.getPoint().getLatitude()).append(" ");
+                        .append(address.getLocation().getLatitude()).append(" ");
                 stringBuilder
                         .append(getString(R.string.geocode_result_longitude))
-                        .append(address.getPoint().getLongitude()).append("\n");
+                        .append(address.getLocation().getLongitude()).append("\n");
             }
         } else {
             resultTextView.setText(R.string.geocode_status_no_address_found);
