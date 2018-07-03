@@ -100,7 +100,7 @@ We have also removed the `android.permission.READ_CALENDAR` permission from the 
 JavaDocs
 -------
 
-INRIX SDK JavaDocs can be found here: [http://inrix.github.io/Android-MobileSDK-External/](http://inrix.github.io/Android-MobileSDK-External/)
+INRIX SDK JavaDocs can be found here: [http://docs.inrix.com/sdk/android/](http://docs.inrix.com/sdk/android/)
 
 License
 -------
