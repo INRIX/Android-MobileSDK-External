@@ -35,9 +35,6 @@ import com.inrix.sdk.LocationsManager.ISaveLocationResponseListener;
 import com.inrix.sdk.LocationsManager.IUpdateLearnedLocationsListener;
 import com.inrix.sdk.LocationsManager.SaveLocationOptions;
 import com.inrix.sdk.LocationsManager.UpdateLearnedLocationsOptions;
-import com.inrix.sdk.SearchManager;
-import com.inrix.sdk.SearchManager.ISearchResponseListener;
-import com.inrix.sdk.SearchManager.ReverseGeocodeOptions;
 import com.inrix.sdk.model.GeoPoint;
 import com.inrix.sdk.model.LearnedLocation;
 import com.inrix.sdk.model.LocationMatch;
@@ -167,22 +164,6 @@ public class PlacesActivity extends InrixSdkActivity implements SavedLocationEdi
         ProgressDialog.show(this, R.string.places_resolving_address_message);
 
         final GeoPoint coordinates = new GeoPoint(location.latitude, location.longitude);
-        final SearchManager searchManager = InrixCore.getSearchManager();
-        final ReverseGeocodeOptions options = new ReverseGeocodeOptions(coordinates);
-        this.currentRequest = searchManager.reverseGeocode(options, new ISearchResponseListener<LocationMatchGoogle>() {
-            @Override
-            public void onResult(List<LocationMatchGoogle> locationMatches) {
-                final LocationMatch match = locationMatches == null || locationMatches.isEmpty()
-                        ? null
-                        : locationMatches.get(0);
-                locationAddressResolved(coordinates, match);
-            }
-
-            @Override
-            public void onError(Error error) {
-                handleError(error);
-            }
-        });
     }
 
     /**
