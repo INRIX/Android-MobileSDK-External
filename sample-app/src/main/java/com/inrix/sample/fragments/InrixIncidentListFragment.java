@@ -32,7 +32,6 @@ import com.inrix.sdk.Error;
 import com.inrix.sdk.ICancellable;
 import com.inrix.sdk.IncidentUtils;
 import com.inrix.sdk.InrixCore;
-import com.inrix.sdk.SearchManager;
 import com.inrix.sdk.model.GeoPoint;
 import com.inrix.sdk.model.Incident;
 import com.inrix.sdk.model.LocationMatch;
@@ -122,7 +121,6 @@ public class InrixIncidentListFragment extends ListFragment {
      */
     public static final double MIN_DELAY_VALUE = 0.5;
 
-    private SearchManager searchManager;
     private ICancellable searchRequest;
 
     /*
@@ -139,7 +137,6 @@ public class InrixIncidentListFragment extends ListFragment {
         this.getListView().setDrawSelectorOnTop(true);
         this.getListView().setDivider(this.getActivity().getResources()
                 .getDrawable(R.drawable.transparent_divider));
-        this.searchManager = InrixCore.getSearchManager();
     }
 
     /**
@@ -574,27 +571,6 @@ public class InrixIncidentListFragment extends ListFragment {
                 holder.description.setText(description);
                 return;
             }
-
-            searchRequest = searchManager.reverseGeocode(new SearchManager.ReverseGeocodeOptions(new GeoPoint(incident.getLatitude(), incident.getLongitude())), new SearchManager.ISearchResponseListener<LocationMatchGoogle>() {
-                @Override
-                public void onResult(List<LocationMatchGoogle> data) {
-                    LocationMatch address;
-                    if (data != null && data.size() > 0
-                            && (address = data.get(0)) != null) {
-                        descriptionMap.put(incident.getId(),
-                                address.getFormattedAddress());
-                        notifyDataSetChanged();
-                    }
-                }
-
-                @Override
-                public void onError(Error error) {
-                    searchRequest = null;
-                    descriptionMap.put(incident.getId(),
-                            getString(R.string.incident_description_not_available));
-                    notifyDataSetChanged();
-                }
-            });
 
             this.descriptionMap.put(incident.getId(),
                     getString(R.string.incident_description_loading));

@@ -46,9 +46,7 @@
         <activity android:name=".activity.IncidentDetailsActivity"/>
         <activity android:name=".activity.TravelTimesActivity"/>
         <activity android:name=".activity.TravelTimesSyncActivity"/>
-        <activity android:name=".activity.GeocodeActivity"/>
         <activity android:name=".activity.ServiceAvailabilityActivity"/>
-        <activity android:name=".activity.SearchActivity"/>
         <activity android:name=".activity.AccountManagementActivity"/>
         <activity
             android:name=".activity.TripsActivity"

@@ -56,14 +56,6 @@ public final class SampleAppDetailsList {
             new SampleAppDetails(R.string.sample_route_on_map,
                     R.string.sample_route_on_map_description,
                     RouteOnMapActivity.class),
-            // Geocode and reverse geocode
-            new SampleAppDetails(R.string.sample_geocode,
-                    R.string.sample_geocode_description,
-                    GeocodeActivity.class),
-            // Search
-            new SampleAppDetails(R.string.sample_search,
-                    R.string.sample_search_description,
-                    SearchActivity.class),
             // Report incidents
             new SampleAppDetails(R.string.sample_report_incident,
                     R.string.sample_report_incident_description,
